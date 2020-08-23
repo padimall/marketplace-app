@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:padimall_app/screens/first_screen.dart';
 import 'package:padimall_app/screens/login_screen.dart';
+import 'package:padimall_app/screens/register_screen.dart';
 import 'package:padimall_app/screens/splash_screen.dart';
 
 void main() {
@@ -36,6 +38,8 @@ class MyApp extends StatelessWidget {
       home: SplashScreen(),
       routes: {
         LoginScreen.routeName: (ctx) => LoginScreen(),
+        RegisterScreen.routeName: (ctx) => RegisterScreen(),
+        FirstScreen.routeName: (ctx) => FirstScreen(),
       },
     );
   }

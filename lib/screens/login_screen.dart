@@ -1,4 +1,7 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:padimall_app/screens/first_screen.dart';
+import 'package:padimall_app/screens/register_screen.dart';
 import 'package:padimall_app/utils/custom_text_theme.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -77,7 +80,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     children: <Widget>[
                       Text(
                         'Lupa kata sandi',
-                        style: PadiMallTextTheme.sz13weigth500Green(context),
+                        style: PadiMallTextTheme.sz13weight500Green(context),
                       ),
                     ],
                   ),
@@ -86,7 +89,9 @@ class _LoginScreenState extends State<LoginScreen> {
                   width: double.infinity,
                   margin: const EdgeInsets.only(bottom: 8),
                   child: RaisedButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.pushNamed(context, FirstScreen.routeName);
+                    },
                     color: Theme.of(context).primaryColor,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.all(
@@ -95,7 +100,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                     child: Text(
                       'Masuk',
-                      style: PadiMallTextTheme.sz16weigth700White(context),
+                      style: PadiMallTextTheme.sz16weight700White(context),
                     ),
                   ),
                 ),
@@ -106,14 +111,17 @@ class _LoginScreenState extends State<LoginScreen> {
                       RichText(
                         textAlign: TextAlign.center,
                         text: TextSpan(
-                          style: PadiMallTextTheme.sz14weigth500Grey(context)
+                          style: PadiMallTextTheme.sz14weight500Grey(context)
                               .copyWith(height: 1.5),
                           children: [
                             TextSpan(text: 'Belum punya akun? '),
                             TextSpan(
                               text: 'Daftar disini',
+                              recognizer: new TapGestureRecognizer()..onTap = () {
+                                Navigator.pushNamed(context, RegisterScreen.routeName);
+                              },
                               style:
-                                  PadiMallTextTheme.sz14weigth700Green(context)
+                                  PadiMallTextTheme.sz14weight700Green(context)
                                       .copyWith(
                                           decoration: TextDecoration.underline),
                             ),
