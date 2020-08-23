@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:padimall_app/screens/first_screen.dart';
 import 'package:padimall_app/screens/login_screen.dart';
+import 'package:padimall_app/screens/product_detail_screen.dart';
 import 'package:padimall_app/screens/register_screen.dart';
 import 'package:padimall_app/screens/splash_screen.dart';
 
@@ -29,6 +30,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: MaterialColor(0xFF84B214, color),
         primaryColor: MaterialColor(0xFF84B214, color),
+        accentColor: MaterialColor(0xFFF97C2D, color),
         toggleableActiveColor: MaterialColor(0xFF84B214, color),
         indicatorColor: MaterialColor(0xFF84B214, color),
         backgroundColor: Colors.grey[100],
@@ -40,6 +42,7 @@ class MyApp extends StatelessWidget {
         LoginScreen.routeName: (ctx) => LoginScreen(),
         RegisterScreen.routeName: (ctx) => RegisterScreen(),
         FirstScreen.routeName: (ctx) => FirstScreen(),
+        ProductDetailScreen.routeName: (ctx) => ProductDetailScreen(),
       },
     );
   }

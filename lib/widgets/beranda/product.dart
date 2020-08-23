@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:padimall_app/screens/product_detail_screen.dart';
 import 'package:padimall_app/utils/custom_text_theme.dart';
 
 class Product extends StatelessWidget {
@@ -9,7 +10,9 @@ class Product extends StatelessWidget {
       child: ClipRRect(
         borderRadius: BorderRadius.circular(16),
         child: InkWell(
-          onTap: () {},
+          onTap: () {
+            Navigator.pushNamed(context, ProductDetailScreen.routeName);
+          },
           child: GridTile(
             child: CachedNetworkImage(
               imageUrl:
