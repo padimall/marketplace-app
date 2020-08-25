@@ -90,7 +90,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   margin: const EdgeInsets.only(bottom: 8),
                   child: RaisedButton(
                     onPressed: () {
-                      Navigator.pushNamed(context, FirstScreen.routeName);
+                      Navigator.pushReplacementNamed(context, FirstScreen.routeName);
                     },
                     color: Theme.of(context).primaryColor,
                     shape: RoundedRectangleBorder(

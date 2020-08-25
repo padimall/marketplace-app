@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:padimall_app/screens/akun_screen.dart';
 import 'package:padimall_app/screens/beranda_screen.dart';
 
 class FirstScreen extends StatefulWidget {
@@ -19,9 +20,7 @@ class _FirstScreenState extends State<FirstScreen> {
     Center(
       child: Text('Keranjang'),
     ),
-    Center(
-      child: Text('Akun'),
-    ),
+    AkunScreen(),
   ];
 
   @override
