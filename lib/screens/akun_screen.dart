@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:padimall_app/utils/custom_text_theme.dart';
 import 'package:padimall_app/widgets/akun/akun_pembeli.dart';
+import 'package:padimall_app/widgets/akun/toko_saya.dart';
 
 class AkunScreen extends StatelessWidget {
 //  final AkunTabChoice akunTabChoices;
@@ -28,9 +29,10 @@ class AkunScreen extends StatelessWidget {
         body: TabBarView(
           children: <Widget>[
             AkunPembeliWidget(),
-            Text('Dua'),
+            TokoSayaWidget(),
           ],
         ),
+        backgroundColor: Colors.white,
       ),
     );
   }
