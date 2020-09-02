@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:padimall_app/providers/user.dart';
 import 'package:padimall_app/screens/first_screen.dart';
 import 'package:padimall_app/screens/login_screen.dart';
 import 'package:padimall_app/screens/product_detail_screen.dart';
+import 'package:padimall_app/screens/produk_anda_screen.dart';
 import 'package:padimall_app/screens/register_screen.dart';
 import 'package:padimall_app/screens/splash_screen.dart';
+import 'package:provider/provider.dart';
 
 void main() {
   runApp(MyApp());
@@ -25,25 +28,32 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: MaterialColor(0xFF84B214, color),
-        primaryColor: MaterialColor(0xFF84B214, color),
-        accentColor: MaterialColor(0xFFF97C2D, color),
-        toggleableActiveColor: MaterialColor(0xFF84B214, color),
-        indicatorColor: MaterialColor(0xFF84B214, color),
-        backgroundColor: Colors.grey[100],
-        scaffoldBackgroundColor: Colors.grey[100],
-        visualDensity: VisualDensity.adaptivePlatformDensity,
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (ctx) => ProviderUser(),)
+      ],
+      child: MaterialApp(
+        title: 'Flutter Demo',
+        debugShowCheckedModeBanner: false,
+        theme: ThemeData(
+          primarySwatch: MaterialColor(0xFF84B214, color),
+          primaryColor: MaterialColor(0xFF84B214, color),
+          accentColor: MaterialColor(0xFFF97C2D, color),
+          toggleableActiveColor: MaterialColor(0xFF84B214, color),
+          indicatorColor: MaterialColor(0xFF84B214, color),
+          backgroundColor: Colors.grey[100],
+          scaffoldBackgroundColor: Colors.grey[100],
+          visualDensity: VisualDensity.adaptivePlatformDensity,
+        ),
+        home: SplashScreen(),
+        routes: {
+          LoginScreen.routeName: (ctx) => LoginScreen(),
+          RegisterScreen.routeName: (ctx) => RegisterScreen(),
+          FirstScreen.routeName: (ctx) => FirstScreen(),
+          ProductDetailScreen.routeName: (ctx) => ProductDetailScreen(),
+          ProdukAndaScreen.routeName: (ctx) => ProdukAndaScreen(),
+        },
       ),
-      home: SplashScreen(),
-      routes: {
-        LoginScreen.routeName: (ctx) => LoginScreen(),
-        RegisterScreen.routeName: (ctx) => RegisterScreen(),
-        FirstScreen.routeName: (ctx) => FirstScreen(),
-        ProductDetailScreen.routeName: (ctx) => ProductDetailScreen(),
-      },
     );
   }
 }

@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:padimall_app/screens/produk_anda_screen.dart';
 import 'package:padimall_app/utils/custom_text_theme.dart';
 import 'package:padimall_app/widgets/akun/list_tile.dart';
 
@@ -38,7 +39,9 @@ class TokoSayaWidget extends StatelessWidget {
         AkunListTile(
           title: 'Produk Anda',
           subtitle: 'Lihat dan atur semua Produk Anda',
-          handler: () {},
+          handler: () {
+            Navigator.pushNamed(context, ProdukAndaScreen.routeName);
+          },
         ),
         AkunListTile(
           title: 'Riwayat Penjualan',

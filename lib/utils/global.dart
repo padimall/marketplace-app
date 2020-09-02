@@ -1,0 +1,1 @@
+String API_URL_PREFIX = "https://api.padimall.id";

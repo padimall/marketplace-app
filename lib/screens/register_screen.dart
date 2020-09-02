@@ -1,12 +1,15 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:padimall_app/providers/user.dart';
 import 'package:padimall_app/utils/custom_text_theme.dart';
+import 'package:provider/provider.dart';
 import 'package:wc_form_validators/wc_form_validators.dart';
 
 class RegisterScreen extends StatefulWidget {
   static final routeName = 'register-screen';
   var _formRegister = GlobalKey<FormState>();
-  String _name, _phoneNum, _email, _pass, _passConfirmed;
+
   bool _isPassVisible = false;
   bool _isPassConfirmedVisible = false;
 
@@ -15,8 +18,14 @@ class RegisterScreen extends StatefulWidget {
 }
 
 class _RegisterScreenState extends State<RegisterScreen> {
+  ProviderUser _providerUser;
+
+  String _name, _phoneNum, _email, _pass, _passConfirmed;
+
   @override
   Widget build(BuildContext context) {
+    _providerUser = Provider.of<ProviderUser>(context, listen: false);
+
     return Scaffold(
       backgroundColor: Colors.white,
       body: Center(
@@ -45,7 +54,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       validator: (input) {
                         return input.isEmpty ? 'Kolom ini hendak diisi' : null;
                       },
-                      onSaved: (input) => widget._name = input,
+                      onSaved: (input) => _name = input,
                     ),
                   ),
                   Container(
@@ -63,7 +72,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         Validators.required('Kolom ini hendak diisi'),
                         Validators.minLength(10, 'Nomor yang dimasukkan minimal memiliki 10 digit angka')
                       ]),
-                      onSaved: (input) => widget._phoneNum = input,
+                      onSaved: (input) => _phoneNum = input,
                     ),
                   ),
                   Container(
@@ -80,7 +89,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         Validators.required('Kolom ini hendak diisi'),
                         Validators.patternRegExp(RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$'), 'Format Email salah')
                       ]),
-                      onSaved: (input) => widget._email = input,
+                      onSaved: (input) => _email = input,
                     ),
                   ),
                   Container(
@@ -115,7 +124,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               8, 'Diisi dengan minimal 8 karakter'),
                         ],
                       ),
-                      onSaved: (input) => widget._pass = input,
+                      onSaved: (input) => _pass = input,
                     ),
                   ),
                   Container(
@@ -144,7 +153,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       validator: (input) {
                         return input.isEmpty ? 'Kolom ini hendak diisi' : null;
                       },
-                      onSaved: (input) => widget._pass = input,
+                      onSaved: (input) => _passConfirmed = input,
                     ),
                   ),
                   Container(
@@ -154,6 +163,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       onPressed: () {
                         if (widget._formRegister.currentState.validate()) {
                           widget._formRegister.currentState.save();
+                          if (_pass == _passConfirmed) {
+                            _providerUser.signUpUser(context, _name, _email, _phoneNum, _pass, _passConfirmed);
+                          } else {
+                            Fluttertoast.showToast(msg: 'Kata sandi tidak sama dengan kolom konfirmasi kata sandi', backgroundColor: Colors.grey, toastLength: Toast.LENGTH_LONG);
+                          }
                         }
                       },
                       color: Theme.of(context).primaryColor,
