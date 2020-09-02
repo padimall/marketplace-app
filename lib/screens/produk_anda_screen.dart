@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:padimall_app/screens/produk_tambah_screen.dart';
 import 'package:padimall_app/utils/custom_text_theme.dart';
 import 'package:padimall_app/widgets/akun/product_in_row.dart';
 
@@ -23,9 +24,14 @@ class ProdukAndaScreen extends StatelessWidget {
         actions: <Widget>[
           Container(
             margin: const EdgeInsets.only(right: 20),
-            child: Icon(
-              Icons.add,
-              size: 25,
+            child: GestureDetector(
+              onTap: () {
+                Navigator.pushNamed(context, ProdukTambahScreen.routeName);
+              },
+              child: Icon(
+                Icons.add,
+                size: 25,
+              ),
             ),
           )
         ],

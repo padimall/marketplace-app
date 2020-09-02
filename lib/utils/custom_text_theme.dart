@@ -84,6 +84,11 @@ class PadiMallTextTheme {
         fontSize: 13, fontWeight: FontWeight.w600, color: Colors.black87);
   }
 
+  static TextStyle sz12weight600(BuildContext context) {
+    return GoogleFonts.poppins().copyWith(
+        fontSize: 12, fontWeight: FontWeight.w600, color: Colors.black87);
+  }
+
   static TextStyle sz13weight500Green(BuildContext context) {
     return GoogleFonts.poppins().copyWith(
         fontSize: 13, fontWeight: FontWeight.w500, color: Theme.of(context).primaryColor);
@@ -102,5 +107,10 @@ class PadiMallTextTheme {
   static TextStyle sz12weight500Grey(BuildContext context) {
     return GoogleFonts.poppins().copyWith(
         fontSize: 12, fontWeight: FontWeight.w500, color: Colors.grey);
+  }
+
+  static TextStyle sz10weight500Grey(BuildContext context) {
+    return GoogleFonts.poppins().copyWith(
+        fontSize: 10, fontWeight: FontWeight.w500, color: Colors.grey);
   }
 }
