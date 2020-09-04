@@ -46,7 +46,9 @@ class PadiMallTextTheme {
 
   static TextStyle sz14weight700Green(BuildContext context) {
     return GoogleFonts.poppins().copyWith(
-        fontSize: 14, fontWeight: FontWeight.w700, color: Theme.of(context).primaryColor);
+        fontSize: 14,
+        fontWeight: FontWeight.w700,
+        color: Theme.of(context).primaryColor);
   }
 
   static TextStyle sz14weight700White(BuildContext context) {
@@ -66,7 +68,9 @@ class PadiMallTextTheme {
 
   static TextStyle sz14weight600Red(BuildContext context) {
     return GoogleFonts.poppins().copyWith(
-        fontSize: 14, fontWeight: FontWeight.w600, color: Theme.of(context).accentColor);
+        fontSize: 14,
+        fontWeight: FontWeight.w600,
+        color: Theme.of(context).accentColor);
   }
 
   static TextStyle sz14weight500(BuildContext context) {
@@ -76,13 +80,23 @@ class PadiMallTextTheme {
 
   static TextStyle sz13weight700Green(BuildContext context) {
     return GoogleFonts.poppins().copyWith(
-        fontSize: 13, fontWeight: FontWeight.w700, color: Theme.of(context).primaryColor);
+        fontSize: 13,
+        fontWeight: FontWeight.w700,
+        color: Theme.of(context).primaryColor);
   }
 
   static TextStyle sz13weight600(BuildContext context) {
     return GoogleFonts.poppins().copyWith(
         fontSize: 13, fontWeight: FontWeight.w600, color: Colors.black87);
   }
+
+  static TextStyle sz12weight600Red(BuildContext context) {
+    return GoogleFonts.poppins().copyWith(
+        fontSize: 12,
+        fontWeight: FontWeight.w600,
+        color: Theme.of(context).accentColor);
+  }
+
 
   static TextStyle sz12weight600(BuildContext context) {
     return GoogleFonts.poppins().copyWith(
@@ -91,7 +105,9 @@ class PadiMallTextTheme {
 
   static TextStyle sz13weight500Green(BuildContext context) {
     return GoogleFonts.poppins().copyWith(
-        fontSize: 13, fontWeight: FontWeight.w500, color: Theme.of(context).primaryColor);
+        fontSize: 13,
+        fontWeight: FontWeight.w500,
+        color: Theme.of(context).primaryColor);
   }
 
   static TextStyle sz13weight500(BuildContext context) {

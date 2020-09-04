@@ -2,10 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:padimall_app/screens/akun_screen.dart';
 import 'package:padimall_app/screens/beranda_screen.dart';
+import 'package:padimall_app/screens/keranjang_screen.dart';
 
 class FirstScreen extends StatefulWidget {
   static final routeName = 'first-screen';
-  int _selectedIndex = 0;
+  int _selectedIndex = 2;
 
   @override
   _FirstScreenState createState() => _FirstScreenState();
@@ -17,9 +18,7 @@ class _FirstScreenState extends State<FirstScreen> {
     Center(
       child: Text('Kategori'),
     ),
-    Center(
-      child: Text('Keranjang'),
-    ),
+    KeranjangScreen(),
     AkunScreen(),
   ];
 

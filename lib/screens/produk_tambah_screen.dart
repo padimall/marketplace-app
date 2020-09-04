@@ -85,13 +85,23 @@ class ProdukTambahScreen extends StatelessWidget {
                       'Harga Produk',
                       style: PadiMallTextTheme.sz12weight600(context),
                     ),
-                    TextFormField(
-                      decoration: InputDecoration(
-                        hintText: 'Tuliskan harga produk Anda',
-                        hintStyle: PadiMallTextTheme.sz14weight500Grey(context),
-                      ),
-                      controller: priceController,
-                      keyboardType: TextInputType.number,
+                    Row(
+                      children: <Widget>[
+                        Container(
+                          margin: const EdgeInsets.only(right: 8),
+                          child: Text('Rp'),
+                        ),
+                        Expanded(
+                          child: TextFormField(
+                            decoration: InputDecoration(
+                              hintText: 'Tuliskan harga produk Anda',
+                              hintStyle: PadiMallTextTheme.sz14weight500Grey(context),
+                            ),
+                            controller: priceController,
+                            keyboardType: TextInputType.number,
+                          ),
+                        ),
+                      ],
                     )
                   ],
                 ),
