@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:padimall_app/screens/produk_edit_screen.dart';
 import 'package:padimall_app/utils/custom_text_theme.dart';
 
 class ProductInRow extends StatelessWidget {
@@ -31,7 +32,7 @@ class ProductInRow extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
                     Text(
-                      'Jeruk Manis',
+                      'Bawang Putih',
                       style: PadiMallTextTheme.sz14weight700(context),
                     ),
                     Text(
@@ -43,13 +44,18 @@ class ProductInRow extends StatelessWidget {
                 Container(
                   margin: const EdgeInsets.only(bottom: 4),
                   child: Text(
-                    'Stok 200 Kg',
+                    'Stok 500 Kg',
                     style: PadiMallTextTheme.sz12weight500Grey(context),
                   ),
                 ),
-                Text(
-                  'Ubah',
-                  style: PadiMallTextTheme.sz13weight700Green(context),
+                GestureDetector(
+                  onTap: () {
+                    Navigator.pushNamed(context, ProdukEditScreen.routeName);
+                  },
+                  child: Text(
+                    'Ubah',
+                    style: PadiMallTextTheme.sz13weight700Green(context),
+                  ),
                 ),
               ],
             ),

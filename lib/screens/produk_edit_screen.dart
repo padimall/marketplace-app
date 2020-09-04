@@ -3,8 +3,8 @@ import 'package:flutter_masked_text/flutter_masked_text.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:padimall_app/utils/custom_text_theme.dart';
 
-class ProdukTambahScreen extends StatelessWidget {
-  static final routeName = 'produk-tambah-screen';
+class ProdukEditScreen extends StatelessWidget {
+  static final routeName = 'produk-edit-screen';
   final nameController = TextEditingController();
   final priceController = MoneyMaskedTextController(
       thousandSeparator: '.', precision: 0, decimalSeparator: '');
@@ -17,10 +17,16 @@ class ProdukTambahScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    nameController.text = 'Bawang Putih';
+    priceController.text = '20000';
+    weightController.text = '1';
+    minOrderController.text = '100';
+    stockController.text = '500';
+
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          'Tambah Produk',
+          'Edit Produk',
           style: PadiMallTextTheme.sz16weight700(context),
         ),
         leading: IconButton(
@@ -45,16 +51,18 @@ class ProdukTambahScreen extends StatelessWidget {
                   children: <Widget>[
                     Text(
                       'Nama Produk',
-                      style: PadiMallTextTheme.sz12weight600(context),
+                      style: PadiMallTextTheme.sz12weight500(context),
                     ),
                     TextFormField(
+                      style: PadiMallTextTheme.sz14weight500(context),
                       decoration: InputDecoration(
                         hintText: 'Tuliskan nama produk Anda',
                         hintStyle: PadiMallTextTheme.sz14weight500Grey(context),
+                        isDense: true,
                       ),
                       maxLength: 50,
                       controller: nameController,
-                    )
+                    ),
                   ],
                 ),
               ),
@@ -65,12 +73,14 @@ class ProdukTambahScreen extends StatelessWidget {
                   children: <Widget>[
                     Text(
                       'Kategori Produk',
-                      style: PadiMallTextTheme.sz12weight600(context),
+                      style: PadiMallTextTheme.sz12weight500(context),
                     ),
                     TextFormField(
+                      style: PadiMallTextTheme.sz14weight500(context),
                       decoration: InputDecoration(
                         hintText: 'Pilih kategori produk Anda',
                         hintStyle: PadiMallTextTheme.sz14weight500Grey(context),
+                        isDense: true,
                       ),
                     )
                   ],
@@ -83,16 +93,29 @@ class ProdukTambahScreen extends StatelessWidget {
                   children: <Widget>[
                     Text(
                       'Harga Produk',
-                      style: PadiMallTextTheme.sz12weight600(context),
+                      style: PadiMallTextTheme.sz12weight500(context),
                     ),
-                    TextFormField(
-                      decoration: InputDecoration(
-                        hintText: 'Tuliskan harga produk Anda',
-                        hintStyle: PadiMallTextTheme.sz14weight500Grey(context),
-                      ),
-                      controller: priceController,
-                      keyboardType: TextInputType.number,
-                    )
+                    Row(
+                      children: <Widget>[
+                        Container(
+                          margin: const EdgeInsets.only(right: 8),
+                          child: Text('Rp'),
+                        ),
+                        Expanded(
+                          child: TextFormField(
+                            style: PadiMallTextTheme.sz14weight500(context),
+                            decoration: InputDecoration(
+                              hintText: 'Tuliskan harga produk Anda',
+                              hintStyle:
+                                  PadiMallTextTheme.sz14weight500Grey(context),
+                              isDense: true,
+                            ),
+                            keyboardType: TextInputType.number,
+                            controller: priceController,
+                          ),
+                        ),
+                      ],
+                    ),
                   ],
                 ),
               ),
@@ -103,15 +126,17 @@ class ProdukTambahScreen extends StatelessWidget {
                   children: <Widget>[
                     Text(
                       'Berat Produk (kilogram)',
-                      style: PadiMallTextTheme.sz12weight600(context),
+                      style: PadiMallTextTheme.sz12weight500(context),
                     ),
                     TextFormField(
+                      style: PadiMallTextTheme.sz14weight500(context),
                       decoration: InputDecoration(
                         hintText: 'Tuliskan berat produk Anda',
                         hintStyle: PadiMallTextTheme.sz14weight500Grey(context),
+                        isDense: true,
                       ),
-                      controller: weightController,
                       keyboardType: TextInputType.number,
+                      controller: weightController,
                     )
                   ],
                 ),
@@ -123,15 +148,17 @@ class ProdukTambahScreen extends StatelessWidget {
                   children: <Widget>[
                     Text(
                       'Pemesanan minimum (kilogram)',
-                      style: PadiMallTextTheme.sz12weight600(context),
+                      style: PadiMallTextTheme.sz12weight500(context),
                     ),
                     TextFormField(
+                      style: PadiMallTextTheme.sz14weight500(context),
                       decoration: InputDecoration(
                         hintText: 'Tuliskan pemesanan minimum pada produk ini',
                         hintStyle: PadiMallTextTheme.sz14weight500Grey(context),
+                        isDense: true,
                       ),
-                      controller: minOrderController,
                       keyboardType: TextInputType.number,
+                      controller: minOrderController,
                     )
                   ],
                 ),
@@ -143,14 +170,17 @@ class ProdukTambahScreen extends StatelessWidget {
                   children: <Widget>[
                     Text(
                       'Stok (Kg)',
-                      style: PadiMallTextTheme.sz12weight600(context),
+                      style: PadiMallTextTheme.sz12weight500(context),
                     ),
                     TextFormField(
+                      style: PadiMallTextTheme.sz14weight500(context),
                       decoration: InputDecoration(
                         hintText: 'Tuliskan stok yang tersedia pada produk ini',
                         hintStyle: PadiMallTextTheme.sz14weight500Grey(context),
+                        isDense: true,
                       ),
                       keyboardType: TextInputType.number,
+                      controller: stockController,
                     ),
                     Container(
                       margin: const EdgeInsets.only(top: 8),
@@ -169,7 +199,7 @@ class ProdukTambahScreen extends StatelessWidget {
                   onPressed: () {
                     Navigator.pop(context);
                     Fluttertoast.showToast(
-                        msg: 'Produk berhasil di ditambahkan',
+                        msg: 'Data produk berhasil di edit',
                         toastLength: Toast.LENGTH_LONG,
                         backgroundColor: Theme.of(context).primaryColor);
                   },
@@ -180,7 +210,7 @@ class ProdukTambahScreen extends StatelessWidget {
                     ),
                   ),
                   child: Text(
-                    'Tambahkan Produk',
+                    'Simpan Pengaturan',
                     style: PadiMallTextTheme.sz16weight700White(context),
                   ),
                 ),
@@ -207,7 +237,7 @@ class ProdukTambahScreen extends StatelessWidget {
             child: ClipRRect(
               borderRadius: BorderRadius.circular(6),
               child: Image.asset(
-                'assets/images/add_picture.png',
+                'assets/images/bawang.jpg',
                 height: 75,
                 width: 75,
                 fit: BoxFit.cover,

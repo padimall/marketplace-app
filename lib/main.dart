@@ -4,6 +4,7 @@ import 'package:padimall_app/screens/first_screen.dart';
 import 'package:padimall_app/screens/login_screen.dart';
 import 'package:padimall_app/screens/product_detail_screen.dart';
 import 'package:padimall_app/screens/produk_anda_screen.dart';
+import 'package:padimall_app/screens/produk_edit_screen.dart';
 import 'package:padimall_app/screens/produk_tambah_screen.dart';
 import 'package:padimall_app/screens/register_screen.dart';
 import 'package:padimall_app/screens/splash_screen.dart';
@@ -54,6 +55,7 @@ class MyApp extends StatelessWidget {
           ProductDetailScreen.routeName: (ctx) => ProductDetailScreen(),
           ProdukAndaScreen.routeName: (ctx) => ProdukAndaScreen(),
           ProdukTambahScreen.routeName: (ctx) => ProdukTambahScreen(),
+          ProdukEditScreen.routeName: (ctx) => ProdukEditScreen(),
         },
       ),
     );
