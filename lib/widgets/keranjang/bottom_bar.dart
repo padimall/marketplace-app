@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:padimall_app/screens/checkout_screen.dart';
 import 'package:padimall_app/utils/custom_text_theme.dart';
 
 class KeranjangBottomBarWidget extends StatelessWidget {
@@ -27,6 +28,7 @@ class KeranjangBottomBarWidget extends StatelessWidget {
           ),
           RaisedButton(
             onPressed: () {
+              Navigator.pushNamed(context, CheckoutScreen.routeName);
             },
             color: Theme.of(context).primaryColor,
             shape: RoundedRectangleBorder(

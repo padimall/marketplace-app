@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:padimall_app/providers/user.dart';
+import 'package:padimall_app/screens/checkout_screen.dart';
 import 'package:padimall_app/screens/first_screen.dart';
 import 'package:padimall_app/screens/keranjang_screen.dart';
 import 'package:padimall_app/screens/login_screen.dart';
@@ -58,6 +59,7 @@ class MyApp extends StatelessWidget {
           ProdukTambahScreen.routeName: (ctx) => ProdukTambahScreen(),
           ProdukEditScreen.routeName: (ctx) => ProdukEditScreen(),
           KeranjangScreen.routeName: (ctx) => KeranjangScreen(),
+          CheckoutScreen.routeName: (ctx) => CheckoutScreen(),
         },
       ),
     );
