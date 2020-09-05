@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:padimall_app/screens/pembelian_screen.dart';
 import 'package:padimall_app/widgets/akun/list_tile.dart';
 
 class AkunPembeliWidget extends StatelessWidget {
@@ -14,7 +15,9 @@ class AkunPembeliWidget extends StatelessWidget {
         AkunListTile(
           title: 'Riwayat Pembelian',
           subtitle: 'Berisi data riwayat pembelian Anda',
-          handler: () {},
+          handler: () {
+            Navigator.pushNamed(context, PembelianScreen.routeName);
+          },
         ),
         AkunListTile(
           title: 'Keluar',

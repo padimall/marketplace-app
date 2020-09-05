@@ -9,4 +9,13 @@ class ProviderHistories with ChangeNotifier {
     _selectedStagePenjualanIndex = index;
     notifyListeners();
   }
+
+  int _selectedStagePembelianIndex = 0;
+
+  int get selectedStagePembelianIndex => _selectedStagePembelianIndex;
+
+  void setSelectedStagePembelianIndex(int index) {
+    _selectedStagePembelianIndex = index;
+    notifyListeners();
+  }
 }
