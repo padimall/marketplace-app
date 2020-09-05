@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:padimall_app/providers/histories.dart';
+import 'package:padimall_app/screens/detail_penjualan.dart';
 import 'package:padimall_app/utils/custom_text_theme.dart';
-import 'package:padimall_app/widgets/penjualan/invoice_summary.dart';
+import 'package:padimall_app/widgets/invoice/invoice_summary.dart';
 import 'package:provider/provider.dart';
 
 class PenjualanScreen extends StatelessWidget {
@@ -96,7 +97,12 @@ class PenjualanScreen extends StatelessWidget {
                   shrinkWrap: true,
                   physics: NeverScrollableScrollPhysics(),
                   itemBuilder: (ctx, index) {
-                    return PenjualanInvoiceSummaryWidget();
+                    return GestureDetector(
+                      onTap: () {
+                        Navigator.pushNamed(context, DetailPenjualanScreen.routeName);
+                      },
+                      child: InvoiceSummaryWidget(),
+                    );
                   },
                 ),
               )

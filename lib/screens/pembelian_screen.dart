@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:padimall_app/providers/histories.dart';
+import 'package:padimall_app/screens/detail_pembelian.dart';
 import 'package:padimall_app/utils/custom_text_theme.dart';
-import 'package:padimall_app/widgets/penjualan/invoice_summary.dart';
+import 'package:padimall_app/widgets/invoice/invoice_summary.dart';
 import 'package:provider/provider.dart';
 
 class PembelianScreen extends StatelessWidget {
@@ -62,7 +63,7 @@ class PembelianScreen extends StatelessWidget {
                           ),
                           hintText: 'Cari nama produk anda',
                           hintStyle:
-                          PadiMallTextTheme.sz14weight500Grey(context),
+                              PadiMallTextTheme.sz14weight500Grey(context),
                           border: InputBorder.none,
                           focusedBorder: InputBorder.none,
                           enabledBorder: InputBorder.none,
@@ -100,7 +101,13 @@ class PembelianScreen extends StatelessWidget {
                     shrinkWrap: true,
                     physics: NeverScrollableScrollPhysics(),
                     itemBuilder: (ctx, index) {
-                      return PenjualanInvoiceSummaryWidget();
+                      return GestureDetector(
+                        onTap: () {
+                          Navigator.pushNamed(
+                              context, DetailPembelianScreen.routeName);
+                        },
+                        child: InvoiceSummaryWidget(),
+                      );
                     },
                   ),
                 ),

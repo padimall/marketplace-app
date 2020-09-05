@@ -3,6 +3,7 @@ import 'package:padimall_app/providers/histories.dart';
 import 'package:padimall_app/providers/user.dart';
 import 'package:padimall_app/screens/checkout_screen.dart';
 import 'package:padimall_app/screens/detail_pembelian.dart';
+import 'package:padimall_app/screens/detail_penjualan.dart';
 import 'package:padimall_app/screens/first_screen.dart';
 import 'package:padimall_app/screens/keranjang_screen.dart';
 import 'package:padimall_app/screens/login_screen.dart';
@@ -68,6 +69,7 @@ class MyApp extends StatelessWidget {
           PenjualanScreen.routeName: (ctx) => PenjualanScreen(),
           PembelianScreen.routeName: (ctx) => PembelianScreen(),
           DetailPembelianScreen.routeName: (ctx) => DetailPembelianScreen(),
+          DetailPenjualanScreen.routeName: (ctx) => DetailPenjualanScreen(),
         },
       ),
     );
