@@ -13,13 +13,17 @@ class ProductDetailScreen extends StatelessWidget {
       appBar: AppBar(
         leading: IconButton(
           icon: Icon(Icons.arrow_back_ios),
+          iconSize: 15,
           onPressed: () {
             Navigator.pop(context);
           },
         ),
         backgroundColor: Colors.white,
         elevation: 1,
-        title: Text('Jeruk manis'),
+        title: Text(
+          'Jeruk manis',
+          style: PadiMallTextTheme.sz16weight700(context),
+        ),
       ),
       body: Column(
         children: <Widget>[
@@ -47,16 +51,13 @@ class ProductDetailScreen extends StatelessWidget {
           ),
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.grey[300],
-                    blurRadius: 1.0,
-                    spreadRadius: 1.0,
-                  )
-                ]
-              ),
+            decoration: BoxDecoration(color: Colors.white, boxShadow: [
+              BoxShadow(
+                color: Colors.grey[300],
+                blurRadius: 1.0,
+                spreadRadius: 1.0,
+              )
+            ]),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: <Widget>[
