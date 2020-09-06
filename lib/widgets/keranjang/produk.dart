@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_masked_text/flutter_masked_text.dart';
 import 'package:padimall_app/utils/custom_text_theme.dart';
 
 class KeranjangProdukWidget extends StatelessWidget {
+  final quantityController = MoneyMaskedTextController(
+      thousandSeparator: '.', precision: 0, decimalSeparator: '');
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -61,6 +65,8 @@ class KeranjangProdukWidget extends StatelessWidget {
                               ),
                               textAlign: TextAlign.center,
                               style: PadiMallTextTheme.sz13weight500(context),
+                              keyboardType: TextInputType.number,
+                              controller: quantityController,
                             ),
                           ),
                           Text(

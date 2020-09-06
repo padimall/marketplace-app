@@ -79,6 +79,22 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     margin: const EdgeInsets.only(bottom: 24),
                     child: TextFormField(
                       decoration: InputDecoration(
+                        labelText: 'Alamat Lengkap',
+                        hintText: 'Masukkan alamat lengkap anda',
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                      ),
+                      validator: (input) {
+                        return input.isEmpty ? 'Kolom ini hendak diisi' : null;
+                      },
+                      onSaved: (input) => _name = input,
+                    ),
+                  ),
+                  Container(
+                    margin: const EdgeInsets.only(bottom: 24),
+                    child: TextFormField(
+                      decoration: InputDecoration(
                         labelText: 'Email',
                         hintText: 'Masukkan email anda',
                         border: OutlineInputBorder(

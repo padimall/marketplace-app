@@ -5,6 +5,7 @@ import 'package:padimall_app/screens/checkout_screen.dart';
 import 'package:padimall_app/screens/detail_pembelian.dart';
 import 'package:padimall_app/screens/detail_penjualan.dart';
 import 'package:padimall_app/screens/first_screen.dart';
+import 'package:padimall_app/screens/info_toko_screen.dart';
 import 'package:padimall_app/screens/keranjang_screen.dart';
 import 'package:padimall_app/screens/login_screen.dart';
 import 'package:padimall_app/screens/pembelian_screen.dart';
@@ -70,6 +71,7 @@ class MyApp extends StatelessWidget {
           PembelianScreen.routeName: (ctx) => PembelianScreen(),
           DetailPembelianScreen.routeName: (ctx) => DetailPembelianScreen(),
           DetailPenjualanScreen.routeName: (ctx) => DetailPenjualanScreen(),
+          InfoTokoScreen.routeName: (ctx) => InfoTokoScreen(),
         },
       ),
     );

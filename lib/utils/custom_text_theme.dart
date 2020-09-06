@@ -56,6 +56,11 @@ class PadiMallTextTheme {
         fontSize: 14, fontWeight: FontWeight.w700, color: Colors.white);
   }
 
+  static TextStyle sz14weight600Soft(BuildContext context) {
+    return GoogleFonts.poppins().copyWith(
+        fontSize: 14, fontWeight: FontWeight.w600, color: Colors.grey[800]);
+  }
+
   static TextStyle sz14weight600Green(BuildContext context) {
     return GoogleFonts.poppins().copyWith(
         fontSize: 14,

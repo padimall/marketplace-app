@@ -20,8 +20,8 @@ class BerandaBelanja extends StatelessWidget {
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 2,
               childAspectRatio: 1 / 1,
-              crossAxisSpacing: 10,
-              mainAxisSpacing: 10,
+              crossAxisSpacing: 12,
+              mainAxisSpacing: 16,
             ),
             itemCount: 10,
             shrinkWrap: true,

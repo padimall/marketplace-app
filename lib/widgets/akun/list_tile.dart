@@ -13,7 +13,7 @@ class AkunListTile extends StatelessWidget {
     return Container(
       color: Colors.white,
       child: ListTile(
-        title: Text(title, style: PadiMallTextTheme.sz14weight600(context),),
+        title: Text(title, style: PadiMallTextTheme.sz13weight600Soft(context),),
         subtitle: subtitle.isEmpty ? null : Text(subtitle, style: PadiMallTextTheme.sz12weight500Grey(context),),
         trailing: Icon(
           Icons.arrow_forward_ios,

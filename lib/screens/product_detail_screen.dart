@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:carousel_pro/carousel_pro.dart';
 import 'package:flutter/material.dart';
 import 'package:padimall_app/screens/checkout_screen.dart';
 import 'package:padimall_app/screens/keranjang_screen.dart';
@@ -9,6 +10,26 @@ class ProductDetailScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    Widget _carouselImages = new Container(
+      width: MediaQuery.of(context).size.width,
+      height: MediaQuery.of(context).size.width / 2,
+      child: new Carousel(
+        boxFit: BoxFit.cover,
+        images: [
+          CachedNetworkImage(imageUrl: 'https://cdn.pixabay.com/photo/2013/02/04/22/47/fruits-77946_1280.jpg', fit: BoxFit.cover,),
+          CachedNetworkImage(imageUrl: 'https://cdn.pixabay.com/photo/2017/01/03/01/13/vegetables-1948264_1280.jpg', fit: BoxFit.cover,),
+          CachedNetworkImage(imageUrl: 'https://cdn.pixabay.com/photo/2015/07/27/22/58/life-863705_1280.jpg', fit: BoxFit.cover,),
+        ],
+        autoplay: true,
+        autoplayDuration: Duration(seconds: 2),
+//        showIndicator: false,
+        dotSize: 4,
+        indicatorBgPadding: 4,
+        dotBgColor: Theme.of(context).accentColor.withOpacity(0.5),
+      ),
+    );
+
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
@@ -21,7 +42,7 @@ class ProductDetailScreen extends StatelessWidget {
         backgroundColor: Colors.white,
         elevation: 1,
         title: Text(
-          'Jeruk manis',
+          'Bawang Putih',
           style: PadiMallTextTheme.sz16weight700(context),
         ),
       ),
@@ -31,11 +52,16 @@ class ProductDetailScreen extends StatelessWidget {
             child: SingleChildScrollView(
               child: Column(
                 children: <Widget>[
-                  // Carousel
-                  Container(
-                    color: Colors.grey[300],
-                    height: 200,
+                  ListView(
+                    shrinkWrap: true,
+                    children: <Widget>[
+                      _carouselImages
+                    ],
                   ),
+//                  Container(
+//                    color: Colors.grey[300],
+//                    height: 200,
+//                  ),
                   NamaHargaProduk(),
                   SizedBox(
                     height: 8,
@@ -130,7 +156,7 @@ class NamaHargaProduk extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Text(
-            'Jeruk Manis',
+            'Bawang Putih',
             overflow: TextOverflow.ellipsis,
             maxLines: 2,
             style: PadiMallTextTheme.sz16weight700(context),

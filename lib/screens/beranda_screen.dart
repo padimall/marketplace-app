@@ -13,11 +13,11 @@ class BerandaScreen extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.max,
           children: <Widget>[
-//            BerandaCarousel(),
-            Container(
-              color: Colors.grey[300],
-              height: 200,
-            ),
+            BerandaCarousel(),
+//            Container(
+//              color: Colors.grey[300],
+//              height: 200,
+//            ),
             BerandaKategori(),
             BerandaBelanja(),
           ],

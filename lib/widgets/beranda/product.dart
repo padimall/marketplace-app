@@ -6,9 +6,21 @@ import 'package:padimall_app/utils/custom_text_theme.dart';
 class Product extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Card(
+    return Container(
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(8),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.grey[300],
+            spreadRadius: 0,
+            blurRadius: 1,
+            offset: Offset(0, 0),
+          )
+        ],
+      ),
       child: ClipRRect(
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: BorderRadius.circular(8),
         child: InkWell(
           onTap: () {
             Navigator.pushNamed(context, ProductDetailScreen.routeName);
@@ -16,7 +28,8 @@ class Product extends StatelessWidget {
           child: GridTile(
             child: CachedNetworkImage(
               imageUrl:
-                  'https://cdn.pixabay.com/photo/2016/10/02/22/17/red-t-shirt-1710578_1280.jpg',
+                  'https://cdn.pixabay.com/photo/2017/01/03/01/13/vegetables-1948264_1280.jpg',
+              placeholder: (ctx, url) => Image.asset('assets/images/logo.png'),
               fit: BoxFit.cover,
             ),
             footer: Container(

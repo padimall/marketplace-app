@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:padimall_app/screens/login_screen.dart';
 import 'package:padimall_app/screens/pembelian_screen.dart';
 import 'package:padimall_app/widgets/akun/list_tile.dart';
 
@@ -22,7 +23,9 @@ class AkunPembeliWidget extends StatelessWidget {
         AkunListTile(
           title: 'Keluar',
           subtitle: '',
-          handler: () {},
+          handler: () {
+            Navigator.pushNamedAndRemoveUntil(context, LoginScreen.routeName, (route) => false);
+          },
         ),
       ],
     );

@@ -34,7 +34,7 @@ class KategoriScreen extends StatelessWidget {
         onTap: () {},
         title: Text(
           '$title',
-          style: PadiMallTextTheme.sz14weight600(context),
+          style: PadiMallTextTheme.sz13weight600Soft(context),
         ),
         trailing: Icon(
           Icons.arrow_forward_ios,
