@@ -160,6 +160,7 @@ class ProdukTambahScreen extends StatelessWidget {
                         hintText: 'Tuliskan stok yang tersedia pada produk ini',
                         hintStyle: PadiMallTextTheme.sz14weight500Grey(context),
                       ),
+                      controller: stockController,
                       keyboardType: TextInputType.number,
                     ),
                     Container(

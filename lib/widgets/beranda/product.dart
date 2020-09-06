@@ -14,11 +14,12 @@ class Product extends StatelessWidget {
           BoxShadow(
             color: Colors.grey[300],
             spreadRadius: 0,
-            blurRadius: 1,
-            offset: Offset(0, 0),
+            blurRadius: 3,
+            offset: Offset(0, 1),
           )
         ],
       ),
+      margin: const EdgeInsets.all(2),
       child: ClipRRect(
         borderRadius: BorderRadius.circular(8),
         child: InkWell(

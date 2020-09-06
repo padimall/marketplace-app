@@ -34,7 +34,8 @@ class InfoBuyerScreen extends StatelessWidget {
               _buildInfoRow(context, 'Nama', 'Ricky Julpiter'),
               _buildInfoRow(context, 'No. Handphone', '+62 123-4567-890'),
               _buildInfoRow(context, 'Email', 'ricky@padimall.com'),
-              _buildInfoRow(context, 'Alamat Lengkap', 'Jl. Pinang Baris, No.1. Kota Medan, Sumatera Utara'),
+              _buildInfoRow(context, 'Alamat Lengkap',
+                  'Jl. Pinang Baris, No.1. Kota Medan, Sumatera Utara '),
             ],
           ),
         ),
@@ -45,19 +46,30 @@ class InfoBuyerScreen extends StatelessWidget {
   Widget _buildInfoRow(BuildContext context, String label, String value) {
     return Container(
       margin: const EdgeInsets.only(bottom: 16),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+      child: Row(
         children: <Widget>[
-          Container(
-            margin: const EdgeInsets.only(bottom: 4),
-            child: Text(
-              '$label',
-              style: PadiMallTextTheme.sz11weight500(context),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Container(
+                  margin: const EdgeInsets.only(bottom: 4),
+                  child: Text(
+                    '$label',
+                    style: PadiMallTextTheme.sz11weight500(context),
+                  ),
+                ),
+                Text(
+                  '$value',
+                  style: PadiMallTextTheme.sz12weight600Soft(context),
+                ),
+              ],
             ),
           ),
-          Text(
-            '$value',
-            style: PadiMallTextTheme.sz12weight600Soft(context),
+          Icon(
+            Icons.edit,
+            size: 20,
+            color: Theme.of(context).accentColor,
           ),
         ],
       ),

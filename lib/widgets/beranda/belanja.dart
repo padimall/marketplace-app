@@ -6,15 +6,18 @@ class BerandaBelanja extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(16.0),
+      padding: const EdgeInsets.symmetric(horizontal: 14.0, vertical: 16.0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisSize: MainAxisSize.max,
         children: <Widget>[
-          Text(
-            'Mari Belanja',
-            style: PadiMallTextTheme.sz16weight700(context),
-            textAlign: TextAlign.left,
+          Container(
+            margin: const EdgeInsets.only(bottom: 16),
+            child: Text(
+              'Mari Belanja',
+              style: PadiMallTextTheme.sz16weight700(context),
+              textAlign: TextAlign.left,
+            ),
           ),
           GridView.builder(
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(

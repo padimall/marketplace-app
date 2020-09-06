@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:padimall_app/utils/custom_text_theme.dart';
 import 'package:padimall_app/widgets/akun/akun_pembeli.dart';
+import 'package:padimall_app/widgets/akun/no_toko_yet.dart';
 import 'package:padimall_app/widgets/akun/toko_saya.dart';
 
 class AkunScreen extends StatelessWidget {
-//  final AkunTabChoice akunTabChoices;
+
+  bool _isHaveToko = false;
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +31,7 @@ class AkunScreen extends StatelessWidget {
         body: TabBarView(
           children: <Widget>[
             AkunPembeliWidget(),
-            TokoSayaWidget(),
+            _isHaveToko ? TokoSayaWidget() : NoTokoYetWidget(),
           ],
         ),
         backgroundColor: Colors.white,
