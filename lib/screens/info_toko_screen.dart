@@ -117,49 +117,35 @@ class InfoTokoScreen extends StatelessWidget {
                       style: PadiMallTextTheme.sz14weight600Soft(context),
                     ),
                   ),
-                  Container(
-                    margin: const EdgeInsets.only(bottom: 8),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Container(
-                          margin: const EdgeInsets.only(bottom: 2),
-                          child: Text(
-                            'No. Agen',
-                            style: PadiMallTextTheme.sz11weight500(context),
-                          ),
-                        ),
-                        Text(
-                          'AGEN-001',
-                          style: PadiMallTextTheme.sz12weight600Soft(context),
-                        ),
-                      ],
-                    ),
-                  ),
-                  Container(
-                    margin: const EdgeInsets.only(bottom: 8),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Container(
-                          margin: const EdgeInsets.only(bottom: 2),
-                          child: Text(
-                            'Nama Agen',
-                            style: PadiMallTextTheme.sz11weight500(context),
-                          ),
-                        ),
-                        Text(
-                          'Agen Sejahtera Selalu',
-                          style: PadiMallTextTheme.sz12weight600Soft(context),
-                        ),
-                      ],
-                    ),
-                  ),
+                  _buildInfoRow(context, 'No. Agen', 'AGEN-001'),
+                  _buildInfoRow(context, 'Nama Agen', 'Agen Sejahtera Selalu'),
                 ],
               ),
             ),
           ],
         ),
+      ),
+    );
+  }
+
+  Widget _buildInfoRow(BuildContext context, String label, String value) {
+    return Container(
+      margin: const EdgeInsets.only(bottom: 16),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Container(
+            margin: const EdgeInsets.only(bottom: 4),
+            child: Text(
+              '$label',
+              style: PadiMallTextTheme.sz11weight500(context),
+            ),
+          ),
+          Text(
+            '$value',
+            style: PadiMallTextTheme.sz12weight600Soft(context),
+          ),
+        ],
       ),
     );
   }

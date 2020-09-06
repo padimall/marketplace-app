@@ -14,6 +14,7 @@ class ProdukAndaScreen extends StatelessWidget {
           'Daftar Produk Anda',
           style: PadiMallTextTheme.sz16weight700(context),
         ),
+        elevation: 1,
         leading: IconButton(
           icon: Icon(Icons.arrow_back_ios),
           iconSize: 15,

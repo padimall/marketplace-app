@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:padimall_app/screens/info_buyer_screen.dart';
 import 'package:padimall_app/screens/login_screen.dart';
 import 'package:padimall_app/screens/pembelian_screen.dart';
 import 'package:padimall_app/widgets/akun/list_tile.dart';
@@ -11,7 +12,9 @@ class AkunPembeliWidget extends StatelessWidget {
         AkunListTile(
           title: 'Informasi Akun',
           subtitle: 'Berisi data diri sebagai pelanggan',
-          handler: () {},
+          handler: () {
+            Navigator.pushNamed(context, InfoBuyerScreen.routeName);
+          },
         ),
         AkunListTile(
           title: 'Riwayat Pembelian',

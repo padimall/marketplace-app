@@ -9,18 +9,20 @@ class BerandaScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      body: SingleChildScrollView(
-        child: Column(
-          mainAxisSize: MainAxisSize.max,
-          children: <Widget>[
-            BerandaCarousel(),
+      body: SafeArea(
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisSize: MainAxisSize.max,
+            children: <Widget>[
+              BerandaCarousel(),
 //            Container(
 //              color: Colors.grey[300],
 //              height: 200,
 //            ),
-            BerandaKategori(),
-            BerandaBelanja(),
-          ],
+              BerandaKategori(),
+              BerandaBelanja(),
+            ],
+          ),
         ),
       ),
     );
