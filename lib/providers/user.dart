@@ -6,6 +6,7 @@ import 'package:http/http.dart' as http;
 import 'package:padimall_app/models/post_login_dev.dart';
 import 'package:padimall_app/screens/first_screen.dart';
 import 'package:padimall_app/utils/custom_alert_dialog.dart';
+import 'package:padimall_app/utils/custom_logic.dart';
 import 'package:padimall_app/utils/flutter_secure_storage_services.dart';
 import '../utils/global.dart' as global;
 
@@ -122,5 +123,14 @@ class ProviderUser with ChangeNotifier {
     } catch (e) {
       print(e.toString());
     } finally {}
+  }
+
+  bool _isUserLogin;
+
+  bool get isUserLogin => _isUserLogin;
+
+  Future<void> checkIsUserLogin() async {
+    _isUserLogin = await CustomLogic.isUserTokenExist();
+    notifyListeners();
   }
 }
