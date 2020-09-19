@@ -11,4 +11,14 @@ class FlutterSecureStorageServices {
     final storage = new FlutterSecureStorage();
     return await storage.read(key: 'dev-token');
   }
+
+  static setUserToken(String value) async {
+    final storage = new FlutterSecureStorage();
+    await storage.write(key: 'user-token', value: value);
+  }
+
+  static getUserToken() async {
+    final storage = new FlutterSecureStorage();
+    return await storage.read(key: 'user-token');
+  }
 }

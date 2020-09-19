@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:padimall_app/providers/product_categories.dart';
 import 'package:padimall_app/utils/build_future_builder.dart';
+import 'package:padimall_app/utils/custom_image_url.dart';
 import 'package:padimall_app/utils/custom_text_theme.dart';
 import 'package:provider/provider.dart';
+import 'package:padimall_app/utils/global.dart' as global;
 
 class BerandaKategori extends StatelessWidget {
   ProviderProductCategories _productCategoriesState;
@@ -40,6 +42,8 @@ class BerandaKategori extends StatelessWidget {
                     _rightMargin = 16;
                   }
 
+                  var _productCategory = _productCategoriesState.listProductCategories[index];
+
                   return Container(
                     margin: EdgeInsets.only(left: _leftMargin, right: _rightMargin),
                     child: ClipRRect(
@@ -63,10 +67,11 @@ class BerandaKategori extends StatelessWidget {
                             Opacity(
                               opacity: 0.6,
                               child: Container(
-                                child: Image.asset(
-                                  'assets/images/bawang.jpg',
-                                  width: 125,
+                                child: FadeInImage.assetNetwork(
+                                  placeholder: '',
+                                  image: '${imageUrlFormatter(_productCategory.image)}',
                                   height: 125,
+                                  width: 125,
                                   fit: BoxFit.cover,
                                 ),
                               ),
@@ -74,7 +79,7 @@ class BerandaKategori extends StatelessWidget {
                             Container(
                               padding: const EdgeInsets.symmetric(horizontal: 4),
                               child: Text(
-                                '${_productCategoriesState.listProductCategories[index].name}',
+                                '${_productCategory.name}',
                                 textAlign: TextAlign.center,
                                 style: PadiMallTextTheme.sz14weight700White(context),
                               ),

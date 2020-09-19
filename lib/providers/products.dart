@@ -19,15 +19,13 @@ class ProviderProduct with ChangeNotifier {
         'limit': 10,
       };
 
-      http.Response response = await http.post(
-        url,
-        headers: {
-          'X-Requested-With': 'XMLHttpRequest',
-          'Content-Type': 'application/json',
-          'Authorization': 'Bearer ' + await FlutterSecureStorageServices.getDevToken(),
-        },
-        body: json.encode(requestBody)
-      );
+      http.Response response = await http.post(url,
+          headers: {
+            'X-Requested-With': 'XMLHttpRequest',
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + await FlutterSecureStorageServices.getDevToken(),
+          },
+          body: json.encode(requestBody));
       print(url);
       print(response.body);
       var jsonObject = PostResShowProducts.fromJson(json.decode(response.body));
@@ -42,4 +40,9 @@ class ProviderProduct with ChangeNotifier {
       notifyListeners();
     }
   }
+
+  Product _selectedProduct;
+
+  Product get selectedProduct => _selectedProduct;
+
 }

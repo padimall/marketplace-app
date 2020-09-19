@@ -1,15 +1,22 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_pro/carousel_pro.dart';
 import 'package:flutter/material.dart';
+import 'package:padimall_app/models/post_show_products.dart';
 import 'package:padimall_app/screens/checkout_screen.dart';
+import 'package:padimall_app/screens/first_screen.dart';
 import 'package:padimall_app/screens/keranjang_screen.dart';
+import 'package:padimall_app/screens/login_screen.dart';
+import 'package:padimall_app/utils/custom_logic.dart';
 import 'package:padimall_app/utils/custom_text_theme.dart';
+import 'package:padimall_app/utils/text_number_formatter.dart';
+import 'package:padimall_app/widgets/alert_dialog/ok.dart';
 
 class ProductDetailScreen extends StatelessWidget {
   static final routeName = 'product-detail-screen';
 
   @override
   Widget build(BuildContext context) {
+    Product product = ModalRoute.of(context).settings.arguments;
 
     Widget _carouselImages = new Container(
       width: MediaQuery.of(context).size.width,
@@ -17,9 +24,18 @@ class ProductDetailScreen extends StatelessWidget {
       child: new Carousel(
         boxFit: BoxFit.cover,
         images: [
-          CachedNetworkImage(imageUrl: 'https://cdn.pixabay.com/photo/2013/02/04/22/47/fruits-77946_1280.jpg', fit: BoxFit.cover,),
-          CachedNetworkImage(imageUrl: 'https://cdn.pixabay.com/photo/2017/01/03/01/13/vegetables-1948264_1280.jpg', fit: BoxFit.cover,),
-          CachedNetworkImage(imageUrl: 'https://cdn.pixabay.com/photo/2015/07/27/22/58/life-863705_1280.jpg', fit: BoxFit.cover,),
+          CachedNetworkImage(
+            imageUrl: 'https://cdn.pixabay.com/photo/2013/02/04/22/47/fruits-77946_1280.jpg',
+            fit: BoxFit.cover,
+          ),
+          CachedNetworkImage(
+            imageUrl: 'https://cdn.pixabay.com/photo/2017/01/03/01/13/vegetables-1948264_1280.jpg',
+            fit: BoxFit.cover,
+          ),
+          CachedNetworkImage(
+            imageUrl: 'https://cdn.pixabay.com/photo/2015/07/27/22/58/life-863705_1280.jpg',
+            fit: BoxFit.cover,
+          ),
         ],
         autoplay: true,
         autoplayDuration: Duration(seconds: 2),
@@ -42,7 +58,7 @@ class ProductDetailScreen extends StatelessWidget {
         backgroundColor: Colors.white,
         elevation: 1,
         title: Text(
-          'Bawang Putih',
+          '${product.name}',
           style: PadiMallTextTheme.sz16weight700(context),
         ),
       ),
@@ -54,23 +70,26 @@ class ProductDetailScreen extends StatelessWidget {
                 children: <Widget>[
                   ListView(
                     shrinkWrap: true,
-                    children: <Widget>[
-                      _carouselImages
-                    ],
+                    children: <Widget>[_carouselImages],
                   ),
 //                  Container(
 //                    color: Colors.grey[300],
 //                    height: 200,
 //                  ),
-                  NamaHargaProduk(),
+                  NamaHargaProduk(
+                    product: product,
+                  ),
                   SizedBox(
                     height: 8,
                   ),
-                  InfoProduk(),
+                  InfoProduk(
+                    product: product,
+                  ),
                   SizedBox(
                     height: 8,
                   ),
-                  InfoToko(),
+                  // TODO: Info Toko
+//                  InfoToko(),
                 ],
               ),
             ),
@@ -92,8 +111,22 @@ class ProductDetailScreen extends StatelessWidget {
                   child: Container(
                     width: double.infinity,
                     child: RaisedButton(
-                      onPressed: () {
-                        Navigator.pushNamed(context, KeranjangScreen.routeName);
+                      onPressed: () async {
+                        if (await CustomLogic.isUserTokenExist()) {
+                          Navigator.pushNamed(context, KeranjangScreen.routeName);
+                        } else {
+                          showAlertDialogOk(
+                            context,
+                            false,
+                            'Yuk Sign In',
+                            'Silahkan Sign In terlebih dahulu untuk menggunakan fitur ini',
+                            'Sign In',
+                            () {
+                              Navigator.pop(context);
+                              Navigator.pushNamed(context, LoginScreen.routeName);
+                            },
+                          );
+                        }
                       },
                       color: Theme.of(context).accentColor,
                       shape: RoundedRectangleBorder(
@@ -116,8 +149,22 @@ class ProductDetailScreen extends StatelessWidget {
                   child: Container(
                     width: double.infinity,
                     child: RaisedButton(
-                      onPressed: () {
-                        Navigator.pushNamed(context, CheckoutScreen.routeName);
+                      onPressed: () async {
+                        if (await CustomLogic.isUserTokenExist()) {
+                          Navigator.pushNamed(context, CheckoutScreen.routeName);
+                        } else {
+                          showAlertDialogOk(
+                            context,
+                            false,
+                            'Yuk Sign In',
+                            'Silahkan Sign In terlebih dahulu untuk menggunakan fitur ini',
+                            'Sign In',
+                            () {
+                              Navigator.pop(context);
+                              Navigator.pushNamed(context, LoginScreen.routeName);
+                            },
+                          );
+                        }
                       },
                       color: Theme.of(context).primaryColor,
                       shape: RoundedRectangleBorder(
@@ -142,9 +189,9 @@ class ProductDetailScreen extends StatelessWidget {
 }
 
 class NamaHargaProduk extends StatelessWidget {
-  const NamaHargaProduk({
-    Key key,
-  }) : super(key: key);
+  Product product;
+
+  NamaHargaProduk({this.product});
 
   @override
   Widget build(BuildContext context) {
@@ -156,13 +203,13 @@ class NamaHargaProduk extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Text(
-            'Bawang Putih',
+            '${product.name}',
             overflow: TextOverflow.ellipsis,
             maxLines: 2,
             style: PadiMallTextTheme.sz16weight700(context),
           ),
           Text(
-            'Rp 20.000',
+            'Rp ${textNumberFormatter(product.price.toDouble())}',
             overflow: TextOverflow.ellipsis,
             maxLines: 2,
             style: PadiMallTextTheme.sz14weight600Red(context),
@@ -174,9 +221,9 @@ class NamaHargaProduk extends StatelessWidget {
 }
 
 class InfoProduk extends StatelessWidget {
-  const InfoProduk({
-    Key key,
-  }) : super(key: key);
+  Product product;
+
+  InfoProduk({this.product});
 
   @override
   Widget build(BuildContext context) {
@@ -202,7 +249,7 @@ class InfoProduk extends StatelessWidget {
                 style: PadiMallTextTheme.sz14weight500(context),
               ),
               Text(
-                '1 kg',
+                '${product.weight} kg',
                 style: PadiMallTextTheme.sz14weight500(context),
               ),
             ],
@@ -239,8 +286,7 @@ class InfoToko extends StatelessWidget {
           ClipRRect(
             borderRadius: BorderRadius.circular(6),
             child: CachedNetworkImage(
-              imageUrl:
-                  'https://live.staticflickr.com/4043/4438260868_cc79b3369d_z.jpg',
+              imageUrl: 'https://live.staticflickr.com/4043/4438260868_cc79b3369d_z.jpg',
               fit: BoxFit.cover,
               height: 60,
               width: 60,

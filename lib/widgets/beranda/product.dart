@@ -4,6 +4,7 @@ import 'package:padimall_app/models/post_show_products.dart';
 import 'package:padimall_app/screens/product_detail_screen.dart';
 import 'package:padimall_app/utils/custom_text_theme.dart';
 import 'package:padimall_app/utils/text_number_formatter.dart';
+import 'package:padimall_app/utils/global.dart' as global;
 
 class ProductWidget extends StatelessWidget {
   Product product;
@@ -30,7 +31,7 @@ class ProductWidget extends StatelessWidget {
         borderRadius: BorderRadius.circular(8),
         child: InkWell(
           onTap: () {
-            Navigator.pushNamed(context, ProductDetailScreen.routeName);
+            Navigator.pushNamed(context, ProductDetailScreen.routeName, arguments: product);
           },
           child: GridTile(
             child: CachedNetworkImage(
@@ -49,7 +50,7 @@ class ProductWidget extends StatelessWidget {
                     style: PadiMallTextTheme.sz13weight600(context),
                   ),
                   Text(
-                    '${textNumberFormatter(product.price.toDouble())}',
+                    'Rp ${textNumberFormatter(product.price.toDouble())}',
                     style: PadiMallTextTheme.sz12weight500(context),
                   ),
                 ],

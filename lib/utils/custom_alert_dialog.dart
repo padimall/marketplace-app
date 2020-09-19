@@ -5,4 +5,5 @@ class CustomAlertDialog {
   static void loading(BuildContext context) {
     transparentLoadingCircular(context);
   }
+
 }
