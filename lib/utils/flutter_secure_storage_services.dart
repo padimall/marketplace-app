@@ -17,6 +17,11 @@ class FlutterSecureStorageServices {
     await storage.write(key: 'user-token', value: value);
   }
 
+  static deleteUserToken() async {
+    final storage = new FlutterSecureStorage();
+    await storage.delete(key: 'user-token');
+  }
+
   static getUserToken() async {
     final storage = new FlutterSecureStorage();
     return await storage.read(key: 'user-token');

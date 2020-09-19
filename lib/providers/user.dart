@@ -105,6 +105,8 @@ class ProviderUser with ChangeNotifier {
       print(response.body);
       print(response.statusCode);
 
+      Navigator.pop(context);
+
       var jsonObject = PostResLogin.fromJson(jsonDecode(response.body));
 
       if (response.statusCode == 200) {
@@ -119,8 +121,6 @@ class ProviderUser with ChangeNotifier {
       }
     } catch (e) {
       print(e.toString());
-    } finally {
-      Navigator.pop(context);
-    }
+    } finally {}
   }
 }

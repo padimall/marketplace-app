@@ -28,7 +28,7 @@ class AkunPembeliWidget extends StatelessWidget {
           title: 'Keluar',
           subtitle: '',
           handler: () {
-            FlutterSecureStorageServices.setUserToken(null);
+            FlutterSecureStorageServices.deleteUserToken();
             Navigator.pushNamedAndRemoveUntil(context, LoginScreen.routeName, (route) => false);
           },
         ),
