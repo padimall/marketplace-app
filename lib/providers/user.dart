@@ -31,7 +31,7 @@ class ProviderUser with ChangeNotifier {
       );
       print(url);
       print(response.body);
-      var jsonObject = PostResLoginDev.fromJson(json.decode(response.body));
+      var jsonObject = PostResLogin.fromJson(json.decode(response.body));
 
       if (response.statusCode == 200) {
         FlutterSecureStorageServices.setDevToken(jsonObject.accessToken);
@@ -47,14 +47,14 @@ class ProviderUser with ChangeNotifier {
       BuildContext context, String name, String address, String email, String phoneNum, String password, String passwordConfirmation) async {
     try {
       CustomAlertDialog.loading(context);
-      var url = '${global.API_URL_PREFIX}/api/v1/buyer';
+      var url = '${global.API_URL_PREFIX}/api/v1/signup';
       var requestBody = {
-        'request_type': 3,
-        'username': name,
-        'address': address,
+        'name': name,
         'email': email,
+        'address': address,
         'phone': phoneNum,
         'password': password,
+        'password_confirmation': passwordConfirmation,
       };
 
       http.Response response = await http.post(
@@ -105,8 +105,15 @@ class ProviderUser with ChangeNotifier {
       print(response.body);
       print(response.statusCode);
 
+      var jsonObject = PostResLogin.fromJson(jsonDecode(response.body));
+
       if (response.statusCode == 200) {
-        Navigator.pushNamedAndRemoveUntil(context, FirstScreen.routeName, (Route<dynamic> route) => false);
+        FlutterSecureStorageServices.setUserToken(jsonObject.accessToken);
+        if (Navigator.canPop(context)) {
+          Navigator.pop(context);
+        } else {
+          Navigator.pushNamedAndRemoveUntil(context, FirstScreen.routeName, (Route<dynamic> route) => false);
+        }
       } else if (response.statusCode == 401) {
         Fluttertoast.showToast(msg: 'Email dan Password tidak cocok', toastLength: Toast.LENGTH_LONG, backgroundColor: Theme.of(context).accentColor);
       }

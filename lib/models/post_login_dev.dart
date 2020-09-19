@@ -1,5 +1,5 @@
-class PostResLoginDev {
-  PostResLoginDev({
+class PostResLogin {
+  PostResLogin({
     this.accessToken,
     this.tokenType,
     this.expiresAt,
@@ -9,7 +9,7 @@ class PostResLoginDev {
   String tokenType;
   DateTime expiresAt;
 
-  factory PostResLoginDev.fromJson(Map<String, dynamic> json) => PostResLoginDev(
+  factory PostResLogin.fromJson(Map<String, dynamic> json) => PostResLogin(
     accessToken: json["access_token"] == null ? null : json["access_token"],
     tokenType: json["token_type"] == null ? null : json["token_type"],
     expiresAt: json["expires_at"] == null ? null : DateTime.parse(json["expires_at"]),

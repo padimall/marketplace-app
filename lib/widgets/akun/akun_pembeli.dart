@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:padimall_app/screens/info_buyer_screen.dart';
 import 'package:padimall_app/screens/login_screen.dart';
 import 'package:padimall_app/screens/pembelian_screen.dart';
+import 'package:padimall_app/utils/flutter_secure_storage_services.dart';
 import 'package:padimall_app/widgets/akun/list_tile.dart';
 
 class AkunPembeliWidget extends StatelessWidget {
@@ -27,6 +28,7 @@ class AkunPembeliWidget extends StatelessWidget {
           title: 'Keluar',
           subtitle: '',
           handler: () {
+            FlutterSecureStorageServices.setUserToken(null);
             Navigator.pushNamedAndRemoveUntil(context, LoginScreen.routeName, (route) => false);
           },
         ),
