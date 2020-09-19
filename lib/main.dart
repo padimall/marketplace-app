@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:padimall_app/providers/histories.dart';
+import 'package:padimall_app/providers/product_categories.dart';
+import 'package:padimall_app/providers/toko.dart';
 import 'package:padimall_app/providers/user.dart';
 import 'package:padimall_app/screens/checkout_screen.dart';
 import 'package:padimall_app/screens/detail_pembelian.dart';
@@ -15,6 +17,7 @@ import 'package:padimall_app/screens/product_detail_screen.dart';
 import 'package:padimall_app/screens/produk_anda_screen.dart';
 import 'package:padimall_app/screens/produk_edit_screen.dart';
 import 'package:padimall_app/screens/produk_tambah_screen.dart';
+import 'package:padimall_app/screens/regis_supplier_screen.dart';
 import 'package:padimall_app/screens/register_screen.dart';
 import 'package:padimall_app/screens/splash_screen.dart';
 import 'package:provider/provider.dart';
@@ -43,6 +46,8 @@ class MyApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(create: (ctx) => ProviderUser(),),
         ChangeNotifierProvider(create: (ctx) => ProviderHistories(),),
+        ChangeNotifierProvider(create: (ctx) => ProviderToko(),),
+        ChangeNotifierProvider(create: (ctx) => ProviderProductCategories(),),
       ],
       child: MaterialApp(
         title: 'Flutter Demo',
@@ -74,6 +79,7 @@ class MyApp extends StatelessWidget {
           DetailPenjualanScreen.routeName: (ctx) => DetailPenjualanScreen(),
           InfoTokoScreen.routeName: (ctx) => InfoTokoScreen(),
           InfoBuyerScreen.routeName: (ctx) => InfoBuyerScreen(),
+          RegisterSupplierScreen.routeName: (ctx) => RegisterSupplierScreen(),
         },
       ),
     );

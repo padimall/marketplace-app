@@ -1,15 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:padimall_app/providers/toko.dart';
 import 'package:padimall_app/utils/custom_text_theme.dart';
 import 'package:padimall_app/widgets/akun/akun_pembeli.dart';
 import 'package:padimall_app/widgets/akun/no_toko_yet.dart';
 import 'package:padimall_app/widgets/akun/toko_saya.dart';
+import 'package:provider/provider.dart';
 
 class AkunScreen extends StatelessWidget {
-
-  bool _isHaveToko = false;
+  ProviderToko _providerToko;
 
   @override
   Widget build(BuildContext context) {
+    _providerToko = Provider.of(context, listen: false);
+
     return DefaultTabController(
       length: akunTabChoices.length,
       child: Scaffold(
@@ -28,11 +31,13 @@ class AkunScreen extends StatelessWidget {
                       ))
                   .toList()),
         ),
-        body: TabBarView(
-          children: <Widget>[
-            AkunPembeliWidget(),
-            _isHaveToko ? TokoSayaWidget() : NoTokoYetWidget(),
-          ],
+        body: Consumer<ProviderToko>(
+          builder: (ctx, provider, _) => TabBarView(
+            children: <Widget>[
+              AkunPembeliWidget(),
+              _providerToko.isAlreadyHaveToko ? TokoSayaWidget() : NoTokoYetWidget(),
+            ],
+          ),
         ),
         backgroundColor: Colors.white,
       ),

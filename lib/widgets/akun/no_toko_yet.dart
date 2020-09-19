@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:padimall_app/screens/regis_supplier_screen.dart';
 import 'package:padimall_app/utils/custom_text_theme.dart';
 
 class NoTokoYetWidget extends StatelessWidget {
@@ -13,14 +14,16 @@ class NoTokoYetWidget extends StatelessWidget {
             height: 200,
           ),
           Container(
-            margin: const EdgeInsets.only(bottom: 16),
+            margin: const EdgeInsets.only(bottom: 20),
             child: Text(
-              'Kamu belum punya Toko',
+              'Ayo daftarkan dirimu jadi Supplier',
               style: PadiMallTextTheme.sz13weight600Soft(context),
             ),
           ),
           RaisedButton(
-            onPressed: () {},
+            onPressed: () {
+              Navigator.pushNamed(context, RegisterSupplierScreen.routeName);
+            },
             child: Text(
               'Jadi Supplier',
               style: PadiMallTextTheme.sz14weight700White(context),

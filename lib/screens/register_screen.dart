@@ -20,7 +20,7 @@ class RegisterScreen extends StatefulWidget {
 class _RegisterScreenState extends State<RegisterScreen> {
   ProviderUser _providerUser;
 
-  String _name, _phoneNum, _email, _pass, _passConfirmed;
+  String _name, _phoneNum, _address, _email, _pass, _passConfirmed;
 
   @override
   Widget build(BuildContext context) {
@@ -88,7 +88,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       validator: (input) {
                         return input.isEmpty ? 'Kolom ini hendak diisi' : null;
                       },
-                      onSaved: (input) => _name = input,
+                      onSaved: (input) => _address = input,
                     ),
                   ),
                   Container(
@@ -180,7 +180,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         if (widget._formRegister.currentState.validate()) {
                           widget._formRegister.currentState.save();
                           if (_pass == _passConfirmed) {
-                            _providerUser.signUpUser(context, _name, _email, _phoneNum, _pass, _passConfirmed);
+                            _providerUser.signUpUser(context, _name, _address, _email, _phoneNum, _pass, _passConfirmed);
                           } else {
                             Fluttertoast.showToast(msg: 'Kata sandi tidak sama dengan kolom konfirmasi kata sandi', backgroundColor: Colors.grey, toastLength: Toast.LENGTH_LONG);
                           }

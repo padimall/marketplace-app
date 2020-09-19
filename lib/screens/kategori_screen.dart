@@ -1,9 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:padimall_app/providers/product_categories.dart';
+import 'package:padimall_app/utils/build_future_builder.dart';
 import 'package:padimall_app/utils/custom_text_theme.dart';
+import 'package:provider/provider.dart';
 
 class KategoriScreen extends StatelessWidget {
+  ProviderProductCategories _productCategoriesState;
+
   @override
   Widget build(BuildContext context) {
+    _productCategoriesState = Provider.of(context, listen: false);
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -14,14 +20,17 @@ class KategoriScreen extends StatelessWidget {
         centerTitle: true,
         backgroundColor: Colors.white,
       ),
-      body: SingleChildScrollView(
-        child: ListView.builder(
-          itemCount: 4,
-          shrinkWrap: true,
-          physics: NeverScrollableScrollPhysics(),
-          itemBuilder: (ctx, index) {
-            return _buildKategoriListTile(context, 'Kategori');
-          },
+      body: buildFutureBuilder(
+        _productCategoriesState.getProductCategories(),
+        SingleChildScrollView(
+          child: ListView.builder(
+            itemCount: _productCategoriesState.listProductCategories.length,
+            shrinkWrap: true,
+            physics: NeverScrollableScrollPhysics(),
+            itemBuilder: (ctx, index) {
+              return _buildKategoriListTile(context, '${_productCategoriesState.listProductCategories[index].name}');
+            },
+          ),
         ),
       ),
     );

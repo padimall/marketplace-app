@@ -100,9 +100,9 @@ class _LoginScreenState extends State<LoginScreen> {
                       onPressed: () {
                         if (_formLogin.currentState.validate()) {
                           _formLogin.currentState.save();
-//                          _providerUser.signInuser(context, _email, _password);
-                          Navigator.pushNamedAndRemoveUntil(
-                              context, FirstScreen.routeName, (Route<dynamic> route) => false);
+                          _providerUser.signInUser(context, _email, _password);
+//                          Navigator.pushNamedAndRemoveUntil(
+//                              context, FirstScreen.routeName, (Route<dynamic> route) => false);
                         }
                       },
                       color: Theme.of(context).primaryColor,
