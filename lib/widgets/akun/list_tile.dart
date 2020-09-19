@@ -19,7 +19,7 @@ class AkunListTile extends StatelessWidget {
           Icons.arrow_forward_ios,
           size: 15,
         ),
-        onTap: handler,
+        onTap: () => handler,
       ),
     );
   }

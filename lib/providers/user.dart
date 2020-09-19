@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
 import 'package:padimall_app/models/post_login_dev.dart';
+import 'package:padimall_app/models/post_show_user_profile.dart';
 import 'package:padimall_app/screens/first_screen.dart';
 import 'package:padimall_app/utils/custom_alert_dialog.dart';
 import 'package:padimall_app/utils/custom_logic.dart';
@@ -134,5 +135,37 @@ class ProviderUser with ChangeNotifier {
   Future<void> checkIsUserLogin() async {
     _isUserLogin = await CustomLogic.isUserTokenExist();
     notifyListeners();
+  }
+
+  UserProfileDetail _userProfileDetail;
+
+  UserProfileDetail get userProfileDetail => _userProfileDetail;
+
+  Future<void> getUserProfile(BuildContext context) async {
+    print('hai');
+    try {
+      var url = '${global.API_URL_PREFIX}/api/v1/user';
+
+      http.Response response = await http.post(
+        url,
+        headers: {
+          'X-Requested-With': 'XMLHttpRequest',
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + await FlutterSecureStorageServices.getUserToken(),
+        },
+      );
+      print(response.body);
+      print(response.statusCode);
+
+      var userDetailJson = UserProfileDetail.fromJson(jsonDecode(response.body));
+
+      if (response.statusCode == 200) {
+        _userProfileDetail = userDetailJson;
+      }
+    } catch (e) {
+      print(e.toString());
+    } finally {
+      notifyListeners();
+    }
   }
 }

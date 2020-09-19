@@ -1,11 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:padimall_app/providers/user.dart';
+import 'package:padimall_app/utils/build_future_builder.dart';
 import 'package:padimall_app/utils/custom_text_theme.dart';
+import 'package:provider/provider.dart';
 
 class InfoBuyerScreen extends StatelessWidget {
   static final routeName = 'info-buyer-screen';
+  ProviderUser _providerUser;
 
   @override
   Widget build(BuildContext context) {
+    _providerUser = Provider.of<ProviderUser>(context, listen: false);
+
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -22,21 +28,25 @@ class InfoBuyerScreen extends StatelessWidget {
         ),
         backgroundColor: Colors.white,
       ),
-      body: Container(
-        padding: const EdgeInsets.all(16.0),
-        color: Colors.white,
-        width: double.infinity,
-        height: double.infinity,
-        child: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              _buildInfoRow(context, 'Nama', 'Ricky Julpiter'),
-              _buildInfoRow(context, 'No. Handphone', '+62 123-4567-890'),
-              _buildInfoRow(context, 'Email', 'ricky@padimall.com'),
-              _buildInfoRow(context, 'Alamat Lengkap',
-                  'Jl. Pinang Baris, No.1. Kota Medan, Sumatera Utara '),
-            ],
+      body: buildFutureBuilder(
+        _providerUser.getUserProfile(context),
+        Consumer<ProviderUser>(
+          builder: (ctx, provider, _) => Container(
+            padding: const EdgeInsets.all(16.0),
+            color: Colors.white,
+            width: double.infinity,
+            height: double.infinity,
+            child: SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  _buildInfoRow(context, 'Nama', '${_providerUser.userProfileDetail.name}'),
+                  _buildInfoRow(context, 'No. Handphone', '${_providerUser.userProfileDetail.phone}'),
+                  _buildInfoRow(context, 'Email', '${_providerUser.userProfileDetail.email}'),
+                  _buildInfoRow(context, 'Alamat Lengkap', '${_providerUser.userProfileDetail.address}'),
+                ],
+              ),
+            ),
           ),
         ),
       ),
@@ -61,7 +71,7 @@ class InfoBuyerScreen extends StatelessWidget {
                 ),
                 Text(
                   '$value',
-                  style: PadiMallTextTheme.sz12weight600Soft(context),
+                  style: PadiMallTextTheme.sz13weight600Soft(context),
                 ),
               ],
             ),
