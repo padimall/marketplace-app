@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:padimall_app/screens/login_screen.dart';
 import 'package:padimall_app/screens/regis_supplier_screen.dart';
 import 'package:padimall_app/utils/custom_text_theme.dart';
 
@@ -22,7 +23,7 @@ class NoUserYetWidget extends StatelessWidget {
           ),
           RaisedButton(
             onPressed: () {
-              Navigator.pushNamed(context, RegisterSupplierScreen.routeName);
+              Navigator.pushNamed(context, LoginScreen.routeName);
             },
             child: Text(
               'Sign In',

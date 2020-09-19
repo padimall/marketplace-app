@@ -122,7 +122,9 @@ class ProviderUser with ChangeNotifier {
       }
     } catch (e) {
       print(e.toString());
-    } finally {}
+    } finally {
+      await checkIsUserLogin();
+    }
   }
 
   bool _isUserLogin;
