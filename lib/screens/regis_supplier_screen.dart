@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:padimall_app/providers/toko.dart';
+import 'package:padimall_app/providers/user.dart';
 import 'package:padimall_app/utils/custom_text_theme.dart';
 import 'package:provider/provider.dart';
 
@@ -8,12 +9,14 @@ class RegisterSupplierScreen extends StatelessWidget {
   static final routeName = 'regis-supplier-screen';
 
   var _formRegister = GlobalKey<FormState>();
-  String _storeName, _address, _NIB, _agentId;
+  String _storeName, _address, _NIB, _agentCode;
   ProviderToko _providerToko;
+  ProviderUser _providerUser;
 
   @override
   Widget build(BuildContext context) {
     _providerToko = Provider.of(context, listen: false);
+    _providerUser = Provider.of(context, listen: false);
 
     return Scaffold(
       appBar: AppBar(
@@ -72,7 +75,7 @@ class RegisterSupplierScreen extends StatelessWidget {
                     validator: (input) {
                       return input.isEmpty ? 'Kolom ini hendak diisi' : null;
                     },
-                    onSaved: (input) => _storeName = input,
+                    onSaved: (input) => _address = input,
                   ),
                 ),
                 Container(
@@ -125,7 +128,7 @@ class RegisterSupplierScreen extends StatelessWidget {
                               ? 'Kolom ini hendak diisi'
                               : null;
                         },
-                        onSaved: (input) => _agentId = input,
+                        onSaved: (input) => _agentCode = input,
                       ),
                       Container(
                         margin: const EdgeInsets.only(left: 4, top: 4),
@@ -144,14 +147,7 @@ class RegisterSupplierScreen extends StatelessWidget {
                     onPressed: () {
                       if (_formRegister.currentState.validate()) {
                         _formRegister.currentState.save();
-                        _providerToko.setIsAlreadyHaveToko(true);
-                        Navigator.pop(context);
-                        Fluttertoast.showToast(
-                          msg: 'Selamat bergabung dengan PadiMall',
-                          fontSize: 13,
-                          backgroundColor: Theme.of(context).primaryColor,
-                          toastLength: Toast.LENGTH_LONG,
-                        );
+                        _providerUser.createSupplier(context, _storeName, _address, _NIB, _agentCode);
                       }
                     },
                     color: Theme.of(context).primaryColor,

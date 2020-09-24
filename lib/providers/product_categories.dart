@@ -28,6 +28,7 @@ class ProviderProductCategories with ChangeNotifier {
       var jsonObject = PostResShowProductCategories.fromJson(json.decode(response.body));
 
       if (response.statusCode == 200) {
+        _listProductCategories.clear();
         _listProductCategories.addAll(jsonObject.data);
       }
     } catch (e) {

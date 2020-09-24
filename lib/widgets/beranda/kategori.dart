@@ -68,7 +68,7 @@ class BerandaKategori extends StatelessWidget {
                               opacity: 0.6,
                               child: Container(
                                 child: FadeInImage.assetNetwork(
-                                  placeholder: '',
+                                  placeholder: 'assets/images/logo.png',
                                   image: '${imageUrlFormatter(_productCategory.image)}',
                                   height: 125,
                                   width: 125,

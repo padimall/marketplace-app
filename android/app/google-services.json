@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "673665395577",
+    "firebase_url": "https://padimall-50ff9.firebaseio.com",
+    "project_id": "padimall-50ff9",
+    "storage_bucket": "padimall-50ff9.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:673665395577:android:d56246d1d77b416bd1dda8",
+        "android_client_info": {
+          "package_name": "com.example.padimall_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "673665395577-njld2riqlklgeojqfsrjnegcnq5tq3pf.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAsMQOMOLeW8fvU0yO2sxGTUNvGf2RSP8g"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "673665395577-njld2riqlklgeojqfsrjnegcnq5tq3pf.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

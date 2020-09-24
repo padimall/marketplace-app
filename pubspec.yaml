@@ -32,13 +32,14 @@ dependencies:
   provider: ^4.3.2+1
   fluttertoast: ^7.0.2
   flutter_masked_text: ^0.8.0
-  flutter_svg: ^0.17.4
+  flutter_svg: ^0.18.0
   modal_bottom_sheet: ^0.2.0+1
   flutter_launcher_icons: ^0.7.5
   carousel_pro: ^1.0.0
   stacked: ^1.7.6
   flutter_spinkit: ^4.1.2+1
   flutter_money_formatter: ^0.8.3
+  firebase_messaging: ^7.0.0
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.

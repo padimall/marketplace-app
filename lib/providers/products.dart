@@ -31,8 +31,8 @@ class ProviderProduct with ChangeNotifier {
       var jsonObject = PostResShowProducts.fromJson(json.decode(response.body));
 
       if (response.statusCode == 200) {
+        _listProduct.clear();
         _listProduct.addAll(jsonObject.data);
-        print(_listProduct.length);
       }
     } catch (e) {
       print(e.toString());

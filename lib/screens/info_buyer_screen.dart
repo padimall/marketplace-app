@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:padimall_app/providers/user.dart';
 import 'package:padimall_app/utils/build_future_builder.dart';
 import 'package:padimall_app/utils/custom_text_theme.dart';
+import 'package:padimall_app/widgets/info_user/edit_dialog.dart';
 import 'package:provider/provider.dart';
 
 class InfoBuyerScreen extends StatelessWidget {
@@ -40,10 +41,10 @@ class InfoBuyerScreen extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  _buildInfoRow(context, 'Nama', '${_providerUser.userProfileDetail.name}'),
-                  _buildInfoRow(context, 'No. Handphone', '${_providerUser.userProfileDetail.phone}'),
-                  _buildInfoRow(context, 'Email', '${_providerUser.userProfileDetail.email}'),
-                  _buildInfoRow(context, 'Alamat Lengkap', '${_providerUser.userProfileDetail.address}'),
+                  _buildInfoRow(context, 'Nama', '${_providerUser.userProfileDetail.name}', 0),
+                  _buildInfoRow(context, 'No. Handphone', '${_providerUser.userProfileDetail.phone}', 1),
+                  _buildInfoRow(context, 'Email', '${_providerUser.userProfileDetail.email}', 2),
+                  _buildInfoRow(context, 'Alamat Lengkap', '${_providerUser.userProfileDetail.address}', 3),
                 ],
               ),
             ),
@@ -53,7 +54,7 @@ class InfoBuyerScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildInfoRow(BuildContext context, String label, String value) {
+  Widget _buildInfoRow(BuildContext context, String label, String value, int indexProfile) {
     return Container(
       margin: const EdgeInsets.only(bottom: 16),
       child: Row(
@@ -76,10 +77,13 @@ class InfoBuyerScreen extends StatelessWidget {
               ],
             ),
           ),
-          Icon(
-            Icons.edit,
-            size: 20,
-            color: Theme.of(context).accentColor,
+          GestureDetector(
+            onTap: () => EditDialogWidget.show(context, label, value, indexProfile),
+            child: Icon(
+              Icons.edit,
+              size: 20,
+              color: Theme.of(context).accentColor,
+            ),
           ),
         ],
       ),

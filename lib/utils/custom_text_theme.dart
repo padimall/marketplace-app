@@ -44,16 +44,16 @@ class PadiMallTextTheme {
         fontSize: 14, fontWeight: FontWeight.w700, color: Colors.black87);
   }
 
+  static TextStyle sz14weight700White(BuildContext context) {
+    return GoogleFonts.poppins().copyWith(
+        fontSize: 14, fontWeight: FontWeight.w700, color: Colors.white);
+  }
+
   static TextStyle sz14weight700Green(BuildContext context) {
     return GoogleFonts.poppins().copyWith(
         fontSize: 14,
         fontWeight: FontWeight.w700,
         color: Theme.of(context).primaryColor);
-  }
-
-  static TextStyle sz14weight700White(BuildContext context) {
-    return GoogleFonts.poppins().copyWith(
-        fontSize: 14, fontWeight: FontWeight.w700, color: Colors.white);
   }
 
   static TextStyle sz14weight600Soft(BuildContext context) {

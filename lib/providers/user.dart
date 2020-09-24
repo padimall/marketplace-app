@@ -8,6 +8,7 @@ import 'package:padimall_app/models/post_show_user_profile.dart';
 import 'package:padimall_app/screens/first_screen.dart';
 import 'package:padimall_app/utils/custom_alert_dialog.dart';
 import 'package:padimall_app/utils/custom_logic.dart';
+import 'package:padimall_app/utils/firebase_messaging_services.dart';
 import 'package:padimall_app/utils/flutter_secure_storage_services.dart';
 import '../utils/global.dart' as global;
 
@@ -93,6 +94,7 @@ class ProviderUser with ChangeNotifier {
         'email': email,
         'password': password,
         'remember_me': true,
+        'device_id': await FirebaseMessagingService.getDeviceToken(),
       };
 
       http.Response response = await http.post(
@@ -142,7 +144,6 @@ class ProviderUser with ChangeNotifier {
   UserProfileDetail get userProfileDetail => _userProfileDetail;
 
   Future<void> getUserProfile(BuildContext context) async {
-    print('hai');
     try {
       var url = '${global.API_URL_PREFIX}/api/v1/user';
 
@@ -165,6 +166,88 @@ class ProviderUser with ChangeNotifier {
     } catch (e) {
       print(e.toString());
     } finally {
+      notifyListeners();
+    }
+  }
+
+  // TODO: Update User Profile
+  Future<void> updateUserProfile(BuildContext context) async {
+//    try {
+//      CustomAlertDialog.loading(context);
+//      var url = '${global.API_URL_PREFIX}/api/v1/login';
+//
+//      var requestBody = {
+//        'email': email,
+//        'password': password,
+//        'remember_me': true,
+//      };
+//
+//      http.Response response = await http.post(
+//        url,
+//        headers: {
+//          'X-Requested-With': 'XMLHttpRequest',
+//          'Content-Type': 'application/json',
+//          'Authorization': 'Bearer ' + await FlutterSecureStorageServices.getDevToken(),
+//        },
+//        body: json.encode(requestBody),
+//      );
+//      print(response.body);
+//      print(response.statusCode);
+//
+//      Navigator.pop(context);
+//
+//      var jsonObject = PostResLogin.fromJson(jsonDecode(response.body));
+//
+//      if (response.statusCode == 200) {
+//        FlutterSecureStorageServices.setUserToken(jsonObject.accessToken);
+//        if (Navigator.canPop(context)) {
+//          Navigator.pop(context);
+//        } else {
+//          Navigator.pushNamedAndRemoveUntil(context, FirstScreen.routeName, (Route<dynamic> route) => false);
+//        }
+//      } else if (response.statusCode == 401) {
+//        Fluttertoast.showToast(msg: 'Email dan Password tidak cocok', toastLength: Toast.LENGTH_LONG, backgroundColor: Theme.of(context).accentColor);
+//      }
+//    } catch (e) {
+//      print(e.toString());
+//    } finally {
+//      await checkIsUserLogin();
+//    }
+  }
+
+  Future<void> createSupplier(BuildContext context, String name, String phone, String nib, String agentCode) async {
+    try {
+      CustomAlertDialog.loading(context);
+      var url = '${global.API_URL_PREFIX}/api/v1/supplier/store';
+      print(url);
+
+      var requestBody = {
+        'name': name,
+        'phone': phone,
+        'nib': nib,
+        'agent_code': agentCode,
+      };
+
+      http.Response response = await http.post(
+        url,
+        headers: {
+          'X-Requested-With': 'XMLHttpRequest',
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + await FlutterSecureStorageServices.getUserToken(),
+        },
+        body: json.encode(requestBody),
+      );
+      print(response.body);
+      print(response.statusCode);
+
+      if (response.statusCode == 201) {
+        Fluttertoast.showToast(msg: 'Anda berhasil menjadi Supplier.', toastLength: Toast.LENGTH_LONG, backgroundColor: Colors.grey);
+        Navigator.pop(context);
+      }
+    } catch (e) {
+      print(e.toString());
+    } finally {
+      Navigator.pop(context);
       notifyListeners();
     }
   }
