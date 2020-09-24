@@ -9,6 +9,7 @@ class RegisterSupplierScreen extends StatelessWidget {
   static final routeName = 'regis-supplier-screen';
 
   var _formRegister = GlobalKey<FormState>();
+  TextEditingController _agentCodeController = TextEditingController();
   String _storeName, _address, _NIB, _agentCode;
   ProviderToko _providerToko;
   ProviderUser _providerUser;
@@ -122,6 +123,7 @@ class RegisterSupplierScreen extends StatelessWidget {
                             borderRadius: BorderRadius.circular(10),
                           ),
                         ),
+                        controller: _agentCodeController,
                         style: PadiMallTextTheme.sz14weight500(context),
                         validator: (input) {
                           return input.isEmpty
@@ -147,7 +149,7 @@ class RegisterSupplierScreen extends StatelessWidget {
                     onPressed: () {
                       if (_formRegister.currentState.validate()) {
                         _formRegister.currentState.save();
-                        _providerUser.createSupplier(context, _storeName, _address, _NIB, _agentCode);
+                        _providerToko.createSupplier(context, _storeName, _address, _NIB, _agentCodeController);
                       }
                     },
                     color: Theme.of(context).primaryColor,

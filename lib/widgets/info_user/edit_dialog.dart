@@ -66,7 +66,8 @@ class EditDialogWidget {
                   child: RaisedButton(
                     onPressed: () {
                       if (_formEdit.currentState.validate()) {
-                        _formEdit.currentState.validate();
+                        _formEdit.currentState.save();
+                        _providerUser.updateUserProfile(context, textEditingController, indexProfile);
                       }
                     },
                     child: Text(

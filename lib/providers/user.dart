@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
 import 'package:padimall_app/models/post_login_dev.dart';
+import 'package:padimall_app/models/post_show_supplier_detail.dart';
 import 'package:padimall_app/models/post_show_user_profile.dart';
 import 'package:padimall_app/screens/first_screen.dart';
 import 'package:padimall_app/utils/custom_alert_dialog.dart';
@@ -170,62 +171,16 @@ class ProviderUser with ChangeNotifier {
     }
   }
 
-  // TODO: Update User Profile
-  Future<void> updateUserProfile(BuildContext context) async {
-//    try {
-//      CustomAlertDialog.loading(context);
-//      var url = '${global.API_URL_PREFIX}/api/v1/login';
-//
-//      var requestBody = {
-//        'email': email,
-//        'password': password,
-//        'remember_me': true,
-//      };
-//
-//      http.Response response = await http.post(
-//        url,
-//        headers: {
-//          'X-Requested-With': 'XMLHttpRequest',
-//          'Content-Type': 'application/json',
-//          'Authorization': 'Bearer ' + await FlutterSecureStorageServices.getDevToken(),
-//        },
-//        body: json.encode(requestBody),
-//      );
-//      print(response.body);
-//      print(response.statusCode);
-//
-//      Navigator.pop(context);
-//
-//      var jsonObject = PostResLogin.fromJson(jsonDecode(response.body));
-//
-//      if (response.statusCode == 200) {
-//        FlutterSecureStorageServices.setUserToken(jsonObject.accessToken);
-//        if (Navigator.canPop(context)) {
-//          Navigator.pop(context);
-//        } else {
-//          Navigator.pushNamedAndRemoveUntil(context, FirstScreen.routeName, (Route<dynamic> route) => false);
-//        }
-//      } else if (response.statusCode == 401) {
-//        Fluttertoast.showToast(msg: 'Email dan Password tidak cocok', toastLength: Toast.LENGTH_LONG, backgroundColor: Theme.of(context).accentColor);
-//      }
-//    } catch (e) {
-//      print(e.toString());
-//    } finally {
-//      await checkIsUserLogin();
-//    }
-  }
-
-  Future<void> createSupplier(BuildContext context, String name, String phone, String nib, String agentCode) async {
+  Future<void> updateUserProfile(BuildContext context, TextEditingController textEditingController, int indexProfile) async {
     try {
       CustomAlertDialog.loading(context);
-      var url = '${global.API_URL_PREFIX}/api/v1/supplier/store';
-      print(url);
+      var url = '${global.API_URL_PREFIX}/api/v1/user/update';
 
       var requestBody = {
-        'name': name,
-        'phone': phone,
-        'nib': nib,
-        'agent_code': agentCode,
+        'name': indexProfile == 0 ? textEditingController.text : null,
+        'phone': indexProfile == 1 ? textEditingController.text : null,
+        'email': indexProfile == 2 ? textEditingController.text : null,
+        'address': indexProfile == 3 ? textEditingController.text : null,
       };
 
       http.Response response = await http.post(
@@ -240,9 +195,10 @@ class ProviderUser with ChangeNotifier {
       print(response.body);
       print(response.statusCode);
 
-      if (response.statusCode == 201) {
-        Fluttertoast.showToast(msg: 'Anda berhasil menjadi Supplier.', toastLength: Toast.LENGTH_LONG, backgroundColor: Colors.grey);
+      if (response.statusCode == 200) {
         Navigator.pop(context);
+        Fluttertoast.showToast(msg: 'Data berhasil diperbaharui', toastLength: Toast.LENGTH_LONG, backgroundColor: Theme.of(context).primaryColor);
+        getUserProfile(context);
       }
     } catch (e) {
       print(e.toString());

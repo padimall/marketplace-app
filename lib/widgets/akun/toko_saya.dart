@@ -1,14 +1,20 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:padimall_app/providers/toko.dart';
 import 'package:padimall_app/screens/info_toko_screen.dart';
 import 'package:padimall_app/screens/penjualan_screen.dart';
 import 'package:padimall_app/screens/produk_anda_screen.dart';
 import 'package:padimall_app/utils/custom_text_theme.dart';
 import 'package:padimall_app/widgets/akun/list_tile.dart';
+import 'package:provider/provider.dart';
 
 class TokoSayaWidget extends StatelessWidget {
+  ProviderToko _providerToko;
+
   @override
   Widget build(BuildContext context) {
+    _providerToko = Provider.of<ProviderToko>(context, listen: false);
+
     return Column(
       children: <Widget>[
         GestureDetector(
@@ -37,7 +43,7 @@ class TokoSayaWidget extends StatelessWidget {
                   ),
                 ),
                 title: Text(
-                  'Toko Subur Selalu',
+                  '${_providerToko.supplierDetail.name}',
                   style: PadiMallTextTheme.sz14weight600(context),
                 ),
                 subtitle: Text('Medan, Sumatera Utara'),

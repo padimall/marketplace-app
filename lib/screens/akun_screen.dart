@@ -9,14 +9,29 @@ import 'package:padimall_app/widgets/akun/no_user_yet.dart';
 import 'package:padimall_app/widgets/akun/toko_saya.dart';
 import 'package:provider/provider.dart';
 
-class AkunScreen extends StatelessWidget {
+class AkunScreen extends StatefulWidget {
+  @override
+  _AkunScreenState createState() => _AkunScreenState();
+}
+
+class _AkunScreenState extends State<AkunScreen> {
   ProviderToko _providerToko;
+
   ProviderUser _providerUser;
 
   @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    Future.delayed(Duration(seconds: 0), () {
+      _providerToko.getSupplierDetail(context);
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
-    _providerToko = Provider.of(context, listen: false);
-    _providerUser = Provider.of(context, listen: false);
+    _providerToko = Provider.of<ProviderToko>(context, listen: false);
+    _providerUser = Provider.of<ProviderUser>(context, listen: false);
 
     return DefaultTabController(
       length: akunTabChoices.length,
@@ -46,7 +61,7 @@ class AkunScreen extends StatelessWidget {
                     builder: (ctx, provider, _) => TabBarView(
                       children: <Widget>[
                         AkunPembeliWidget(),
-                        _providerToko.isAlreadyHaveToko ? TokoSayaWidget() : NoTokoYetWidget(),
+                        _providerToko.supplierDetail != null ? TokoSayaWidget() : NoTokoYetWidget(),
                       ],
                     ),
                   )
