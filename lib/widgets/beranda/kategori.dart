@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:padimall_app/providers/product_categories.dart';
+import 'package:padimall_app/screens/product_by_category_screen.dart';
 import 'package:padimall_app/utils/build_future_builder.dart';
 import 'package:padimall_app/utils/custom_image_url.dart';
 import 'package:padimall_app/utils/custom_text_theme.dart';
@@ -44,47 +45,52 @@ class BerandaKategori extends StatelessWidget {
 
                   var _productCategory = _productCategoriesState.listProductCategories[index];
 
-                  return Container(
-                    margin: EdgeInsets.only(left: _leftMargin, right: _rightMargin),
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(10),
-                      child: Container(
-                        height: 100,
-                        width: 100,
-                        decoration: BoxDecoration(
-                          gradient: LinearGradient(
-                            colors: [
-                              Colors.black,
-                              Colors.black,
-                            ],
-                            begin: Alignment.centerLeft,
-                            end: Alignment(1.0, 1.0),
+                  return GestureDetector(
+                    onTap: () {
+                      Navigator.pushNamed(context, ProductByCategoryScreen.routeName, arguments: _productCategory);
+                    },
+                    child: Container(
+                      margin: EdgeInsets.only(left: _leftMargin, right: _rightMargin),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(10),
+                        child: Container(
+                          height: 100,
+                          width: 100,
+                          decoration: BoxDecoration(
+                            gradient: LinearGradient(
+                              colors: [
+                                Colors.black,
+                                Colors.black,
+                              ],
+                              begin: Alignment.centerLeft,
+                              end: Alignment(1.0, 1.0),
+                            ),
                           ),
-                        ),
-                        child: Stack(
-                          alignment: Alignment.center,
-                          children: <Widget>[
-                            Opacity(
-                              opacity: 0.6,
-                              child: Container(
-                                child: FadeInImage.assetNetwork(
-                                  placeholder: 'assets/images/logo.png',
-                                  image: '${imageUrlFormatter(_productCategory.image)}',
-                                  height: 125,
-                                  width: 125,
-                                  fit: BoxFit.cover,
+                          child: Stack(
+                            alignment: Alignment.center,
+                            children: <Widget>[
+                              Opacity(
+                                opacity: 0.6,
+                                child: Container(
+                                  child: FadeInImage.assetNetwork(
+                                    placeholder: 'assets/images/logo.png',
+                                    image: '${imageUrlFormatter(_productCategory.image)}',
+                                    height: 125,
+                                    width: 125,
+                                    fit: BoxFit.cover,
+                                  ),
                                 ),
                               ),
-                            ),
-                            Container(
-                              padding: const EdgeInsets.symmetric(horizontal: 4),
-                              child: Text(
-                                '${_productCategory.name}',
-                                textAlign: TextAlign.center,
-                                style: PadiMallTextTheme.sz14weight700White(context),
+                              Container(
+                                padding: const EdgeInsets.symmetric(horizontal: 4),
+                                child: Text(
+                                  '${_productCategory.name}',
+                                  textAlign: TextAlign.center,
+                                  style: PadiMallTextTheme.sz14weight700White(context),
+                                ),
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
                       ),
                     ),

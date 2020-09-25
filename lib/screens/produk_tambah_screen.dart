@@ -18,6 +18,7 @@ class ProdukTambahScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white70,
       appBar: AppBar(
         title: Text(
           'Tambah Produk',

@@ -24,6 +24,7 @@ class ProdukEditScreen extends StatelessWidget {
     stockController.text = '500';
 
     return Scaffold(
+      backgroundColor: Colors.white70,
       appBar: AppBar(
         title: Text(
           'Edit Produk',

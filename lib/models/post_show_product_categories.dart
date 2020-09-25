@@ -7,12 +7,12 @@ class PostResShowProductCategories {
 
   int status;
   String message;
-  List<ProductCategories> data;
+  List<ProductCategory> data;
 
   factory PostResShowProductCategories.fromJson(Map<String, dynamic> json) => PostResShowProductCategories(
     status: json["status"] == null ? null : json["status"],
     message: json["message"] == null ? null : json["message"],
-    data: json["data"] == null ? null : List<ProductCategories>.from(json["data"].map((x) => ProductCategories.fromJson(x))),
+    data: json["data"] == null ? null : List<ProductCategory>.from(json["data"].map((x) => ProductCategory.fromJson(x))),
   );
 
   Map<String, dynamic> toJson() => {
@@ -22,8 +22,8 @@ class PostResShowProductCategories {
   };
 }
 
-class ProductCategories {
-  ProductCategories({
+class ProductCategory {
+  ProductCategory({
     this.id,
     this.name,
     this.image,
@@ -39,7 +39,7 @@ class ProductCategories {
   DateTime createdAt;
   DateTime updatedAt;
 
-  factory ProductCategories.fromJson(Map<String, dynamic> json) => ProductCategories(
+  factory ProductCategory.fromJson(Map<String, dynamic> json) => ProductCategory(
     id: json["id"] == null ? null : json["id"],
     name: json["name"] == null ? null : json["name"],
     image: json["image"] == null ? null : json["image"],
