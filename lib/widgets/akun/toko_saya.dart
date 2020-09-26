@@ -7,6 +7,7 @@ import 'package:padimall_app/screens/produk_anda_screen.dart';
 import 'package:padimall_app/utils/custom_text_theme.dart';
 import 'package:padimall_app/widgets/akun/list_tile.dart';
 import 'package:provider/provider.dart';
+import 'package:padimall_app/utils/global.dart' as global;
 
 class TokoSayaWidget extends StatelessWidget {
   ProviderToko _providerToko;
@@ -30,7 +31,7 @@ class TokoSayaWidget extends StatelessWidget {
                   borderRadius: BorderRadius.circular(6),
                   child: CachedNetworkImage(
                     imageUrl:
-                        'https://cdn.pixabay.com/photo/2014/01/19/12/31/onions-248027_1280.jpg',
+                        '${_providerToko.supplierDetail.imageUrl}',
                     fit: BoxFit.cover,
                     placeholder: (ctx, url) => Image.asset(
                       'assets/images/logo.png',

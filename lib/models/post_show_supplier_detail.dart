@@ -1,3 +1,5 @@
+import 'package:padimall_app/utils/global.dart' as global;
+
 class PostResShowSupplierDetail {
   PostResShowSupplierDetail({
     this.status,
@@ -28,6 +30,7 @@ class SupplierDetail {
     this.userId,
     this.name,
     this.phone,
+    this.imageUrl,
     this.createdAt,
     this.updatedAt,
     this.nib,
@@ -37,6 +40,7 @@ class SupplierDetail {
   String userId;
   String name;
   String phone;
+  String imageUrl;
   DateTime createdAt;
   DateTime updatedAt;
   String nib;
@@ -46,6 +50,7 @@ class SupplierDetail {
     userId: json["user_id"] == null ? null : json["user_id"],
     name: json["name"] == null ? null : json["name"],
     phone: json["phone"] == null ? null : json["phone"],
+    imageUrl: json["image"] == null ? null : global.API_URL_PREFIX + '/' + json["image"],
     createdAt: json["created_at"] == null ? null : DateTime.parse(json["created_at"]),
     updatedAt: json["updated_at"] == null ? null : DateTime.parse(json["updated_at"]),
     nib: json["nib"] == null ? null : json["nib"],

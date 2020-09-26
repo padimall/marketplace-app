@@ -16,16 +16,18 @@ class ProviderProduct with ChangeNotifier {
       var url = '${global.API_URL_PREFIX}/api/v1/product/limit';
 
       var requestBody = {
-        'limit': 10,
+        'limit': 30,
       };
 
-      http.Response response = await http.post(url,
-          headers: {
-            'X-Requested-With': 'XMLHttpRequest',
-            'Content-Type': 'application/json',
-            'Authorization': 'Bearer ' + await FlutterSecureStorageServices.getDevToken(),
-          },
-          body: json.encode(requestBody));
+      http.Response response = await http.post(
+        url,
+        headers: {
+          'X-Requested-With': 'XMLHttpRequest',
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + await FlutterSecureStorageServices.getDevToken(),
+        },
+        body: json.encode(requestBody),
+      );
       print(url);
       print(response.body);
       var jsonObject = PostResShowProducts.fromJson(json.decode(response.body));
@@ -41,8 +43,41 @@ class ProviderProduct with ChangeNotifier {
     }
   }
 
-  Product _selectedProduct;
+  Future<void> addProduct() async {
+    try {
+      var url = '${global.API_URL_PREFIX}/api/v1/product/store';
 
-  Product get selectedProduct => _selectedProduct;
+      var requestBody = {
+        "name" : "Bawang Bombay",
+        "price" : "20000",
+        "weight" : "1",
+        "description" : "Mantap",
+        "category" : "4d83f1d7-ff00-4b9b-b7f2-241bd95465d3",
+        "stock" : 100,
+        "status" : "1"
+      };
 
+      http.Response response = await http.post(
+        url,
+        headers: {
+          'X-Requested-With': 'XMLHttpRequest',
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + await FlutterSecureStorageServices.getDevToken(),
+        },
+        body: json.encode(requestBody),
+      );
+      print(url);
+      print(response.body);
+      var jsonObject = PostResShowProducts.fromJson(json.decode(response.body));
+
+      if (response.statusCode == 200) {
+        _listProduct.clear();
+        _listProduct.addAll(jsonObject.data);
+      }
+    } catch (e) {
+      print(e.toString());
+    } finally {
+      notifyListeners();
+    }
+  }
 }

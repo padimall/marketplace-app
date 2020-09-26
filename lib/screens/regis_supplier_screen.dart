@@ -1,23 +1,64 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:image_cropper/image_cropper.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:padimall_app/providers/toko.dart';
 import 'package:padimall_app/providers/user.dart';
+import 'package:padimall_app/utils/custom_alert_dialog.dart';
 import 'package:padimall_app/utils/custom_text_theme.dart';
 import 'package:provider/provider.dart';
+import 'package:wc_form_validators/wc_form_validators.dart';
 
-class RegisterSupplierScreen extends StatelessWidget {
+class RegisterSupplierScreen extends StatefulWidget {
   static final routeName = 'regis-supplier-screen';
 
+  @override
+  _RegisterSupplierScreenState createState() => _RegisterSupplierScreenState();
+}
+
+class _RegisterSupplierScreenState extends State<RegisterSupplierScreen> {
   var _formRegister = GlobalKey<FormState>();
+
   TextEditingController _agentCodeController = TextEditingController();
-  String _storeName, _address, _NIB, _agentCode;
+
+  String _storeName, _address, _NIB, _phoneNum;
+
   ProviderToko _providerToko;
-  ProviderUser _providerUser;
+
+  File _imageSelected;
+
+  _getImage(BuildContext context, ImageSource imageSource) async {
+    var image = await ImagePicker.pickImage(source: imageSource);
+
+    if (image != null) {
+      var cropped = await ImageCropper.cropImage(
+        sourcePath: image.path,
+        aspectRatio: CropAspectRatio(
+          ratioX: 1,
+          ratioY: 1,
+        ),
+        compressQuality: 30,
+        maxWidth: 700,
+        maxHeight: 700,
+        compressFormat: ImageCompressFormat.png,
+        androidUiSettings: AndroidUiSettings(
+          toolbarColor: Theme.of(context).primaryColor,
+          toolbarTitle: "Crop your image",
+        ),
+      );
+
+      setState(() {
+        _imageSelected = cropped;
+        print('image: ${_imageSelected.path}');
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     _providerToko = Provider.of(context, listen: false);
-    _providerUser = Provider.of(context, listen: false);
 
     return Scaffold(
       appBar: AppBar(
@@ -37,13 +78,14 @@ class RegisterSupplierScreen extends StatelessWidget {
       ),
       backgroundColor: Colors.white,
       body: Container(
-        padding: const EdgeInsets.all(16.0),
+        padding: const EdgeInsets.symmetric(horizontal: 16.0),
         child: SingleChildScrollView(
           child: Form(
             key: _formRegister,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
+                _buildSupplierPicture(context),
                 Container(
                   margin: const EdgeInsets.only(bottom: 12),
                   child: TextFormField(
@@ -80,6 +122,23 @@ class RegisterSupplierScreen extends StatelessWidget {
                   ),
                 ),
                 Container(
+                  margin: const EdgeInsets.only(bottom: 24),
+                  child: TextFormField(
+                    decoration: InputDecoration(
+                      labelText: 'No. Handphone',
+                      hintText: 'Masukkan nomor HP anda',
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                    ),
+                    style: PadiMallTextTheme.sz14weight500(context),
+                    keyboardType: TextInputType.number,
+                    validator: Validators.compose(
+                        [Validators.required('Kolom ini hendak diisi'), Validators.minLength(10, 'Nomor yang dimasukkan minimal memiliki 10 digit angka')]),
+                    onSaved: (input) => _phoneNum = input,
+                  ),
+                ),
+                Container(
                   margin: const EdgeInsets.only(bottom: 18),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -94,9 +153,7 @@ class RegisterSupplierScreen extends StatelessWidget {
                         ),
                         style: PadiMallTextTheme.sz14weight500(context),
                         validator: (input) {
-                          return input.isEmpty
-                              ? 'Kolom ini hendak diisi'
-                              : null;
+                          return input.isEmpty ? 'Kolom ini hendak diisi' : null;
                         },
                         onSaved: (input) => _NIB = input,
                       ),
@@ -123,14 +180,11 @@ class RegisterSupplierScreen extends StatelessWidget {
                             borderRadius: BorderRadius.circular(10),
                           ),
                         ),
-                        controller: _agentCodeController,
                         style: PadiMallTextTheme.sz14weight500(context),
+                        controller: _agentCodeController,
                         validator: (input) {
-                          return input.isEmpty
-                              ? 'Kolom ini hendak diisi'
-                              : null;
+                          return input.isEmpty ? 'Kolom ini hendak diisi' : null;
                         },
-                        onSaved: (input) => _agentCode = input,
                       ),
                       Container(
                         margin: const EdgeInsets.only(left: 4, top: 4),
@@ -149,7 +203,7 @@ class RegisterSupplierScreen extends StatelessWidget {
                     onPressed: () {
                       if (_formRegister.currentState.validate()) {
                         _formRegister.currentState.save();
-                        _providerToko.createSupplier(context, _storeName, _address, _NIB, _agentCodeController);
+                        _providerToko.createSupplier(context, _storeName, _address, _phoneNum, _NIB, _agentCodeController, _imageSelected);
                       }
                     },
                     color: Theme.of(context).primaryColor,
@@ -168,6 +222,61 @@ class RegisterSupplierScreen extends StatelessWidget {
             ),
           ),
         ),
+      ),
+    );
+  }
+
+  Widget _buildSupplierPicture(BuildContext context) {
+    return Container(
+      margin: const EdgeInsets.symmetric(vertical: 16),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: <Widget>[
+          Text(
+            'Gambar Toko',
+            style: PadiMallTextTheme.sz12weight600(context),
+          ),
+          GestureDetector(
+            onTap: () {
+              if (_imageSelected == null) {
+                _getImage(context, ImageSource.gallery);
+              } else {
+                CustomAlertDialog.editAndDeletePicture(
+                  context,
+                  () {
+                    Navigator.pop(context);
+                    _getImage(context, ImageSource.gallery);
+                  },
+                  () {
+                    Navigator.pop(context);
+                    setState(() {
+                      _imageSelected = null;
+                    });
+                  },
+                );
+              }
+            },
+            child: Container(
+              margin: const EdgeInsets.fromLTRB(0, 8, 0, 16),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(6),
+                child: _imageSelected == null
+                    ? Image.asset(
+                        'assets/images/add_picture.png',
+                        height: 100,
+                        width: 100,
+                        fit: BoxFit.cover,
+                      )
+                    : Image.file(
+                        _imageSelected,
+                        height: 100,
+                        width: 100,
+                        fit: BoxFit.cover,
+                      ),
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }

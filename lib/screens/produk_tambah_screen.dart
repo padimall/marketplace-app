@@ -1,3 +1,4 @@
+import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_masked_text/flutter_masked_text.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -6,14 +7,10 @@ import 'package:padimall_app/utils/custom_text_theme.dart';
 class ProdukTambahScreen extends StatelessWidget {
   static final routeName = 'produk-tambah-screen';
   final nameController = TextEditingController();
-  final priceController = MoneyMaskedTextController(
-      thousandSeparator: '.', precision: 0, decimalSeparator: '');
-  final weightController = MoneyMaskedTextController(
-      thousandSeparator: '.', precision: 0, decimalSeparator: '');
-  final minOrderController = MoneyMaskedTextController(
-      thousandSeparator: '.', precision: 0, decimalSeparator: '');
-  final stockController = MoneyMaskedTextController(
-      thousandSeparator: '.', precision: 0, decimalSeparator: '');
+  final priceController = MoneyMaskedTextController(thousandSeparator: '.', precision: 0, decimalSeparator: '');
+  final weightController = MoneyMaskedTextController(thousandSeparator: '.', precision: 0, decimalSeparator: '');
+  final minOrderController = MoneyMaskedTextController(thousandSeparator: '.', precision: 0, decimalSeparator: '');
+  final stockController = MoneyMaskedTextController(thousandSeparator: '.', precision: 0, decimalSeparator: '');
 
   @override
   Widget build(BuildContext context) {
@@ -64,13 +61,24 @@ class ProdukTambahScreen extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    Text(
-                      'Kategori Produk',
-                      style: PadiMallTextTheme.sz12weight600(context),
-                    ),
-                    TextFormField(
-                      decoration: InputDecoration(
-                        hintText: 'Pilih kategori produk Anda',
+//                    Text(
+//                      'Kategori Produk',
+//                      style: PadiMallTextTheme.sz12weight600(context),
+//                    ),
+//                    TextFormField(
+//                      decoration: InputDecoration(
+//                        hintText: 'Pilih kategori produk Anda',
+//                        hintStyle: PadiMallTextTheme.sz14weight500Grey(context),
+//                      ),
+//                    )
+                    DropdownSearch(
+                      mode: Mode.BOTTOM_SHEET,
+                      isFilteredOnline: true,
+                      showClearButton: true,
+                      showSearchBox: true,
+                      label: 'Kategori Produk',
+                      dropdownSearchDecoration: InputDecoration(
+                        hintText: 'Tuliskan nama produk Anda',
                         hintStyle: PadiMallTextTheme.sz14weight500Grey(context),
                       ),
                     )
@@ -181,9 +189,7 @@ class ProdukTambahScreen extends StatelessWidget {
                   onPressed: () {
                     Navigator.pop(context);
                     Fluttertoast.showToast(
-                        msg: 'Produk berhasil di ditambahkan',
-                        toastLength: Toast.LENGTH_LONG,
-                        backgroundColor: Theme.of(context).primaryColor);
+                        msg: 'Produk berhasil di ditambahkan', toastLength: Toast.LENGTH_LONG, backgroundColor: Theme.of(context).primaryColor);
                   },
                   color: Theme.of(context).primaryColor,
                   shape: RoundedRectangleBorder(
