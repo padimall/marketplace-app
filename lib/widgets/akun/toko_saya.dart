@@ -47,7 +47,7 @@ class TokoSayaWidget extends StatelessWidget {
                   '${_providerToko.supplierDetail.name}',
                   style: PadiMallTextTheme.sz14weight600(context),
                 ),
-                subtitle: Text('Medan, Sumatera Utara'),
+                subtitle: Text('${_providerToko.supplierDetail.address}'),
                 trailing: Icon(
                   Icons.arrow_forward_ios,
                   size: 15,

@@ -1,12 +1,19 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:padimall_app/models/post_show_supplier_detail.dart';
+import 'package:padimall_app/providers/toko.dart';
+import 'package:padimall_app/utils/build_future_builder.dart';
 import 'package:padimall_app/utils/custom_text_theme.dart';
+import 'package:provider/provider.dart';
 
 class InfoTokoScreen extends StatelessWidget {
   static final routeName = 'info-toko-screen';
+  ProviderToko _providerToko;
 
   @override
   Widget build(BuildContext context) {
+    _providerToko = Provider.of(context, listen: false);
+
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -35,6 +42,8 @@ class InfoTokoScreen extends StatelessWidget {
   }
 
   Widget _buildTokoInfo(BuildContext context) {
+    SupplierDetail _supplierDetail = _providerToko.supplierDetail;
+
     return Container(
       color: Colors.white,
       width: double.infinity,
@@ -54,7 +63,11 @@ class InfoTokoScreen extends StatelessWidget {
                   style: PadiMallTextTheme.sz14weight600Soft(context),
                 ),
               ),
-              Icon(Icons.edit, size: 20, color: Theme.of(context).accentColor,)
+              Icon(
+                Icons.edit,
+                size: 20,
+                color: Theme.of(context).accentColor,
+              )
             ],
           ),
           Row(
@@ -65,8 +78,7 @@ class InfoTokoScreen extends StatelessWidget {
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(6),
                   child: CachedNetworkImage(
-                    imageUrl:
-                    'https://cdn.pixabay.com/photo/2014/01/19/12/31/onions-248027_1280.jpg',
+                    imageUrl: '${_supplierDetail.imageUrl}',
                     fit: BoxFit.cover,
                     placeholder: (ctx, url) => Image.asset(
                       'assets/images/logo.png',
@@ -86,7 +98,7 @@ class InfoTokoScreen extends StatelessWidget {
                     Container(
                       margin: const EdgeInsets.only(bottom: 2),
                       child: Text(
-                        'Toko Subur Selalu',
+                        '${_supplierDetail.name}',
                         style: PadiMallTextTheme.sz14weight600Soft(context),
                       ),
                     ),
@@ -101,9 +113,8 @@ class InfoTokoScreen extends StatelessWidget {
                           ),
                         ),
                         Text(
-                          'Medan, Sumatera Utara',
-                          style:
-                          PadiMallTextTheme.sz12weight500Grey(context),
+                          '${_supplierDetail.address}',
+                          style: PadiMallTextTheme.sz12weight500Grey(context),
                         ),
                       ],
                     ),
@@ -118,9 +129,8 @@ class InfoTokoScreen extends StatelessWidget {
                           ),
                         ),
                         Text(
-                          '+62 812-3456-7890',
-                          style:
-                          PadiMallTextTheme.sz12weight500Grey(context),
+                          '${_supplierDetail.phone}',
+                          style: PadiMallTextTheme.sz12weight500Grey(context),
                         ),
                       ],
                     ),
@@ -135,24 +145,29 @@ class InfoTokoScreen extends StatelessWidget {
   }
 
   Widget _buildAgenInfo(BuildContext context) {
-    return Container(
-      color: Colors.white,
-      width: double.infinity,
-      margin: const EdgeInsets.only(top: 8),
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Container(
-            margin: const EdgeInsets.only(bottom: 16),
-            child: Text(
-              'Agen',
-              style: PadiMallTextTheme.sz14weight600Soft(context),
-            ),
+    return buildFutureBuilder(
+      _providerToko.getSuppliersAgentInfo(),
+      Consumer<ProviderToko>(
+        builder: (ctx, provider, _) => Container(
+          color: Colors.white,
+          width: double.infinity,
+          margin: const EdgeInsets.only(top: 8),
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Container(
+                margin: const EdgeInsets.only(bottom: 16),
+                child: Text(
+                  'Agen',
+                  style: PadiMallTextTheme.sz14weight600Soft(context),
+                ),
+              ),
+              _buildInfoRow(context, 'No. Agen', '${_providerToko.agentDetail.agentCode}'),
+              _buildInfoRow(context, 'Nama Agen', '${_providerToko.agentDetail.name}'),
+            ],
           ),
-          _buildInfoRow(context, 'No. Agen', 'AGEN-001'),
-          _buildInfoRow(context, 'Nama Agen', 'Agen Sejahtera Selalu'),
-        ],
+        ),
       ),
     );
   }

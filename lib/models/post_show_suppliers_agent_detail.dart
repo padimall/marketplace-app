@@ -1,7 +1,5 @@
-import 'package:padimall_app/utils/global.dart' as global;
-
-class PostResShowSupplierDetail {
-  PostResShowSupplierDetail({
+class PostRestSuppliersAgentDetail {
+  PostRestSuppliersAgentDetail({
     this.status,
     this.message,
     this.data,
@@ -9,12 +7,12 @@ class PostResShowSupplierDetail {
 
   int status;
   String message;
-  SupplierDetail data;
+  Agent data;
 
-  factory PostResShowSupplierDetail.fromJson(Map<String, dynamic> json) => PostResShowSupplierDetail(
+  factory PostRestSuppliersAgentDetail.fromJson(Map<String, dynamic> json) => PostRestSuppliersAgentDetail(
     status: json["status"] == null ? null : json["status"],
     message: json["message"] == null ? null : json["message"],
-    data: json["data"] == null ? null : SupplierDetail.fromJson(json["data"]),
+    data: json["data"] == null ? null : Agent.fromJson(json["data"]),
   );
 
   Map<String, dynamic> toJson() => {
@@ -24,39 +22,33 @@ class PostResShowSupplierDetail {
   };
 }
 
-class SupplierDetail {
-  SupplierDetail({
+class Agent {
+  Agent({
     this.id,
     this.userId,
     this.name,
     this.phone,
-    this.imageUrl,
-    this.address,
     this.createdAt,
     this.updatedAt,
-    this.nib,
+    this.agentCode,
   });
 
   String id;
   String userId;
   String name;
   String phone;
-  String imageUrl;
-  String address;
   DateTime createdAt;
   DateTime updatedAt;
-  String nib;
+  String agentCode;
 
-  factory SupplierDetail.fromJson(Map<String, dynamic> json) => SupplierDetail(
+  factory Agent.fromJson(Map<String, dynamic> json) => Agent(
     id: json["id"] == null ? null : json["id"],
     userId: json["user_id"] == null ? null : json["user_id"],
     name: json["name"] == null ? null : json["name"],
     phone: json["phone"] == null ? null : json["phone"],
-    imageUrl: json["image"] == null ? null : global.API_URL_PREFIX + '/' + json["image"],
-    address: json["address"] == null ? null : json["address"],
     createdAt: json["created_at"] == null ? null : DateTime.parse(json["created_at"]),
     updatedAt: json["updated_at"] == null ? null : DateTime.parse(json["updated_at"]),
-    nib: json["nib"] == null ? null : json["nib"],
+    agentCode: json["agent_code"] == null ? null : json["agent_code"],
   );
 
   Map<String, dynamic> toJson() => {
@@ -66,6 +58,6 @@ class SupplierDetail {
     "phone": phone == null ? null : phone,
     "created_at": createdAt == null ? null : createdAt.toIso8601String(),
     "updated_at": updatedAt == null ? null : updatedAt.toIso8601String(),
-    "nib": nib == null ? null : nib,
+    "agent_code": agentCode == null ? null : agentCode,
   };
 }

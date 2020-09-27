@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:padimall_app/models/post_show_supplier_detail.dart';
+import 'package:padimall_app/models/post_show_suppliers_agent_detail.dart';
 import 'package:padimall_app/utils/custom_alert_dialog.dart';
 import 'package:padimall_app/utils/flutter_secure_storage_services.dart';
 import 'package:padimall_app/utils/global.dart' as global;
@@ -118,6 +119,40 @@ class ProviderToko with ChangeNotifier {
         _supplierDetail = jsonObject.data;
       } else if (response.statusCode == 404) {
         _supplierDetail = null;
+      }
+    } catch (e) {
+      print(e.toString());
+    } finally {
+      notifyListeners();
+    }
+  }
+
+  Agent _agentDetail;
+
+  Agent get agentDetail => _agentDetail;
+
+  Future<void> getSuppliersAgentInfo() async {
+    try {
+      var url = '${global.API_URL_PREFIX}/api/v1/supplier/my-agent';
+      print(url);
+
+      http.Response response = await http.post(
+        url,
+        headers: {
+          'X-Requested-With': 'XMLHttpRequest',
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + await FlutterSecureStorageServices.getUserToken(),
+        },
+      );
+      print(response.body);
+      print(response.statusCode);
+
+      var jsonObject = PostRestSuppliersAgentDetail.fromJson(jsonDecode(response.body));
+
+      if (response.statusCode == 200) {
+        _agentDetail = jsonObject.data;
+      } else if (response.statusCode == 404) {
+        _agentDetail = null;
       }
     } catch (e) {
       print(e.toString());
