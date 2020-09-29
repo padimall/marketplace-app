@@ -14,7 +14,6 @@ class BerandaKategori extends StatelessWidget {
   Widget build(BuildContext context) {
     _productCategoriesState = Provider.of(context, listen: false);
 
-    int _tempItemCount = 5;
     return buildFutureBuilder(
       _productCategoriesState.getProductCategories(),
       Consumer<ProviderProductCategories>(
@@ -39,7 +38,7 @@ class BerandaKategori extends StatelessWidget {
                   if (index == 0) {
                     _leftMargin = 16;
                   }
-                  if (index == _tempItemCount - 1) {
+                  if (index == _productCategoriesState.listProductCategories.length - 1) {
                     _rightMargin = 16;
                   }
 

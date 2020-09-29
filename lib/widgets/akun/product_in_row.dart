@@ -1,8 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:padimall_app/models/post_show_products.dart';
 import 'package:padimall_app/screens/produk_edit_screen.dart';
+import 'package:padimall_app/utils/custom_image_url.dart';
 import 'package:padimall_app/utils/custom_text_theme.dart';
+import 'package:padimall_app/utils/text_number_formatter.dart';
 
 class ProductInRow extends StatelessWidget {
+  Product product;
+
+  ProductInRow({this.product});
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -16,12 +23,20 @@ class ProductInRow extends StatelessWidget {
             margin: const EdgeInsets.only(right: 16),
             child: ClipRRect(
               borderRadius: BorderRadius.circular(6),
-              child: Image.asset(
-                'assets/images/bawang.jpg',
-                height: 75,
-                width: 75,
-                fit: BoxFit.cover,
-              ),
+              child: product.images.length < 1
+                  ? Image.asset(
+                      'assets/images/placeholder.jpg',
+                      height: 75,
+                      width: 75,
+                      fit: BoxFit.cover,
+                    )
+                  : FadeInImage.assetNetwork(
+                      image: imageUrlFormatter(product.images[0]),
+                      placeholder: 'assets/images/logo.png',
+                      height: 75,
+                      width: 75,
+                      fit: BoxFit.cover,
+                    ),
             ),
           ),
           Expanded(
@@ -32,11 +47,11 @@ class ProductInRow extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
                     Text(
-                      'Bawang Putih',
+                      '${product.name}',
                       style: PadiMallTextTheme.sz14weight700(context),
                     ),
                     Text(
-                      'Rp20.000',
+                      'Rp ${textNumberFormatter(product.price.toDouble())}',
                       style: PadiMallTextTheme.sz14weight600Red(context),
                     ),
                   ],
@@ -44,7 +59,7 @@ class ProductInRow extends StatelessWidget {
                 Container(
                   margin: const EdgeInsets.only(bottom: 4),
                   child: Text(
-                    'Stok 500 Kg',
+                    'Stok ${textNumberFormatter(product.stock.toDouble())} Kg',
                     style: PadiMallTextTheme.sz12weight500Grey(context),
                   ),
                 ),

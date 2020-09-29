@@ -1,13 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:padimall_app/providers/products.dart';
 import 'package:padimall_app/screens/produk_tambah_screen.dart';
+import 'package:padimall_app/utils/build_future_builder.dart';
 import 'package:padimall_app/utils/custom_text_theme.dart';
 import 'package:padimall_app/widgets/akun/product_in_row.dart';
+import 'package:provider/provider.dart';
 
 class ProdukAndaScreen extends StatelessWidget {
   static final routeName = 'produk-anda-screen';
+  ProviderProduct _providerProduct;
 
   @override
   Widget build(BuildContext context) {
+    _providerProduct = Provider.of<ProviderProduct>(context, listen: false);
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -80,13 +85,21 @@ class ProdukAndaScreen extends StatelessWidget {
           ),
         ),
       ),
-      body: SingleChildScrollView(
-        child: ListView.builder(
-          itemCount: 2,
-          shrinkWrap: true,
-          itemBuilder: (ctx, index) {
-            return ProductInRow();
-          },
+      body: buildFutureBuilder(
+        _providerProduct.getSupplierProduct(),
+        Consumer<ProviderProduct>(
+          builder: (ctx, provider, _) => SingleChildScrollView(
+            child: ListView.builder(
+              itemCount: _providerProduct.listSupplierProducts.length,
+              shrinkWrap: true,
+              physics: NeverScrollableScrollPhysics(),
+              itemBuilder: (ctx, index) {
+                return ProductInRow(
+                  product: _providerProduct.listSupplierProducts[index],
+                );
+              },
+            ),
+          ),
         ),
       ),
     );

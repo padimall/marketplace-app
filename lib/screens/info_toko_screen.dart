@@ -163,7 +163,7 @@ class InfoTokoScreen extends StatelessWidget {
                   style: PadiMallTextTheme.sz14weight600Soft(context),
                 ),
               ),
-              _buildInfoRow(context, 'No. Agen', '${_providerToko.agentDetail.agentCode}'),
+              _buildInfoRow(context, 'Kode Agen', '${_providerToko.agentDetail.agentCode}'),
               _buildInfoRow(context, 'Nama Agen', '${_providerToko.agentDetail.name}'),
             ],
           ),

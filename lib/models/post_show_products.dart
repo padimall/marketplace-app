@@ -33,6 +33,7 @@ class Product {
     this.category,
     this.stock,
     this.status,
+    this.minOrder,
     this.createdAt,
     this.updatedAt,
     this.images,
@@ -47,6 +48,7 @@ class Product {
   String category;
   int stock;
   String status;
+  int minOrder;
   DateTime createdAt;
   DateTime updatedAt;
   List images;
@@ -61,6 +63,7 @@ class Product {
     category: json["category"] == null ? null : json["category"],
     stock: json["stock"] == null ? null : json["stock"],
     status: json["status"] == null ? null : json["status"],
+    minOrder: json["min_order"] == null ? null : json["min_order"],
     createdAt: json["created_at"] == null ? null : DateTime.parse(json["created_at"]),
     updatedAt: json["updated_at"] == null ? null : DateTime.parse(json["updated_at"]),
     images: json["image"] == null ? null : List<dynamic>.from(json["image"].map((x) => x)),

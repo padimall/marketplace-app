@@ -20,12 +20,8 @@ class ProviderToko with ChangeNotifier {
       print(url);
 
       String _pictureFilename;
-      var stream;
-      var length;
-      var base64Image;
       if (selectedImage != null) {
         _pictureFilename = selectedImage.path.split('/').last;
-        base64Image = base64Encode(selectedImage.readAsBytesSync());
       }
 
       // HTTP
@@ -85,8 +81,12 @@ class ProviderToko with ChangeNotifier {
         Fluttertoast.showToast(
             msg: 'Format Gambar salah. (Hanya menerima png, jpg, jpeg).', toastLength: Toast.LENGTH_LONG, backgroundColor: Theme.of(context).accentColor);
       }
-    } catch (e) {
-      print(e.toString());
+    } on DioError catch (dioError) {
+      // Something happened in setting up or sending the request that triggered an Error
+      print(dioError.request);
+      print(dioError.message);
+      print(dioError.toString());
+      print(dioError.response);
     } finally {
       Navigator.pop(context);
       notifyListeners();

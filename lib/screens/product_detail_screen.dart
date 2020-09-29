@@ -262,7 +262,7 @@ class InfoProduk extends StatelessWidget {
                 style: PadiMallTextTheme.sz14weight500(context),
               ),
               Text(
-                '45 kg',
+                '${product.minOrder} kg',
                 style: PadiMallTextTheme.sz14weight500(context),
               ),
             ],
