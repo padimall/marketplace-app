@@ -57,12 +57,12 @@ class ProviderProduct with ChangeNotifier {
 
   List<File> get listProductImage => _listProductImage;
 
-  Future<void> loadAssetsPicture() async {
+  Future<void> loadAssetsPicture(int index) async {
     try {
-      _listProductImage.clear();
+//      _listProductImage.clear();
       List<Asset> _listAssets = List<Asset>();
       _listAssets = await MultiImagePicker.pickImages(
-        maxImages: 5,
+        maxImages: 4 - _listProductImage.length,
         enableCamera: false,
       );
 
@@ -203,5 +203,15 @@ class ProviderProduct with ChangeNotifier {
     } finally {
       notifyListeners();
     }
+  }
+
+  void removeListProductImage(int index) {
+    _listProductImage.removeAt(index);
+    notifyListeners();
+  }
+
+  void resetListProductImage() {
+    _listProductImage.clear();
+    notifyListeners();
   }
 }

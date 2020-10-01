@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:padimall_app/models/post_show_products.dart';
 import 'package:padimall_app/screens/product_detail_screen.dart';
+import 'package:padimall_app/utils/custom_image_url.dart';
 import 'package:padimall_app/utils/custom_text_theme.dart';
 import 'package:padimall_app/utils/text_number_formatter.dart';
 import 'package:padimall_app/utils/global.dart' as global;
@@ -34,11 +35,17 @@ class ProductWidget extends StatelessWidget {
             Navigator.pushNamed(context, ProductDetailScreen.routeName, arguments: product);
           },
           child: GridTile(
-            child: CachedNetworkImage(
-              imageUrl: 'https://cdn.pixabay.com/photo/2017/01/03/01/13/vegetables-1948264_1280.jpg',
-              placeholder: (ctx, url) => Image.asset('assets/images/logo.png'),
-              fit: BoxFit.cover,
-            ),
+            child: product.images.length >= 1
+                ? CachedNetworkImage(
+                    imageUrl: imageUrlFormatter(product.images[0]),
+                    placeholder: (ctx, url) => Image.asset('assets/images/logo.png'),
+                    fit: BoxFit.cover,
+                  )
+                : CachedNetworkImage(
+                    imageUrl: 'https://cdn.pixabay.com/photo/2017/01/03/01/13/vegetables-1948264_1280.jpg',
+                    placeholder: (ctx, url) => Image.asset('assets/images/logo.png'),
+                    fit: BoxFit.cover,
+                  ),
             footer: Container(
               color: Colors.white,
               padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),

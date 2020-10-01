@@ -22,6 +22,8 @@ class ProdukTambahScreen extends StatelessWidget {
   final stockController = MoneyMaskedTextController(thousandSeparator: '.', precision: 0, decimalSeparator: '');
   String _productCategoryId;
 
+  int _maxPicture = 8;
+
   var _formAddProduct = GlobalKey<FormState>();
 
   ProviderProductCategories _providerProductCategories;
@@ -31,6 +33,8 @@ class ProdukTambahScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     _providerProductCategories = Provider.of<ProviderProductCategories>(context, listen: false);
     _providerProduct = Provider.of<ProviderProduct>(context, listen: false);
+
+    _providerProduct.resetListProductImage();
 
     return Scaffold(
       appBar: AppBar(
@@ -275,44 +279,110 @@ class ProdukTambahScreen extends StatelessWidget {
   Widget _buildProductPicture(BuildContext context) {
     return Consumer<ProviderProduct>(
       builder: (ctx, provider, _) => Container(
-        margin: const EdgeInsets.symmetric(vertical: 16),
+        margin: const EdgeInsets.fromLTRB(0, 16, 0, 24),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
-            Text(
-              'Gambar Produk',
-              style: PadiMallTextTheme.sz12weight600(context),
+            Container(
+              margin: const EdgeInsets.only(bottom: 16),
+              child: Text(
+                'Gambar Produk',
+                style: PadiMallTextTheme.sz12weight600(context),
+              ),
             ),
-            GestureDetector(
-              onTap: () {
+            Container(
+              width: double.infinity,
+              child: GridView.builder(
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 4,
+                  childAspectRatio: 1 / 1,
+                  crossAxisSpacing: 0,
+                  mainAxisSpacing: 0,
+                ),
+                itemCount: _providerProduct.listProductImage.length + 1,
+                shrinkWrap: true,
+                physics: NeverScrollableScrollPhysics(),
+                itemBuilder: (ctx, index) => GestureDetector(
+                  onTap: () {
 //                _providerProduct.getSingleImage(context, ImageSource.gallery);
-                _providerProduct.loadAssetsPicture();
-              },
-              child: Container(
-                margin: const EdgeInsets.fromLTRB(0, 8, 0, 16),
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(6),
-                  child: _providerProduct.listProductImage.isEmpty
-                      ? Image.asset(
-                          'assets/images/add_picture.png',
-                          height: 75,
-                          width: 75,
-                          fit: BoxFit.cover,
-                        )
-                      : Image.file(
-                          _providerProduct.listProductImage[_providerProduct.listProductImage.length - 1],
-                          height: 75,
-                          width: 75,
-                          fit: BoxFit.cover,
+                    _providerProduct.loadAssetsPicture(index);
+                  },
+                  child: Stack(
+                    children: [
+                      Container(
+                        margin: const EdgeInsets.all(8.0),
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(6),
+                          child: index >= _providerProduct.listProductImage.length
+                              ? Image.asset(
+                                  'assets/images/add_picture.png',
+                                  height: 75,
+                                  width: 75,
+                                  fit: BoxFit.cover,
+                                )
+                              : Image.file(
+                                  _providerProduct.listProductImage[index],
+                                  height: 75,
+                                  width: 75,
+                                  fit: BoxFit.cover,
+                                ),
                         ),
-//                AssetThumb(
-//                        asset: _providerProduct.listAssets[0],
-//                        height: 75,
-//                        width: 75,
-//                      ),
+                      ),
+                      index < _providerProduct.listProductImage.length
+                          ? Positioned(
+                              top: 0,
+                              right: 0,
+                              child: GestureDetector(
+                                onTap: () {
+                                  _providerProduct.removeListProductImage(index);
+                                },
+                                child: CircleAvatar(
+                                  radius: 10,
+                                  child: Icon(
+                                    Icons.clear,
+                                    color: Colors.white,
+                                    size: 15,
+                                  ),
+                                  backgroundColor: Colors.black87,
+                                ),
+                              ),
+                            )
+                          : Container(),
+                    ],
+                  ),
                 ),
               ),
             ),
+//            GestureDetector(
+//              onTap: () {
+////                _providerProduct.getSingleImage(context, ImageSource.gallery);
+//                _providerProduct.loadAssetsPicture();
+//              },
+//              child: Container(
+//                margin: const EdgeInsets.fromLTRB(0, 8, 0, 16),
+//                child: ClipRRect(
+//                  borderRadius: BorderRadius.circular(6),
+//                  child: _providerProduct.listProductImage.isEmpty
+//                      ? Image.asset(
+//                          'assets/images/add_picture.png',
+//                          height: 75,
+//                          width: 75,
+//                          fit: BoxFit.cover,
+//                        )
+//                      : Image.file(
+//                          _providerProduct.listProductImage[_providerProduct.listProductImage.length - 1],
+//                          height: 75,
+//                          width: 75,
+//                          fit: BoxFit.cover,
+//                        ),
+////                AssetThumb(
+////                        asset: _providerProduct.listAssets[0],
+////                        height: 75,
+////                        width: 75,
+////                      ),
+//                ),
+//              ),
+//            ),
           ],
         ),
       ),
