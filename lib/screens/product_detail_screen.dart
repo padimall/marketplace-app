@@ -6,6 +6,7 @@ import 'package:padimall_app/screens/checkout_screen.dart';
 import 'package:padimall_app/screens/first_screen.dart';
 import 'package:padimall_app/screens/keranjang_screen.dart';
 import 'package:padimall_app/screens/login_screen.dart';
+import 'package:padimall_app/utils/custom_image_url.dart';
 import 'package:padimall_app/utils/custom_logic.dart';
 import 'package:padimall_app/utils/custom_text_theme.dart';
 import 'package:padimall_app/utils/text_number_formatter.dart';
@@ -18,25 +19,14 @@ class ProductDetailScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     Product product = ModalRoute.of(context).settings.arguments;
 
-    Widget _carouselImages = new Container(
-      width: MediaQuery.of(context).size.width,
-      height: MediaQuery.of(context).size.width / 2,
+    Widget _carouselImages = new AspectRatio(
+      aspectRatio: 1,
       child: new Carousel(
         boxFit: BoxFit.cover,
-        images: [
-          CachedNetworkImage(
-            imageUrl: 'https://cdn.pixabay.com/photo/2013/02/04/22/47/fruits-77946_1280.jpg',
-            fit: BoxFit.cover,
-          ),
-          CachedNetworkImage(
-            imageUrl: 'https://cdn.pixabay.com/photo/2017/01/03/01/13/vegetables-1948264_1280.jpg',
-            fit: BoxFit.cover,
-          ),
-          CachedNetworkImage(
-            imageUrl: 'https://cdn.pixabay.com/photo/2015/07/27/22/58/life-863705_1280.jpg',
-            fit: BoxFit.cover,
-          ),
-        ],
+        images: product.images.map((productImages) => CachedNetworkImage(
+          imageUrl: imageUrlFormatter(productImages),
+          fit: BoxFit.cover,
+        )).toList(),
         autoplay: true,
         autoplayDuration: Duration(seconds: 2),
 //        showIndicator: false,
