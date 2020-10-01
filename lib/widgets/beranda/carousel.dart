@@ -35,6 +35,7 @@ class _BerandaCarouselState extends State<BerandaCarousel> {
 
     return ListView(
       shrinkWrap: true,
+      physics: NeverScrollableScrollPhysics(),
       children: <Widget>[
         _carouselImages
       ],
