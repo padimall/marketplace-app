@@ -343,36 +343,6 @@ class ProdukTambahScreen extends StatelessWidget {
                 ),
               ),
             ),
-//            GestureDetector(
-//              onTap: () {
-////                _providerProduct.getSingleImage(context, ImageSource.gallery);
-//                _providerProduct.loadAssetsPicture();
-//              },
-//              child: Container(
-//                margin: const EdgeInsets.fromLTRB(0, 8, 0, 16),
-//                child: ClipRRect(
-//                  borderRadius: BorderRadius.circular(6),
-//                  child: _providerProduct.listProductImage.isEmpty
-//                      ? Image.asset(
-//                          'assets/images/add_picture.png',
-//                          height: 75,
-//                          width: 75,
-//                          fit: BoxFit.cover,
-//                        )
-//                      : Image.file(
-//                          _providerProduct.listProductImage[_providerProduct.listProductImage.length - 1],
-//                          height: 75,
-//                          width: 75,
-//                          fit: BoxFit.cover,
-//                        ),
-////                AssetThumb(
-////                        asset: _providerProduct.listAssets[0],
-////                        height: 75,
-////                        width: 75,
-////                      ),
-//                ),
-//              ),
-//            ),
           ],
         ),
       ),

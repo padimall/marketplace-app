@@ -11,6 +11,7 @@ import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:mime/mime.dart';
 import 'package:multi_image_picker/multi_image_picker.dart';
+import 'package:padimall_app/models/post_show_product_categories.dart';
 import 'package:padimall_app/models/post_show_products.dart';
 import 'package:padimall_app/utils/custom_alert_dialog.dart';
 import 'package:padimall_app/utils/flutter_secure_storage_services.dart';
@@ -129,13 +130,13 @@ class ProviderProduct with ChangeNotifier {
       FormData formData = FormData.fromMap(
         {
           'name': name.text,
-          'price': price.text,
-          'weight': weight.text,
+          'price': price.text.replaceAll('.', ''),
+          'weight': weight.text.replaceAll('.', ''),
           'description': desc.text,
           'category': productCategoryId,
-          'stock': stock.text,
+          'stock': stock.text.replaceAll('.', ''),
           'status': "1",
-          'min_order': minOrder.text,
+          'min_order': minOrder.text.replaceAll('.', ''),
         },
       );
       for (var file in _listProductImage) {
@@ -213,5 +214,71 @@ class ProviderProduct with ChangeNotifier {
   void resetListProductImage() {
     _listProductImage.clear();
     notifyListeners();
+  }
+
+  Future<void> updateProduct(BuildContext context, String productId, TextEditingController name, TextEditingController price, TextEditingController weight,
+      TextEditingController desc, ProductCategory productCategory, TextEditingController stock, TextEditingController minOrder) async {
+    try {
+      CustomAlertDialog.loading(context);
+      var url = '${global.API_URL_PREFIX}/api/v1/product/update';
+
+      List<MultipartFile> _imageList = [];
+      _listProductImage.forEach((fileProduct) {
+        var _pictureFilename = fileProduct.path.split('/').last;
+        print('pic file name: ${_pictureFilename}');
+        var multipartFile = MultipartFile.fromFileSync(fileProduct.path, filename: _pictureFilename);
+        _imageList.add(multipartFile);
+        print('sus ko');
+      });
+
+      var dio = Dio();
+      FormData formData = FormData.fromMap(
+        {
+          'target_id' : productId,
+          'name': name.text,
+          'price': price.text.replaceAll('.', ''),
+          'weight': weight.text.replaceAll('.', ''),
+          'description': desc.text,
+          'category': productCategory.id,
+          'stock': stock.text.replaceAll('.', ''),
+          'status': "1",
+          'min_order': minOrder.text.replaceAll('.', ''),
+        },
+      );
+//      for (var file in _listProductImage) {
+//        formData.files.addAll([
+//          MapEntry(
+//            "image[]",
+//            MultipartFile.fromFileSync(file.path, filename: file.path.split('/').last),
+//          )
+//        ]);
+//      }
+      Response response = await dio.post(
+        url,
+        data: formData,
+        options: Options(
+          headers: {
+            'X-Requested-With': 'XMLHttpRequest',
+            'Authorization': 'Bearer ' + await FlutterSecureStorageServices.getUserToken(),
+          },
+        ),
+      );
+
+      print(url);
+      print(response.data);
+      print(response.statusCode);
+
+      Navigator.pop(context);
+      if (response.statusCode == 200) {
+        Navigator.pop(context);
+        Fluttertoast.showToast(msg: 'Produk anda berhasil diperbaharui.', toastLength: Toast.LENGTH_LONG, backgroundColor: Theme.of(context).primaryColor);
+        getSupplierProduct();
+      }
+    } on DioError catch (dioError) {
+      // Something happened in setting up or sending the request that triggered an Error
+      print(dioError.response);
+    } finally {
+      notifyListeners();
+    }
   }
 }

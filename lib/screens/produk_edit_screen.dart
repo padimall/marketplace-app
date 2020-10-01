@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_masked_text/flutter_masked_text.dart';
@@ -5,12 +6,15 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:padimall_app/models/post_show_product_categories.dart';
 import 'package:padimall_app/models/post_show_products.dart';
 import 'package:padimall_app/providers/product_categories.dart';
+import 'package:padimall_app/providers/products.dart';
 import 'package:padimall_app/utils/build_future_builder.dart';
+import 'package:padimall_app/utils/custom_image_url.dart';
 import 'package:padimall_app/utils/custom_text_theme.dart';
 import 'package:provider/provider.dart';
 
 class ProdukEditScreen extends StatelessWidget {
   ProviderProductCategories _providerProductCategories;
+  ProviderProduct _providerProduct;
   static final routeName = 'produk-edit-screen';
   final nameController = TextEditingController();
   final descController = TextEditingController();
@@ -23,6 +27,7 @@ class ProdukEditScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     _providerProductCategories = Provider.of(context, listen: false);
+    _providerProduct = Provider.of(context, listen: false);
     final Product product = ModalRoute.of(context).settings.arguments;
     nameController.text = product.name;
     descController.text = product.description;
@@ -61,7 +66,7 @@ class ProdukEditScreen extends StatelessWidget {
                 padding: const EdgeInsets.symmetric(horizontal: 16.0),
                 child: Column(
                   children: <Widget>[
-                    _buildProductPicture(context),
+                    _buildProductPicture(context, product),
                     Container(
                       margin: const EdgeInsets.only(bottom: 8),
                       child: Column(
@@ -241,9 +246,11 @@ class ProdukEditScreen extends StatelessWidget {
                       padding: const EdgeInsets.symmetric(vertical: 16),
                       child: RaisedButton(
                         onPressed: () {
-                          Navigator.pop(context);
-                          Fluttertoast.showToast(
-                              msg: 'Data produk berhasil di edit', toastLength: Toast.LENGTH_LONG, backgroundColor: Theme.of(context).primaryColor);
+                          _providerProduct.updateProduct(context, product.id, nameController, priceController, weightController, descController, _selectedProductCategory,
+                              stockController, minOrderController);
+//                          Navigator.pop(context);
+//                          Fluttertoast.showToast(
+//                              msg: 'Data produk berhasil di edit', toastLength: Toast.LENGTH_LONG, backgroundColor: Theme.of(context).primaryColor);
                         },
                         color: Theme.of(context).primaryColor,
                         shape: RoundedRectangleBorder(
@@ -267,29 +274,85 @@ class ProdukEditScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildProductPicture(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.symmetric(vertical: 16),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: <Widget>[
-          Text(
-            'Gambar Produk',
-            style: PadiMallTextTheme.sz12weight600(context),
-          ),
-          Container(
-            margin: const EdgeInsets.fromLTRB(0, 8, 0, 16),
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(6),
-              child: Image.asset(
-                'assets/images/bawang.jpg',
-                height: 75,
-                width: 75,
-                fit: BoxFit.cover,
+  Widget _buildProductPicture(BuildContext context, Product product) {
+    return Consumer<ProviderProduct>(
+      builder: (ctx, provider, _) => Container(
+        margin: const EdgeInsets.fromLTRB(0, 16, 0, 24),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: <Widget>[
+            Container(
+              margin: const EdgeInsets.only(bottom: 16),
+              child: Text(
+                'Gambar Produk',
+                style: PadiMallTextTheme.sz12weight600(context),
               ),
             ),
-          ),
-        ],
+            Container(
+              width: double.infinity,
+              child: GridView.builder(
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 4,
+                  childAspectRatio: 1 / 1,
+                  crossAxisSpacing: 0,
+                  mainAxisSpacing: 0,
+                ),
+                itemCount: product.images.length + 1,
+                shrinkWrap: true,
+                physics: NeverScrollableScrollPhysics(),
+                itemBuilder: (ctx, index) => GestureDetector(
+                  onTap: () {
+//                _providerProduct.getSingleImage(context, ImageSource.gallery);
+                    _providerProduct.loadAssetsPicture(index);
+                  },
+                  child: Stack(
+                    children: [
+                      Container(
+                        margin: const EdgeInsets.all(8.0),
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(6),
+                          child: index >= product.images.length
+                              ? Image.asset(
+                                  'assets/images/add_picture.png',
+                                  height: 75,
+                                  width: 75,
+                                  fit: BoxFit.cover,
+                                )
+                              : CachedNetworkImage(
+                                  imageUrl: imageUrlFormatter(product.images[index]),
+                                  height: 75,
+                                  width: 75,
+                                  fit: BoxFit.cover,
+                                ),
+                        ),
+                      ),
+                      index < product.images.length
+                          ? Positioned(
+                              top: 0,
+                              right: 0,
+                              child: GestureDetector(
+                                onTap: () {
+                                  _providerProduct.removeListProductImage(index);
+                                },
+                                child: CircleAvatar(
+                                  radius: 10,
+                                  child: Icon(
+                                    Icons.clear,
+                                    color: Colors.white,
+                                    size: 15,
+                                  ),
+                                  backgroundColor: Colors.black87,
+                                ),
+                              ),
+                            )
+                          : Container(),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
