@@ -23,12 +23,14 @@ class ProductDetailScreen extends StatelessWidget {
       aspectRatio: 1,
       child: new Carousel(
         boxFit: BoxFit.cover,
-        images: product.images.map((productImages) => CachedNetworkImage(
-          imageUrl: imageUrlFormatter(productImages),
-          fit: BoxFit.cover,
-        )).toList(),
+        images: product.images
+            .map((productImages) => CachedNetworkImage(
+                  imageUrl: imageUrlFormatter(productImages),
+                  fit: BoxFit.cover,
+                ))
+            .toList(),
         autoplay: true,
-        autoplayDuration: Duration(seconds: 2),
+        autoplayDuration: Duration(seconds: 4),
 //        showIndicator: false,
         dotSize: 4,
         indicatorBgPadding: 4,
@@ -58,14 +60,19 @@ class ProductDetailScreen extends StatelessWidget {
             child: SingleChildScrollView(
               child: Column(
                 children: <Widget>[
-                  ListView(
-                    shrinkWrap: true,
-                    children: <Widget>[_carouselImages],
-                  ),
-//                  Container(
-//                    color: Colors.grey[300],
-//                    height: 200,
-//                  ),
+                  product.images.length < 1
+                      ? AspectRatio(
+                          aspectRatio: 1,
+                          child: Image.asset(
+                            'assets/images/no_image.png',
+                            fit: BoxFit.cover,
+                          ),
+                        )
+                      : ListView(
+                          shrinkWrap: true,
+                          physics: NeverScrollableScrollPhysics(),
+                          children: <Widget>[_carouselImages],
+                        ),
                   NamaHargaProduk(
                     product: product,
                   ),

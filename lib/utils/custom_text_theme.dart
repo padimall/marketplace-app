@@ -128,6 +128,11 @@ class PadiMallTextTheme {
         color: Theme.of(context).accentColor);
   }
 
+  static TextStyle sz12weight600DarkGrey(BuildContext context) {
+    return GoogleFonts.poppins().copyWith(
+        fontSize: 12, fontWeight: FontWeight.w600, color: Colors.grey[800]);
+  }
+
   static TextStyle sz12weight600(BuildContext context) {
     return GoogleFonts.poppins().copyWith(
         fontSize: 12, fontWeight: FontWeight.w600, color: Colors.black87);

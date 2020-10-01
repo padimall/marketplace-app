@@ -69,7 +69,7 @@ class ProdukTambahScreen extends StatelessWidget {
                         children: <Widget>[
                           Text(
                             'Nama',
-                            style: PadiMallTextTheme.sz12weight600(context),
+                            style: PadiMallTextTheme.sz12weight600DarkGrey(context),
                           ),
                           TextFormField(
                             decoration: InputDecoration(
@@ -90,16 +90,6 @@ class ProdukTambahScreen extends StatelessWidget {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
-//                    Text(
-//                      'Kategori Produk',
-//                      style: PadiMallTextTheme.sz12weight600(context),
-//                    ),
-//                    TextFormField(
-//                      decoration: InputDecoration(
-//                        hintText: 'Pilih kategori produk Anda',
-//                        hintStyle: PadiMallTextTheme.sz14weight500Grey(context),
-//                      ),
-//                    )
                           DropdownSearch(
                             mode: Mode.BOTTOM_SHEET,
                             isFilteredOnline: true,
@@ -111,7 +101,7 @@ class ProdukTambahScreen extends StatelessWidget {
                             dropdownSearchDecoration: InputDecoration(
                               hintText: 'Tentukan kategori produk Anda',
                               hintStyle: PadiMallTextTheme.sz14weight500Grey(context),
-                              labelStyle: PadiMallTextTheme.sz12weight600(context),
+                              labelStyle: PadiMallTextTheme.sz12weight600DarkGrey(context),
                               contentPadding: const EdgeInsets.symmetric(vertical: 8),
                             ),
                             items: _providerProductCategories.listProductCategories,
@@ -130,7 +120,7 @@ class ProdukTambahScreen extends StatelessWidget {
                         children: <Widget>[
                           Text(
                             'Harga',
-                            style: PadiMallTextTheme.sz12weight600(context),
+                            style: PadiMallTextTheme.sz12weight600DarkGrey(context),
                           ),
                           Row(
                             children: <Widget>[
@@ -154,13 +144,13 @@ class ProdukTambahScreen extends StatelessWidget {
                       ),
                     ),
                     Container(
-                      margin: const EdgeInsets.only(bottom: 0),
+                      margin: const EdgeInsets.only(bottom: 12),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
                           Text(
                             'Deskripsi',
-                            style: PadiMallTextTheme.sz12weight600(context),
+                            style: PadiMallTextTheme.sz12weight600DarkGrey(context),
                           ),
                           TextFormField(
                             decoration: InputDecoration(
@@ -180,7 +170,7 @@ class ProdukTambahScreen extends StatelessWidget {
                         children: <Widget>[
                           Text(
                             'Berat Produk (kilogram)',
-                            style: PadiMallTextTheme.sz12weight600(context),
+                            style: PadiMallTextTheme.sz12weight600DarkGrey(context),
                           ),
                           TextFormField(
                             decoration: InputDecoration(
@@ -200,7 +190,7 @@ class ProdukTambahScreen extends StatelessWidget {
                         children: <Widget>[
                           Text(
                             'Pemesanan minimum (kilogram)',
-                            style: PadiMallTextTheme.sz12weight600(context),
+                            style: PadiMallTextTheme.sz12weight600DarkGrey(context),
                           ),
                           TextFormField(
                             decoration: InputDecoration(
@@ -220,7 +210,7 @@ class ProdukTambahScreen extends StatelessWidget {
                         children: <Widget>[
                           Text(
                             'Stok (Kg)',
-                            style: PadiMallTextTheme.sz12weight600(context),
+                            style: PadiMallTextTheme.sz12weight600DarkGrey(context),
                           ),
                           TextFormField(
                             decoration: InputDecoration(

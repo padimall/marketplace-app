@@ -65,7 +65,7 @@ class ProductInRow extends StatelessWidget {
                 ),
                 GestureDetector(
                   onTap: () {
-                    Navigator.pushNamed(context, ProdukEditScreen.routeName);
+                    Navigator.pushNamed(context, ProdukEditScreen.routeName, arguments: product);
                   },
                   child: Text(
                     'Ubah',

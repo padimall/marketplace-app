@@ -41,9 +41,8 @@ class ProductWidget extends StatelessWidget {
                     placeholder: (ctx, url) => Image.asset('assets/images/logo.png'),
                     fit: BoxFit.cover,
                   )
-                : CachedNetworkImage(
-                    imageUrl: 'https://cdn.pixabay.com/photo/2017/01/03/01/13/vegetables-1948264_1280.jpg',
-                    placeholder: (ctx, url) => Image.asset('assets/images/logo.png'),
+                : Image.asset(
+                    'assets/images/no_image.png',
                     fit: BoxFit.cover,
                   ),
             footer: Container(
