@@ -74,7 +74,7 @@ class ProdukEditScreen extends StatelessWidget {
                         children: <Widget>[
                           Text(
                             'Nama Produk',
-                            style: PadiMallTextTheme.sz12weight500(context),
+                            style: PadiMallTextTheme.sz12weight600DarkGrey(context),
                           ),
                           TextFormField(
                             style: PadiMallTextTheme.sz14weight500(context),
@@ -123,7 +123,7 @@ class ProdukEditScreen extends StatelessWidget {
                         children: <Widget>[
                           Text(
                             'Harga Produk',
-                            style: PadiMallTextTheme.sz12weight500(context),
+                            style: PadiMallTextTheme.sz12weight600DarkGrey(context),
                           ),
                           Row(
                             children: <Widget>[
@@ -155,7 +155,7 @@ class ProdukEditScreen extends StatelessWidget {
                         children: <Widget>[
                           Text(
                             'Deskripsi',
-                            style: PadiMallTextTheme.sz12weight500(context),
+                            style: PadiMallTextTheme.sz12weight600DarkGrey(context),
                           ),
                           TextFormField(
                             decoration: InputDecoration(
@@ -175,7 +175,7 @@ class ProdukEditScreen extends StatelessWidget {
                         children: <Widget>[
                           Text(
                             'Berat Produk (kilogram)',
-                            style: PadiMallTextTheme.sz12weight500(context),
+                            style: PadiMallTextTheme.sz12weight600DarkGrey(context),
                           ),
                           TextFormField(
                             style: PadiMallTextTheme.sz14weight500(context),
@@ -197,7 +197,7 @@ class ProdukEditScreen extends StatelessWidget {
                         children: <Widget>[
                           Text(
                             'Pemesanan minimum (kilogram)',
-                            style: PadiMallTextTheme.sz12weight500(context),
+                            style: PadiMallTextTheme.sz12weight600DarkGrey(context),
                           ),
                           TextFormField(
                             style: PadiMallTextTheme.sz14weight500(context),
@@ -219,7 +219,7 @@ class ProdukEditScreen extends StatelessWidget {
                         children: <Widget>[
                           Text(
                             'Stok (Kg)',
-                            style: PadiMallTextTheme.sz12weight500(context),
+                            style: PadiMallTextTheme.sz12weight600DarkGrey(context),
                           ),
                           TextFormField(
                             style: PadiMallTextTheme.sz14weight500(context),
@@ -319,7 +319,7 @@ class ProdukEditScreen extends StatelessWidget {
                                   fit: BoxFit.cover,
                                 )
                               : CachedNetworkImage(
-                                  imageUrl: imageUrlFormatter(product.images[index]),
+                                  imageUrl: imageUrlFormatter(product.images[index].url),
                                   height: 75,
                                   width: 75,
                                   fit: BoxFit.cover,

@@ -25,13 +25,13 @@ class ProductInRow extends StatelessWidget {
               borderRadius: BorderRadius.circular(6),
               child: product.images.length < 1
                   ? Image.asset(
-                      'assets/images/placeholder.jpg',
+                      'assets/images/no_image.png',
                       height: 75,
                       width: 75,
                       fit: BoxFit.cover,
                     )
                   : FadeInImage.assetNetwork(
-                      image: imageUrlFormatter(product.images[0]),
+                      image: imageUrlFormatter(product.images[0].url),
                       placeholder: 'assets/images/logo.png',
                       height: 75,
                       width: 75,

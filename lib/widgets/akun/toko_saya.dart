@@ -29,19 +29,25 @@ class TokoSayaWidget extends StatelessWidget {
               child: ListTile(
                 leading: ClipRRect(
                   borderRadius: BorderRadius.circular(6),
-                  child: CachedNetworkImage(
-                    imageUrl:
-                        '${_providerToko.supplierDetail.imageUrl}',
-                    fit: BoxFit.cover,
-                    placeholder: (ctx, url) => Image.asset(
-                      'assets/images/logo.png',
-                      height: 60,
-                      width: 60,
-                      fit: BoxFit.cover,
-                    ),
-                    height: 60,
-                    width: 60,
-                  ),
+                  child: _providerToko.supplierDetail.imageUrl == null
+                      ? Image.asset(
+                          'assets/images/no_image.png',
+                          height: 60,
+                          width: 60,
+                          fit: BoxFit.cover,
+                        )
+                      : CachedNetworkImage(
+                          imageUrl: '${_providerToko.supplierDetail.imageUrl}',
+                          fit: BoxFit.cover,
+                          placeholder: (ctx, url) => Image.asset(
+                            'assets/images/logo.png',
+                            height: 60,
+                            width: 60,
+                            fit: BoxFit.cover,
+                          ),
+                          height: 60,
+                          width: 60,
+                        ),
                 ),
                 title: Text(
                   '${_providerToko.supplierDetail.name}',

@@ -37,7 +37,7 @@ class ProductWidget extends StatelessWidget {
           child: GridTile(
             child: product.images.length >= 1
                 ? CachedNetworkImage(
-                    imageUrl: imageUrlFormatter(product.images[0]),
+                    imageUrl: imageUrlFormatter(product.images[0].url),
                     placeholder: (ctx, url) => Image.asset('assets/images/logo.png'),
                     fit: BoxFit.cover,
                   )

@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:padimall_app/models/post_show_supplier_detail.dart';
 import 'package:padimall_app/providers/toko.dart';
+import 'package:padimall_app/screens/info_toko_edit_screen.dart';
 import 'package:padimall_app/utils/build_future_builder.dart';
 import 'package:padimall_app/utils/custom_text_theme.dart';
 import 'package:provider/provider.dart';
@@ -42,105 +43,120 @@ class InfoTokoScreen extends StatelessWidget {
   }
 
   Widget _buildTokoInfo(BuildContext context) {
-    SupplierDetail _supplierDetail = _providerToko.supplierDetail;
+    return Consumer<ProviderToko>(
+      builder: (ctx, provider, _) {
+        SupplierDetail _supplierDetail = _providerToko.supplierDetail;
 
-    return Container(
-      color: Colors.white,
-      width: double.infinity,
-      margin: const EdgeInsets.only(top: 8),
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        return Container(
+          color: Colors.white,
+          width: double.infinity,
+          margin: const EdgeInsets.only(top: 8),
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+          child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              Container(
-                margin: const EdgeInsets.only(bottom: 16),
-                child: Text(
-                  'Toko',
-                  style: PadiMallTextTheme.sz14weight600Soft(context),
-                ),
-              ),
-              Icon(
-                Icons.edit,
-                size: 20,
-                color: Theme.of(context).accentColor,
-              )
-            ],
-          ),
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              Container(
-                margin: const EdgeInsets.only(right: 12),
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(6),
-                  child: CachedNetworkImage(
-                    imageUrl: '${_supplierDetail.imageUrl}',
-                    fit: BoxFit.cover,
-                    placeholder: (ctx, url) => Image.asset(
-                      'assets/images/logo.png',
-                      height: 60,
-                      width: 60,
-                      fit: BoxFit.cover,
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Container(
+                    margin: const EdgeInsets.only(bottom: 16),
+                    child: Text(
+                      'Toko',
+                      style: PadiMallTextTheme.sz14weight600Soft(context),
                     ),
-                    height: 60,
-                    width: 60,
                   ),
-                ),
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.pushNamed(context, InfoTokoEditScreen.routeName);
+                    },
+                    child: Text(
+                      'Ubah',
+                      style: PadiMallTextTheme.sz12weight600Green(context),
+                    ),
+                  ),
+                ],
               ),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Container(
-                      margin: const EdgeInsets.only(bottom: 2),
-                      child: Text(
-                        '${_supplierDetail.name}',
-                        style: PadiMallTextTheme.sz14weight600Soft(context),
-                      ),
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Container(
+                    margin: const EdgeInsets.only(right: 12),
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(6),
+                      child: _supplierDetail.imageUrl == null
+                          ? Image.asset(
+                              'assets/images/no_image.png',
+                              height: 60,
+                              width: 60,
+                              fit: BoxFit.cover,
+                            )
+                          : CachedNetworkImage(
+                              imageUrl: '${_supplierDetail.imageUrl}',
+                              fit: BoxFit.cover,
+                              placeholder: (ctx, url) => Image.asset(
+                                'assets/images/logo.png',
+                                height: 60,
+                                width: 60,
+                                fit: BoxFit.cover,
+                              ),
+                              height: 60,
+                              width: 60,
+                            ),
                     ),
-                    Row(
+                  ),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
                         Container(
-                          margin: const EdgeInsets.only(right: 4),
-                          child: Icon(
-                            Icons.location_on,
-                            color: Colors.grey,
-                            size: 15,
+                          margin: const EdgeInsets.only(bottom: 2),
+                          child: Text(
+                            '${_supplierDetail.name}',
+                            style: PadiMallTextTheme.sz14weight600Soft(context),
                           ),
                         ),
-                        Text(
-                          '${_supplierDetail.address}',
-                          style: PadiMallTextTheme.sz12weight500Grey(context),
+                        Row(
+                          children: <Widget>[
+                            Container(
+                              margin: const EdgeInsets.only(right: 4),
+                              child: Icon(
+                                Icons.location_on,
+                                color: Colors.grey,
+                                size: 15,
+                              ),
+                            ),
+                            Text(
+                              '${_supplierDetail.address}',
+                              style: PadiMallTextTheme.sz12weight500Grey(context),
+                            ),
+                          ],
+                        ),
+                        Row(
+                          children: <Widget>[
+                            Container(
+                              margin: const EdgeInsets.only(right: 4),
+                              child: Icon(
+                                Icons.call,
+                                color: Colors.grey,
+                                size: 15,
+                              ),
+                            ),
+                            Text(
+                              '${_supplierDetail.phone}',
+                              style: PadiMallTextTheme.sz12weight500Grey(context),
+                            ),
+                          ],
                         ),
                       ],
                     ),
-                    Row(
-                      children: <Widget>[
-                        Container(
-                          margin: const EdgeInsets.only(right: 4),
-                          child: Icon(
-                            Icons.call,
-                            color: Colors.grey,
-                            size: 15,
-                          ),
-                        ),
-                        Text(
-                          '${_supplierDetail.phone}',
-                          style: PadiMallTextTheme.sz12weight500Grey(context),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             ],
           ),
-        ],
-      ),
+        );
+      },
     );
   }
 

@@ -160,4 +160,68 @@ class ProviderToko with ChangeNotifier {
       notifyListeners();
     }
   }
+
+  Future<void> updateSupplierProfile(BuildContext context, TextEditingController textEditingController, int indexProfile) async {
+    try {
+      CustomAlertDialog.loading(context);
+      var url = '${global.API_URL_PREFIX}/api/v1/supplier/update';
+
+      var requestBody = {
+        'name': indexProfile == 0 ? textEditingController.text : null,
+        'phone': indexProfile == 1 ? textEditingController.text : null,
+        'address': indexProfile == 2 ? textEditingController.text : null,
+      };
+
+      http.Response response = await http.post(
+        url,
+        headers: {
+          'X-Requested-With': 'XMLHttpRequest',
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + await FlutterSecureStorageServices.getUserToken(),
+        },
+        body: json.encode(requestBody),
+      );
+      print(response.body);
+      print(response.statusCode);
+
+      if (response.statusCode == 200) {
+        Navigator.pop(context);
+        Fluttertoast.showToast(msg: 'Data berhasil diperbaharui', toastLength: Toast.LENGTH_LONG, backgroundColor: Theme.of(context).primaryColor);
+        getSupplierDetail(context);
+      }
+    } catch (e) {
+      print(e.toString());
+    } finally {
+      Navigator.pop(context);
+      notifyListeners();
+    }
+  }
+
+  Future<void> updateSupplierImage(File selectedImage) async {
+    try {
+      var dio = Dio();
+      var url = '${global.API_URL_PREFIX}/api/v1/supplier/update';
+      FormData formData = FormData.fromMap({
+        'image': selectedImage == null ? null : await MultipartFile.fromFile(selectedImage.path, filename: selectedImage.path.split('/').last),
+      });
+      Response response = await dio.post(
+        url,
+        data: formData,
+        options: Options(
+          headers: {
+            'X-Requested-With': 'XMLHttpRequest',
+//            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + await FlutterSecureStorageServices.getUserToken(),
+          },
+        ),
+      );
+
+      print(response.statusCode);
+      print(response.data);
+    } catch (e) {
+      print(e.toString());
+    } finally {
+      notifyListeners();
+    }
+  }
 }

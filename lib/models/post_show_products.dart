@@ -51,7 +51,7 @@ class Product {
   int minOrder;
   DateTime createdAt;
   DateTime updatedAt;
-  List images;
+  List<ImageProduct> images;
 
   factory Product.fromJson(Map<String, dynamic> json) => Product(
     id: json["id"] == null ? null : json["id"],
@@ -66,7 +66,7 @@ class Product {
     minOrder: json["min_order"] == null ? null : json["min_order"],
     createdAt: json["created_at"] == null ? null : DateTime.parse(json["created_at"]),
     updatedAt: json["updated_at"] == null ? null : DateTime.parse(json["updated_at"]),
-    images: json["image"] == null ? null : List<dynamic>.from(json["image"].map((x) => x)),
+    images: json["image"] == null ? null : List<ImageProduct>.from(json["image"].map((x) => ImageProduct.fromJson(x))),
   );
 
   Map<String, dynamic> toJson() => {
@@ -81,6 +81,26 @@ class Product {
     "status": status == null ? null : status,
     "created_at": createdAt == null ? null : createdAt.toIso8601String(),
     "updated_at": updatedAt == null ? null : updatedAt.toIso8601String(),
-    "image": images == null ? null : List<dynamic>.from(images.map((x) => x)),
+    "image": images == null ? null : List<dynamic>.from(images.map((x) => x.toJson())),
+  };
+}
+
+class ImageProduct {
+  ImageProduct({
+    this.id,
+    this.url,
+  });
+
+  String id;
+  String url;
+
+  factory ImageProduct.fromJson(Map<String, dynamic> json) => ImageProduct(
+    id: json["id"] == null ? null : json["id"],
+    url: json["link"] == null ? null : json["link"],
+  );
+
+  Map<String, dynamic> toJson() => {
+    "id": id == null ? null : id,
+    "link": url == null ? null : url,
   };
 }

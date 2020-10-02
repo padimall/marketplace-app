@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:padimall_app/providers/toko.dart';
 import 'package:padimall_app/providers/user.dart';
 import 'package:padimall_app/utils/custom_text_theme.dart';
 import 'package:provider/provider.dart';
 import 'package:wc_form_validators/wc_form_validators.dart';
 
-class EditBuyerDialogWidget {
+class EditSupplierDialogWidget {
   static void show(BuildContext context, String label, String value, int indexProfile) {
-    ProviderUser _providerUser = Provider.of(context, listen: false);
+    ProviderToko _providerToko = Provider.of(context, listen: false);
     var _formEdit = GlobalKey<FormState>();
     TextEditingController textEditingController = TextEditingController();
     textEditingController.text = value;
@@ -25,14 +26,6 @@ class EditBuyerDialogWidget {
         _maxLength = 14;
         break;
       case 2:
-        _keyboardType = TextInputType.text;
-        _maxLength = 40;
-        _validator = Validators.compose([
-          Validators.required('Kolom ini hendak diisi'),
-          Validators.patternRegExp(RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$'), 'Format Email salah')
-        ]);
-        break;
-      case 3:
         _keyboardType = TextInputType.text;
         _maxLength = 50;
         break;
@@ -67,7 +60,7 @@ class EditBuyerDialogWidget {
                     onPressed: () {
                       if (_formEdit.currentState.validate()) {
                         _formEdit.currentState.save();
-                        _providerUser.updateUserProfile(context, textEditingController, indexProfile);
+                        _providerToko.updateSupplierProfile(context, textEditingController, indexProfile);
                       }
                     },
                     child: Text(

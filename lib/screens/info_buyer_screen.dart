@@ -78,7 +78,7 @@ class InfoBuyerScreen extends StatelessWidget {
             ),
           ),
           GestureDetector(
-            onTap: () => EditDialogWidget.show(context, label, value, indexProfile),
+            onTap: () => EditBuyerDialogWidget.show(context, label, value, indexProfile),
             child: Icon(
               Icons.edit,
               size: 20,
