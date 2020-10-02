@@ -197,8 +197,9 @@ class ProviderToko with ChangeNotifier {
     }
   }
 
-  Future<void> updateSupplierImage(File selectedImage) async {
+  Future<void> updateSupplierImage(BuildContext context, File selectedImage) async {
     try {
+      CustomAlertDialog.loading(context);
       var dio = Dio();
       var url = '${global.API_URL_PREFIX}/api/v1/supplier/update';
       FormData formData = FormData.fromMap({
@@ -218,10 +219,16 @@ class ProviderToko with ChangeNotifier {
 
       print(response.statusCode);
       print(response.data);
+
+      Navigator.pop(context);
+      if (response.statusCode == 200) {
+        Fluttertoast.showToast(msg: 'Foto berhasil diperbaharui', toastLength: Toast.LENGTH_LONG, backgroundColor: Theme.of(context).primaryColor);
+      }
     } catch (e) {
       print(e.toString());
     } finally {
-      notifyListeners();
+      getSupplierDetail(context);
+//      notifyListeners();
     }
   }
 }

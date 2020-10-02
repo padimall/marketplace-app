@@ -96,11 +96,11 @@ class ImageProduct {
 
   factory ImageProduct.fromJson(Map<String, dynamic> json) => ImageProduct(
     id: json["id"] == null ? null : json["id"],
-    url: json["link"] == null ? null : json["link"],
+    url: json["url"] == null ? null : json["url"],
   );
 
   Map<String, dynamic> toJson() => {
     "id": id == null ? null : id,
-    "link": url == null ? null : url,
+    "url": url == null ? null : url,
   };
 }

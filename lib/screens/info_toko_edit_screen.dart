@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:padimall_app/providers/toko.dart';
+import 'package:padimall_app/utils/custom_alert_dialog.dart';
 import 'package:padimall_app/utils/custom_image_url.dart';
 import 'package:padimall_app/utils/custom_text_theme.dart';
 import 'package:padimall_app/widgets/info_toko/edit_dialog.dart';
@@ -45,7 +46,7 @@ class _InfoTokoEditScreenState extends State<InfoTokoEditScreen> {
       setState(() {
         _imageSelected = cropped;
         print('image: ${_imageSelected.path}');
-        _providerToko.updateSupplierImage(_imageSelected);
+        _providerToko.updateSupplierImage(context, _imageSelected);
       });
     }
   }
@@ -144,22 +145,50 @@ class _InfoTokoEditScreenState extends State<InfoTokoEditScreen> {
             ),
             Container(
               alignment: Alignment.center,
+              width: double.infinity,
               margin: const EdgeInsets.all(8.0),
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(6),
                 child: _providerToko.supplierDetail.imageUrl != null
                     ? GestureDetector(
                         onTap: () {
-                          // TODO: EDIT OR DELETE
-//                          getImage(context, ImageSource.gallery);
+                          CustomAlertDialog.editAndDeletePicture(
+                            context,
+                            () {
+                              Navigator.pop(context);
+                              getImage(context, ImageSource.gallery);
+                            },
+                            () {
+                              Navigator.pop(context);
+                              // TODO: DELETE PIC
+                              _providerToko.updateSupplierImage(context, null);
+                            },
+                          );
                         },
-                        child: CachedNetworkImage(
-                          imageUrl: (_providerToko.supplierDetail.imageUrl),
-                          height: 75,
-                          width: 75,
-                          fit: BoxFit.cover,
-                        )
-                      )
+                        child: Stack(
+                          alignment: Alignment.center,
+                          children: [
+                            CachedNetworkImage(
+                              imageUrl: (_providerToko.supplierDetail.imageUrl),
+                              height: 75,
+                              width: 75,
+                              fit: BoxFit.cover,
+                            ),
+                            Positioned(
+                              bottom: 0,
+                              child: Container(
+                                height: 20,
+                                width: 75,
+                                color: Colors.black87.withOpacity(0.4),
+                                child: Text(
+                                  'Edit',
+                                  textAlign: TextAlign.center,
+                                  style: PadiMallTextTheme.sz11weight700White(context),
+                                ),
+                              ),
+                            )
+                          ],
+                        ))
                     : _imageSelected == null
                         ? GestureDetector(
                             onTap: () {
@@ -173,7 +202,7 @@ class _InfoTokoEditScreenState extends State<InfoTokoEditScreen> {
                             ),
                           )
                         : Image.file(
-                           _imageSelected,
+                            _imageSelected,
                             height: 75,
                             width: 75,
                             fit: BoxFit.cover,
