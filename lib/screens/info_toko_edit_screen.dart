@@ -161,7 +161,7 @@ class _InfoTokoEditScreenState extends State<InfoTokoEditScreen> {
                             () {
                               Navigator.pop(context);
                               // TODO: DELETE PIC
-                              _providerToko.updateSupplierImage(context, null);
+                              _providerToko.deleteSupplierImage(context);
                             },
                           );
                         },

@@ -228,7 +228,33 @@ class ProviderToko with ChangeNotifier {
       print(e.toString());
     } finally {
       getSupplierDetail(context);
-//      notifyListeners();
+    }
+  }
+
+  Future<void> deleteSupplierImage(BuildContext context) async {
+    try {
+      var url = '${global.API_URL_PREFIX}/api/v1/supplier/delete-image';
+      print(url);
+
+      http.Response response = await http.post(
+        url,
+        headers: {
+          'X-Requested-With': 'XMLHttpRequest',
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + await FlutterSecureStorageServices.getUserToken(),
+        },
+      );
+      print(response.body);
+      print(response.statusCode);
+
+      if (response.statusCode == 200) {
+        Navigator.pop(context);
+        Fluttertoast.showToast(msg: 'Data berhasil diperbaharui', toastLength: Toast.LENGTH_LONG, backgroundColor: Theme.of(context).primaryColor);
+      }
+    } catch (e) {
+      print(e.toString());
+    } finally {
+      getSupplierDetail(context);
     }
   }
 }

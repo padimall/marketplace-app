@@ -54,7 +54,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (ctx) => ProviderProduct(),),
       ],
       child: MaterialApp(
-        title: 'Flutter Demo',
+        title: 'PadiMall',
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
           primarySwatch: MaterialColor(0xFF84B214, color),
