@@ -193,6 +193,7 @@ class ProviderUser with ChangeNotifier {
         },
         body: json.encode(requestBody),
       );
+      print(requestBody);
       print(response.body);
       print(response.statusCode);
 
@@ -200,6 +201,13 @@ class ProviderUser with ChangeNotifier {
         Navigator.pop(context);
         Fluttertoast.showToast(msg: 'Data berhasil diperbaharui', toastLength: Toast.LENGTH_LONG, backgroundColor: Theme.of(context).primaryColor);
         getUserProfile(context);
+      } else if (response.statusCode == 422) {
+        Navigator.pop(context);
+        if (response.body.contains('phone')) {
+          Fluttertoast.showToast(msg: 'Gagal mengupdate. No. Handphone telah terdaftar', toastLength: Toast.LENGTH_LONG, backgroundColor: Theme.of(context).accentColor);
+        } else if (response.body.contains('email')) {
+          Fluttertoast.showToast(msg: 'Gagal mengupdate. Email telah terdaftar', toastLength: Toast.LENGTH_LONG, backgroundColor: Theme.of(context).accentColor);
+        }
       }
     } catch (e) {
       print(e.toString());
