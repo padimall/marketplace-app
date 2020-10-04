@@ -147,7 +147,7 @@ class ProviderToko with ChangeNotifier {
       print(response.body);
       print(response.statusCode);
 
-      var jsonObject = PostRestSuppliersAgentDetail.fromJson(jsonDecode(response.body));
+      var jsonObject = PostResSuppliersAgentDetail.fromJson(jsonDecode(response.body));
 
       if (response.statusCode == 200) {
         _agentDetail = jsonObject.data;
@@ -255,6 +255,37 @@ class ProviderToko with ChangeNotifier {
       print(e.toString());
     } finally {
       getSupplierDetail(context);
+    }
+  }
+
+  Future<void> getAgentDetail(BuildContext context) async {
+    try {
+      var url = '${global.API_URL_PREFIX}/api/v1/agent/detail';
+      print(url);
+
+      http.Response response = await http.post(
+        url,
+        headers: {
+          'X-Requested-With': 'XMLHttpRequest',
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + await FlutterSecureStorageServices.getUserToken(),
+        },
+      );
+      print(response.body);
+      print('tesss: ${response.statusCode}');
+
+      var jsonObject = PostResSuppliersAgentDetail.fromJson(jsonDecode(response.body));
+
+      if (response.statusCode == 200) {
+        _agentDetail = jsonObject.data;
+        print('tes: ${_agentDetail.agentCode}');
+      } else if (response.statusCode == 404) {
+        _agentDetail = null;
+      }
+    } catch (e) {
+      print(e.toString());
+    } finally {
+      notifyListeners();
     }
   }
 }

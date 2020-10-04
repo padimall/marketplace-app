@@ -3,6 +3,7 @@ import 'package:padimall_app/providers/toko.dart';
 import 'package:padimall_app/providers/user.dart';
 import 'package:padimall_app/utils/build_future_builder.dart';
 import 'package:padimall_app/utils/custom_text_theme.dart';
+import 'package:padimall_app/widgets/akun/agent_saya.dart';
 import 'package:padimall_app/widgets/akun/akun_pembeli.dart';
 import 'package:padimall_app/widgets/akun/no_toko_yet.dart';
 import 'package:padimall_app/widgets/akun/no_user_yet.dart';
@@ -24,6 +25,7 @@ class _AkunScreenState extends State<AkunScreen> {
     // TODO: implement initState
     super.initState();
     Future.delayed(Duration(seconds: 0), () {
+      _providerToko.getAgentDetail(context);
       _providerToko.getSupplierDetail(context);
     });
   }
@@ -61,7 +63,7 @@ class _AkunScreenState extends State<AkunScreen> {
                     builder: (ctx, provider, _) => TabBarView(
                       children: <Widget>[
                         AkunPembeliWidget(),
-                        _providerToko.supplierDetail != null ? TokoSayaWidget() : NoTokoYetWidget(),
+                        _providerToko.agentDetail != null ? AgentSayaWidget() : _providerToko.supplierDetail != null ? TokoSayaWidget() : NoTokoYetWidget(),
                       ],
                     ),
                   )

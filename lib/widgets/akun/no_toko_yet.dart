@@ -16,7 +16,7 @@ class NoTokoYetWidget extends StatelessWidget {
           Container(
             margin: const EdgeInsets.only(bottom: 20),
             child: Text(
-              'Ayo daftarkan dirimu jadi Supplier',
+              'Ayo daftarkan dirimu sebagai Supplier',
               style: PadiMallTextTheme.sz13weight600Soft(context),
             ),
           ),

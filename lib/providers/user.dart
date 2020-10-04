@@ -147,6 +147,7 @@ class ProviderUser with ChangeNotifier {
   Future<void> getUserProfile(BuildContext context) async {
     try {
       var url = '${global.API_URL_PREFIX}/api/v1/user';
+      print(url);
 
       http.Response response = await http.post(
         url,

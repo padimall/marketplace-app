@@ -1,5 +1,5 @@
-class PostRestSuppliersAgentDetail {
-  PostRestSuppliersAgentDetail({
+class PostResSuppliersAgentDetail {
+  PostResSuppliersAgentDetail({
     this.status,
     this.message,
     this.data,
@@ -9,7 +9,7 @@ class PostRestSuppliersAgentDetail {
   String message;
   Agent data;
 
-  factory PostRestSuppliersAgentDetail.fromJson(Map<String, dynamic> json) => PostRestSuppliersAgentDetail(
+  factory PostResSuppliersAgentDetail.fromJson(Map<String, dynamic> json) => PostResSuppliersAgentDetail(
     status: json["status"] == null ? null : json["status"],
     message: json["message"] == null ? null : json["message"],
     data: json["data"] == null ? null : Agent.fromJson(json["data"]),
