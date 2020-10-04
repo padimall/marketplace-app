@@ -8,6 +8,7 @@ import 'package:padimall_app/models/post_show_products.dart';
 import 'package:padimall_app/providers/product_categories.dart';
 import 'package:padimall_app/providers/products.dart';
 import 'package:padimall_app/utils/build_future_builder.dart';
+import 'package:padimall_app/utils/custom_alert_dialog.dart';
 import 'package:padimall_app/utils/custom_image_url.dart';
 import 'package:padimall_app/utils/custom_text_theme.dart';
 import 'package:provider/provider.dart';
@@ -15,6 +16,7 @@ import 'package:provider/provider.dart';
 class ProdukEditScreen extends StatelessWidget {
   ProviderProductCategories _providerProductCategories;
   ProviderProduct _providerProduct;
+  ProductCategory _selectedProductCategory;
   static final routeName = 'produk-edit-screen';
   final nameController = TextEditingController();
   final descController = TextEditingController();
@@ -22,7 +24,6 @@ class ProdukEditScreen extends StatelessWidget {
   final weightController = MoneyMaskedTextController(thousandSeparator: '.', precision: 0, decimalSeparator: '');
   final minOrderController = MoneyMaskedTextController(thousandSeparator: '.', precision: 0, decimalSeparator: '');
   final stockController = MoneyMaskedTextController(thousandSeparator: '.', precision: 0, decimalSeparator: '');
-  ProductCategory _selectedProductCategory;
 
   @override
   Widget build(BuildContext context) {
@@ -50,6 +51,32 @@ class ProdukEditScreen extends StatelessWidget {
           },
         ),
         backgroundColor: Colors.white,
+        actions: [
+          Padding(
+            padding: const EdgeInsets.only(right: 16.0),
+            child: IconButton(
+              onPressed: () {
+                CustomAlertDialog.dialogOfTwo(
+                  context,
+                  true,
+                  'Hapus Produk?',
+                  'Semua data yang ada pada produk ini akan dihapus.',
+                  'Hapus',
+                  'Batal',
+                  () {
+                    Navigator.pop(context);
+                    _providerProduct.deleteProduct(context, product);
+                  },
+                  () {
+                    Navigator.pop(context);
+                  },
+                );
+              },
+              color: Colors.redAccent,
+              icon: Icon(Icons.delete),
+            ),
+          )
+        ],
       ),
       body: buildFutureBuilder(
         _providerProductCategories.getProductCategories(),
@@ -246,8 +273,8 @@ class ProdukEditScreen extends StatelessWidget {
                       padding: const EdgeInsets.symmetric(vertical: 16),
                       child: RaisedButton(
                         onPressed: () {
-                          _providerProduct.updateProduct(context, product.id, nameController, priceController, weightController, descController, _selectedProductCategory,
-                              stockController, minOrderController);
+                          _providerProduct.updateProduct(context, product.id, nameController, priceController, weightController, descController,
+                              _selectedProductCategory, stockController, minOrderController);
 //                          Navigator.pop(context);
 //                          Fluttertoast.showToast(
 //                              msg: 'Data produk berhasil di edit', toastLength: Toast.LENGTH_LONG, backgroundColor: Theme.of(context).primaryColor);

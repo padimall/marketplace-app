@@ -198,7 +198,7 @@ class ProviderProduct with ChangeNotifier {
       if (response.statusCode == 200) {
         _listSupplierProducts.clear();
         _listSupplierProducts = jsonObject.data;
-      }
+      } else {}
     } catch (e) {
       print(e.toString());
     } finally {
@@ -234,7 +234,7 @@ class ProviderProduct with ChangeNotifier {
       var dio = Dio();
       FormData formData = FormData.fromMap(
         {
-          'target_id' : productId,
+          'target_id': productId,
           'name': name.text,
           'price': price.text.replaceAll('.', ''),
           'weight': weight.text.replaceAll('.', ''),
@@ -280,5 +280,36 @@ class ProviderProduct with ChangeNotifier {
     } finally {
       notifyListeners();
     }
+  }
+
+  Future<void> deleteProduct(BuildContext context, Product product) async {
+    try {
+      CustomAlertDialog.loading(context);
+      var url = '${global.API_URL_PREFIX}/api/v1/product/delete';
+
+      var requestBody = {
+        'target_id': product.id,
+      };
+
+      http.Response response = await http.post(
+        url,
+        headers: {
+          'X-Requested-With': 'XMLHttpRequest',
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + await FlutterSecureStorageServices.getUserToken(),
+        },
+        body: json.encode(requestBody),
+      );
+      print(url);
+      print(response.body);
+      Navigator.pop(context);
+      if (response.statusCode == 200) {
+        Fluttertoast.showToast(msg: 'Produk berhasil dihapus.', toastLength: Toast.LENGTH_LONG, backgroundColor: Theme.of(context).accentColor);
+        Navigator.pop(context);
+        getSupplierProduct();
+      }
+    } catch (e) {
+      print(e.toString());
+    } finally {}
   }
 }
