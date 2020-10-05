@@ -346,7 +346,7 @@ class ProdukEditScreen extends StatelessWidget {
                                   fit: BoxFit.cover,
                                 )
                               : CachedNetworkImage(
-                                  imageUrl: imageUrlFormatter(product.images[index].url),
+                                  imageUrl: product.images[index].url,
                                   height: 75,
                                   width: 75,
                                   fit: BoxFit.cover,

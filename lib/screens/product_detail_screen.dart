@@ -25,7 +25,7 @@ class ProductDetailScreen extends StatelessWidget {
         boxFit: BoxFit.cover,
         images: product.images
             .map((productImages) => CachedNetworkImage(
-                  imageUrl: imageUrlFormatter(productImages.url),
+                  imageUrl: productImages.url,
                   fit: BoxFit.cover,
                 ))
             .toList(),

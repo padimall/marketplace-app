@@ -52,7 +52,7 @@ class SupplierDetail {
     userId: json["user_id"] == null ? null : json["user_id"],
     name: json["name"] == null ? null : json["name"],
     phone: json["phone"] == null ? null : json["phone"],
-    imageUrl: json["image"] == null ? null : global.API_URL_PREFIX + '/' + json["image"],
+    imageUrl: json["image"] == null ? null : json["image"],
     address: json["address"] == null ? null : json["address"],
     createdAt: json["created_at"] == null ? null : DateTime.parse(json["created_at"]),
     updatedAt: json["updated_at"] == null ? null : DateTime.parse(json["updated_at"]),

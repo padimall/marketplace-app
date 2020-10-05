@@ -31,7 +31,7 @@ class ProductInRow extends StatelessWidget {
                       fit: BoxFit.cover,
                     )
                   : FadeInImage.assetNetwork(
-                      image: imageUrlFormatter(product.images[0].url),
+                      image: product.images[0].url,
                       placeholder: 'assets/images/logo.png',
                       height: 75,
                       width: 75,
