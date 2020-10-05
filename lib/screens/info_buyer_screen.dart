@@ -46,7 +46,7 @@ class InfoBuyerScreen extends StatelessWidget {
                   _buildInfoRow(context, 'No. Handphone', '${_providerUser.userProfileDetail.phone}', 1),
                   _buildInfoRow(context, 'Email', '${_providerUser.userProfileDetail.email}', 2),
                   _buildInfoRow(context, 'Alamat Lengkap', '${_providerUser.userProfileDetail.address}', 3),
-                  _buildInfoRow(context, 'Ubah Password', '********', 4),
+                  _buildInfoRow(context, 'Password', '********', 4),
                 ],
               ),
             ),
