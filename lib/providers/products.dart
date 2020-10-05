@@ -164,7 +164,7 @@ class ProviderProduct with ChangeNotifier {
       Navigator.pop(context);
       if (response.statusCode == 201) {
         Navigator.pop(context);
-        Fluttertoast.showToast(msg: 'Anda berhasil menjadi Supplier.', toastLength: Toast.LENGTH_LONG, backgroundColor: Theme.of(context).primaryColor);
+        Fluttertoast.showToast(msg: 'Produk berhasil ditambahkan.', toastLength: Toast.LENGTH_LONG, backgroundColor: Theme.of(context).primaryColor);
         getSupplierProduct();
       }
     } on DioError catch (dioError) {
@@ -196,8 +196,12 @@ class ProviderProduct with ChangeNotifier {
       var jsonObject = PostResShowProducts.fromJson(json.decode(response.body));
 
       if (response.statusCode == 200) {
-        _listSupplierProducts.clear();
-        _listSupplierProducts = jsonObject.data;
+        if (jsonObject.status == 1) {
+          _listSupplierProducts.clear();
+          _listSupplierProducts = jsonObject.data;
+        } else if (jsonObject.status == 0){
+
+        }
       } else {}
     } catch (e) {
       print(e.toString());
