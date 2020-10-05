@@ -272,7 +272,7 @@ class ProviderToko with ChangeNotifier {
         },
       );
       print(response.body);
-      print('tesss: ${response.statusCode}');
+      print(response.statusCode);
 
       var jsonObject = PostResSuppliersAgentDetail.fromJson(jsonDecode(response.body));
 

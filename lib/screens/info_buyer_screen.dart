@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:padimall_app/providers/user.dart';
+import 'package:padimall_app/screens/edit_password_screen.dart';
 import 'package:padimall_app/utils/build_future_builder.dart';
 import 'package:padimall_app/utils/custom_text_theme.dart';
 import 'package:padimall_app/widgets/info_user/edit_dialog.dart';
@@ -45,6 +46,7 @@ class InfoBuyerScreen extends StatelessWidget {
                   _buildInfoRow(context, 'No. Handphone', '${_providerUser.userProfileDetail.phone}', 1),
                   _buildInfoRow(context, 'Email', '${_providerUser.userProfileDetail.email}', 2),
                   _buildInfoRow(context, 'Alamat Lengkap', '${_providerUser.userProfileDetail.address}', 3),
+                  _buildInfoRow(context, 'Ubah Password', '********', 4),
                 ],
               ),
             ),
@@ -78,7 +80,13 @@ class InfoBuyerScreen extends StatelessWidget {
             ),
           ),
           GestureDetector(
-            onTap: () => EditBuyerDialogWidget.show(context, label, value, indexProfile),
+            onTap: () {
+              if (indexProfile == 4) {
+                Navigator.pushNamed(context, EditPasswordScreen.routeName);
+              } else {
+                EditBuyerDialogWidget.show(context, label, value, indexProfile);
+              }
+            },
             child: Icon(
               Icons.edit,
               size: 20,

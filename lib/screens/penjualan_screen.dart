@@ -91,19 +91,21 @@ class PenjualanScreen extends StatelessWidget {
                   ],
                 ),
               ),
-              SingleChildScrollView(
-                child: ListView.builder(
-                  itemCount: 1,
-                  shrinkWrap: true,
-                  physics: NeverScrollableScrollPhysics(),
-                  itemBuilder: (ctx, index) {
-                    return GestureDetector(
-                      onTap: () {
-                        Navigator.pushNamed(context, DetailPenjualanScreen.routeName);
-                      },
-                      child: InvoiceSummaryWidget(),
-                    );
-                  },
+              Expanded(
+                child: SingleChildScrollView(
+                  child: ListView.builder(
+                    itemCount: 2,
+                    shrinkWrap: true,
+                    physics: NeverScrollableScrollPhysics(),
+                    itemBuilder: (ctx, index) {
+                      return GestureDetector(
+                        onTap: () {
+                          Navigator.pushNamed(context, DetailPenjualanScreen.routeName);
+                        },
+                        child: InvoiceSummaryWidget(),
+                      );
+                    },
+                  ),
                 ),
               )
             ],

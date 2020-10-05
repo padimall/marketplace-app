@@ -204,10 +204,47 @@ class ProviderUser with ChangeNotifier {
       } else if (response.statusCode == 422) {
         Navigator.pop(context);
         if (response.body.contains('phone')) {
-          Fluttertoast.showToast(msg: 'Gagal mengupdate. No. Handphone telah terdaftar', toastLength: Toast.LENGTH_LONG, backgroundColor: Theme.of(context).accentColor);
+          Fluttertoast.showToast(
+              msg: 'Gagal mengupdate. No. Handphone telah terdaftar', toastLength: Toast.LENGTH_LONG, backgroundColor: Theme.of(context).accentColor);
         } else if (response.body.contains('email')) {
-          Fluttertoast.showToast(msg: 'Gagal mengupdate. Email telah terdaftar', toastLength: Toast.LENGTH_LONG, backgroundColor: Theme.of(context).accentColor);
+          Fluttertoast.showToast(
+              msg: 'Gagal mengupdate. Email telah terdaftar', toastLength: Toast.LENGTH_LONG, backgroundColor: Theme.of(context).accentColor);
         }
+      }
+    } catch (e) {
+      print(e.toString());
+    } finally {
+      Navigator.pop(context);
+      notifyListeners();
+    }
+  }
+
+  Future<void> changePasswordUser(BuildContext context, TextEditingController oldPassword, TextEditingController newPassword) async {
+    try {
+      CustomAlertDialog.loading(context);
+      var url = '${global.API_URL_PREFIX}/api/v1/user/change-password';
+
+      var requestBody = {
+        'old_password': oldPassword.text,
+        'password': newPassword.text,
+      };
+
+      http.Response response = await http.post(
+        url,
+        headers: {
+          'X-Requested-With': 'XMLHttpRequest',
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + await FlutterSecureStorageServices.getUserToken(),
+        },
+        body: json.encode(requestBody),
+      );
+      print(response.body);
+      print(response.statusCode);
+
+      if (response.statusCode == 200) {
+        Navigator.pop(context);
+        Fluttertoast.showToast(msg: 'Password berhasil diperbaharui', toastLength: Toast.LENGTH_LONG, backgroundColor: Theme.of(context).primaryColor);
+        getUserProfile(context);
       }
     } catch (e) {
       print(e.toString());
