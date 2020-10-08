@@ -6,7 +6,6 @@ import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:padimall_app/providers/toko.dart';
 import 'package:padimall_app/utils/custom_alert_dialog.dart';
-import 'package:padimall_app/utils/custom_image_url.dart';
 import 'package:padimall_app/utils/custom_text_theme.dart';
 import 'package:padimall_app/widgets/info_toko/edit_dialog.dart';
 import 'package:provider/provider.dart';

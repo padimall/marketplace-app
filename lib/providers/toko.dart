@@ -288,4 +288,39 @@ class ProviderToko with ChangeNotifier {
       notifyListeners();
     }
   }
+
+  Future<void> updateAgentProfile(BuildContext context, TextEditingController textEditingController, int indexProfile) async {
+    try {
+      CustomAlertDialog.loading(context);
+      var url = '${global.API_URL_PREFIX}/api/v1/agent/update';
+
+      var requestBody = {
+        'name': indexProfile == 0 ? textEditingController.text : null,
+        'phone': indexProfile == 1 ? textEditingController.text : null,
+      };
+
+      http.Response response = await http.post(
+        url,
+        headers: {
+          'X-Requested-With': 'XMLHttpRequest',
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + await FlutterSecureStorageServices.getUserToken(),
+        },
+        body: json.encode(requestBody),
+      );
+      print(response.body);
+      print(response.statusCode);
+
+      if (response.statusCode == 200) {
+        Navigator.pop(context);
+        Fluttertoast.showToast(msg: 'Data berhasil diperbaharui', toastLength: Toast.LENGTH_LONG, backgroundColor: Theme.of(context).primaryColor);
+        getAgentDetail(context);
+      }
+    } catch (e) {
+      print(e.toString());
+    } finally {
+      Navigator.pop(context);
+      notifyListeners();
+    }
+  }
 }
