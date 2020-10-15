@@ -159,13 +159,18 @@ class ProviderProduct with ChangeNotifier {
       );
 
       print(url);
+      print(response.statusCode);
       print(response.data);
 
       Navigator.pop(context);
       if (response.statusCode == 201) {
         Navigator.pop(context);
         Fluttertoast.showToast(msg: 'Produk berhasil ditambahkan.', toastLength: Toast.LENGTH_LONG, backgroundColor: Theme.of(context).primaryColor);
+        getAgentProduct();
         getSupplierProduct();
+      } else {
+        Navigator.pop(context);
+        Fluttertoast.showToast(msg: 'Terjadi kesalahan. (${response.statusCode})', toastLength: Toast.LENGTH_LONG, backgroundColor: Theme.of(context).primaryColor);
       }
     } on DioError catch (dioError) {
       // Something happened in setting up or sending the request that triggered an Error
@@ -199,7 +204,41 @@ class ProviderProduct with ChangeNotifier {
         if (jsonObject.status == 1) {
           _listSupplierProducts.clear();
           _listSupplierProducts = jsonObject.data;
-        } else if (jsonObject.status == 0){
+        } else if (jsonObject.status == 0) {
+          _listSupplierProducts.clear();
+        }
+      } else {}
+    } catch (e) {
+      print(e.toString());
+    } finally {
+      notifyListeners();
+    }
+  }
+
+  Future<void> getSupplierOfAgentProduct(String supplierId) async {
+    try {
+      var url = '${global.API_URL_PREFIX}/api/v1/product/my-supplier';
+
+      var requestBody = {
+        'target_id': supplierId,
+      };
+
+      http.Response response = await http.post(url,
+          headers: {
+            'X-Requested-With': 'XMLHttpRequest',
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + await FlutterSecureStorageServices.getUserToken(),
+          },
+          body: json.encode(requestBody));
+      print(url);
+      print(response.body);
+      var jsonObject = PostResShowProducts.fromJson(json.decode(response.body));
+
+      if (response.statusCode == 200) {
+        if (jsonObject.status == 1) {
+          _listSupplierProducts.clear();
+          _listSupplierProducts = jsonObject.data;
+        } else if (jsonObject.status == 0) {
           _listSupplierProducts.clear();
         }
       } else {}
@@ -228,11 +267,9 @@ class ProviderProduct with ChangeNotifier {
 
       if (response.statusCode == 200) {
         if (jsonObject.status == 1) {
-//          _listSupplierProducts.clear();
-//          _listSupplierProducts = jsonObject.data;
-        } else if (jsonObject.status == 0){
-
-        }
+          _listSupplierProducts.clear();
+          _listSupplierProducts = jsonObject.data;
+        } else if (jsonObject.status == 0) {}
       } else {}
     } catch (e) {
       print(e.toString());

@@ -5,7 +5,7 @@ import 'package:padimall_app/widgets/alert_dialog/loading.dart';
 
 class CustomAlertDialog {
   static void loading(BuildContext context) {
-    transparentLoadingCircular(context);
+    transparentLoadingCircular(context, "Loading..", (){});
   }
 
   static Future<String> editAndDeletePicture(BuildContext context, Function tapHandler1, Function tapHandler2) {

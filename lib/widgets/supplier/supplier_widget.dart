@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:padimall_app/models/post_show_products.dart';
 import 'package:padimall_app/models/post_show_supplier_detail.dart';
 import 'package:padimall_app/screens/product_detail_screen.dart';
+import 'package:padimall_app/screens/produk_supplier_anda.dart';
 import 'package:padimall_app/utils/custom_image_url.dart';
 import 'package:padimall_app/utils/custom_text_theme.dart';
 import 'package:padimall_app/utils/text_number_formatter.dart';
@@ -33,7 +34,7 @@ class SupplierWidget extends StatelessWidget {
         borderRadius: BorderRadius.circular(8),
         child: InkWell(
           onTap: () {
-//            Navigator.pushNamed(context, ProductDetailScreen.routeName, arguments: product);
+            Navigator.pushNamed(context, ProdukSupplierAnda.routeName, arguments: supplier);
           },
           child: GridTile(
             child: supplier.imageUrl != null
@@ -52,13 +53,28 @@ class SupplierWidget extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  Text(
-                    '${supplier.name}',
-                    style: PadiMallTextTheme.sz13weight600(context),
+                  Container(
+                    margin: const EdgeInsets.only(bottom: 4),
+                    child: Text(
+                      '${supplier.name}',
+                      style: PadiMallTextTheme.sz13weight600(context),
+                    ),
                   ),
-                  Text(
-                    '${supplier.phone}',
-                    style: PadiMallTextTheme.sz12weight500(context),
+                  Row(
+                    children: [
+                      Container(
+                        margin: const EdgeInsets.only(right: 8),
+                        child: Icon(
+                          Icons.call,
+                          color: Colors.grey,
+                          size: 15,
+                        ),
+                      ),
+                      Text(
+                        '${supplier.phone}',
+                        style: PadiMallTextTheme.sz12weight500(context),
+                      ),
+                    ],
                   ),
                 ],
               ),

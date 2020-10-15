@@ -23,6 +23,7 @@ import 'package:padimall_app/screens/product_by_category_screen.dart';
 import 'package:padimall_app/screens/product_detail_screen.dart';
 import 'package:padimall_app/screens/produk_anda_screen.dart';
 import 'package:padimall_app/screens/produk_edit_screen.dart';
+import 'package:padimall_app/screens/produk_supplier_anda.dart';
 import 'package:padimall_app/screens/produk_tambah_screen.dart';
 import 'package:padimall_app/screens/regis_agent_screen.dart';
 import 'package:padimall_app/screens/regis_supplier_screen.dart';
@@ -96,6 +97,7 @@ class MyApp extends StatelessWidget {
           InfoAgentEditScreen.routeName: (ctx) => InfoAgentEditScreen(),
           RegisterAgentScreen.routeName: (ctx) => RegisterAgentScreen(),
           ListSupplierProductScreen.routeName: (ctx) => ListSupplierProductScreen(),
+          ProdukSupplierAnda.routeName: (ctx) => ProdukSupplierAnda(),
         },
       ),
     );

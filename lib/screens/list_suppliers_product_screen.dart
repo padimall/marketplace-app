@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:padimall_app/models/post_show_supplier_detail.dart';
 import 'package:padimall_app/providers/toko.dart';
 import 'package:padimall_app/utils/build_future_builder.dart';
@@ -88,9 +89,37 @@ class ListSupplierProductScreen extends StatelessWidget {
                 itemCount: _providerToko.agentDetail.suppliers.length,
                 shrinkWrap: true,
                 physics: NeverScrollableScrollPhysics(),
-                itemBuilder: (ctx, index) => SupplierWidget(
-                  supplier: _providerToko.agentDetail.suppliers[index],
-                ),
+                itemBuilder: (ctx, index) {
+                  return _providerToko.agentDetail.suppliers.isEmpty
+                      ? Container(
+                          width: double.infinity,
+                          padding: const EdgeInsets.symmetric(horizontal: 16),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisSize: MainAxisSize.max,
+                            children: [
+                              Container(
+                                margin: const EdgeInsets.only(top: 40),
+                                child: SvgPicture.asset(
+                                  'assets/images/empty.svg',
+                                  height: 200,
+                                ),
+                              ),
+                              Container(
+                                margin: const EdgeInsets.only(top: 20, bottom: 20),
+                                child: Text(
+                                  'Anda belum memiliki Supplier',
+                                  textAlign: TextAlign.center,
+                                  style: PadiMallTextTheme.sz14weight500(context),
+                                ),
+                              ),
+                            ],
+                          ),
+                        )
+                      : SupplierWidget(
+                          supplier: _providerToko.agentDetail.suppliers[index],
+                        );
+                },
               ),
             ),
           ),

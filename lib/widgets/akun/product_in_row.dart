@@ -75,19 +75,21 @@ class ProductInRow extends StatelessWidget {
                         style: PadiMallTextTheme.sz13weight700Green(context),
                       ),
                     ),
-                    ClipRRect(
-                      borderRadius: BorderRadius.circular(4),
-                      child: Container(
-                        color: Theme.of(context).accentColor,
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
-                          child: Text(
-                            'In Review',
-                            style: PadiMallTextTheme.sz11weight700White(context),
-                          ),
-                        ),
-                      ),
-                    )
+                    product.stock == 1
+                        ? Container()
+                        : ClipRRect(
+                            borderRadius: BorderRadius.circular(4),
+                            child: Container(
+                              color: Theme.of(context).accentColor,
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
+                                child: Text(
+                                  'In Review',
+                                  style: PadiMallTextTheme.sz11weight700White(context),
+                                ),
+                              ),
+                            ),
+                          )
                   ],
                 ),
               ],
