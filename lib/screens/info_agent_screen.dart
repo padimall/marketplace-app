@@ -157,104 +157,110 @@ class InfoAgentScreen extends StatelessWidget {
   }
 
   Widget _buildListOfSuppliers(BuildContext context) {
-    return ListView.builder(
-      itemCount: _providerToko.agentDetail.suppliers.length,
-      shrinkWrap: true,
-      physics: NeverScrollableScrollPhysics(),
-      itemBuilder: (context, index) {
-        var supplier = _providerToko.agentDetail.suppliers[index];
-
-        print("is : ${supplier.imageUrl == null}");
-        return Container(
+    return Column(
+      children: [
+        Container(
+          margin: const EdgeInsets.only(top: 8),
           color: Colors.white,
           width: double.infinity,
-          margin: const EdgeInsets.only(top: 8),
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              Container(
-                margin: const EdgeInsets.only(bottom: 16),
-                child: Text(
-                  'Supplier Saya',
-                  style: PadiMallTextTheme.sz14weight600Soft(context),
-                ),
-              ),
-              Row(
+          child: Text(
+            'Supplier Saya',
+            style: PadiMallTextTheme.sz14weight600Soft(context),
+          ),
+        ),
+        ListView.builder(
+          itemCount: _providerToko.agentDetail.suppliers.length,
+          shrinkWrap: true,
+          physics: NeverScrollableScrollPhysics(),
+          itemBuilder: (context, index) {
+            var supplier = _providerToko.agentDetail.suppliers[index];
+
+            print("is : ${supplier.imageUrl == null}");
+            return Container(
+              color: Colors.white,
+              width: double.infinity,
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+              child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  Container(
-                    margin: const EdgeInsets.only(right: 12),
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(6),
-                      child: supplier.imageUrl == null
-                          ? Image.asset(
-                              'assets/images/no_image.png',
-                              height: 60,
-                              width: 60,
-                              fit: BoxFit.cover,
-                            )
-                          : FadeInImage.assetNetwork(
-                              image: '${supplier.imageUrl}',
-                              fit: BoxFit.cover,
-                              placeholder: 'assets/images/logo.png',
-                              height: 60,
-                              width: 60,
-                            ),
-                    ),
-                  ),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Container(
-                          margin: const EdgeInsets.only(bottom: 2),
-                          child: Text(
-                            '${supplier.name}',
-                            style: PadiMallTextTheme.sz14weight600Soft(context),
-                          ),
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Container(
+                        margin: const EdgeInsets.only(right: 12),
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(6),
+                          child: supplier.imageUrl == null
+                              ? Image.asset(
+                                  'assets/images/no_image.png',
+                                  height: 60,
+                                  width: 60,
+                                  fit: BoxFit.cover,
+                                )
+                              : FadeInImage.assetNetwork(
+                                  image: '${supplier.imageUrl}',
+                                  fit: BoxFit.cover,
+                                  placeholder: 'assets/images/logo.png',
+                                  height: 60,
+                                  width: 60,
+                                ),
                         ),
-                        Row(
+                      ),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
                             Container(
-                              margin: const EdgeInsets.only(right: 4),
-                              child: Icon(
-                                Icons.call,
-                                color: Colors.grey,
-                                size: 15,
+                              margin: const EdgeInsets.only(bottom: 2),
+                              child: Text(
+                                '${supplier.name}',
+                                style: PadiMallTextTheme.sz14weight600Soft(context),
                               ),
                             ),
-                            Text(
-                              '${supplier.phone}',
-                              style: PadiMallTextTheme.sz12weight500Grey(context),
+                            Row(
+                              children: <Widget>[
+                                Container(
+                                  margin: const EdgeInsets.only(right: 4),
+                                  child: Icon(
+                                    Icons.call,
+                                    color: Colors.grey,
+                                    size: 15,
+                                  ),
+                                ),
+                                Text(
+                                  '${supplier.phone}',
+                                  style: PadiMallTextTheme.sz12weight500Grey(context),
+                                ),
+                              ],
+                            ),
+                            Row(
+                              children: <Widget>[
+                                Container(
+                                  margin: const EdgeInsets.only(right: 4),
+                                  child: Icon(
+                                    Icons.location_on,
+                                    color: Colors.grey,
+                                    size: 15,
+                                  ),
+                                ),
+                                Text(
+                                  '${supplier.address}',
+                                  style: PadiMallTextTheme.sz12weight500Grey(context),
+                                ),
+                              ],
                             ),
                           ],
                         ),
-                        Row(
-                          children: <Widget>[
-                            Container(
-                              margin: const EdgeInsets.only(right: 4),
-                              child: Icon(
-                                Icons.location_on,
-                                color: Colors.grey,
-                                size: 15,
-                              ),
-                            ),
-                            Text(
-                              '${supplier.address}',
-                              style: PadiMallTextTheme.sz12weight500Grey(context),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
                 ],
               ),
-            ],
-          ),
-        );
-      },
+            );
+          },
+        ),
+      ],
     );
   }
 
