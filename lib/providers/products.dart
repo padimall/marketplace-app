@@ -210,6 +210,37 @@ class ProviderProduct with ChangeNotifier {
     }
   }
 
+  Future<void> getAgentProduct() async {
+    try {
+      var url = '${global.API_URL_PREFIX}/api/v1/product/agent';
+
+      http.Response response = await http.post(
+        url,
+        headers: {
+          'X-Requested-With': 'XMLHttpRequest',
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + await FlutterSecureStorageServices.getUserToken(),
+        },
+      );
+      print(url);
+      print(response.body);
+      var jsonObject = PostResShowProducts.fromJson(json.decode(response.body));
+
+      if (response.statusCode == 200) {
+        if (jsonObject.status == 1) {
+//          _listSupplierProducts.clear();
+//          _listSupplierProducts = jsonObject.data;
+        } else if (jsonObject.status == 0){
+
+        }
+      } else {}
+    } catch (e) {
+      print(e.toString());
+    } finally {
+      notifyListeners();
+    }
+  }
+
   void removeListProductImage(int index) {
     _listProductImage.removeAt(index);
     notifyListeners();
