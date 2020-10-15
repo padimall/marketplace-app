@@ -45,7 +45,7 @@ class InfoTokoScreen extends StatelessWidget {
   Widget _buildTokoInfo(BuildContext context) {
     return Consumer<ProviderToko>(
       builder: (ctx, provider, _) {
-        SupplierDetail _supplierDetail = _providerToko.supplierDetail;
+        Supplier _supplierDetail = _providerToko.supplierDetail;
 
         return Container(
           color: Colors.white,
@@ -179,8 +179,8 @@ class InfoTokoScreen extends StatelessWidget {
                   style: PadiMallTextTheme.sz14weight600Soft(context),
                 ),
               ),
-              _buildInfoRow(context, 'Kode Agen', '${_providerToko.agentDetail.agentCode}'),
-              _buildInfoRow(context, 'Nama Agen', '${_providerToko.agentDetail.name}'),
+              _buildInfoRow(context, 'Kode Agen', '${_providerToko.agentOfSupplier.agentCode}'),
+              _buildInfoRow(context, 'Nama Agen', '${_providerToko.agentOfSupplier.name}'),
             ],
           ),
         ),

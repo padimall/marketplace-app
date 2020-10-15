@@ -9,12 +9,12 @@ class PostResShowSupplierDetail {
 
   int status;
   String message;
-  SupplierDetail data;
+  Supplier data;
 
   factory PostResShowSupplierDetail.fromJson(Map<String, dynamic> json) => PostResShowSupplierDetail(
     status: json["status"] == null ? null : json["status"],
     message: json["message"] == null ? null : json["message"],
-    data: json["data"] == null ? null : SupplierDetail.fromJson(json["data"]),
+    data: json["data"] == null ? null : Supplier.fromJson(json["data"]),
   );
 
   Map<String, dynamic> toJson() => {
@@ -24,8 +24,8 @@ class PostResShowSupplierDetail {
   };
 }
 
-class SupplierDetail {
-  SupplierDetail({
+class Supplier {
+  Supplier({
     this.id,
     this.userId,
     this.name,
@@ -47,7 +47,7 @@ class SupplierDetail {
   DateTime updatedAt;
   String nib;
 
-  factory SupplierDetail.fromJson(Map<String, dynamic> json) => SupplierDetail(
+  factory Supplier.fromJson(Map<String, dynamic> json) => Supplier(
     id: json["id"] == null ? null : json["id"],
     userId: json["user_id"] == null ? null : json["user_id"],
     name: json["name"] == null ? null : json["name"],

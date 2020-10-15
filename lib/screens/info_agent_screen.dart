@@ -35,8 +35,8 @@ class InfoAgentScreen extends StatelessWidget {
       body: SingleChildScrollView(
         child: Column(
           children: <Widget>[
-//            _buildAgentInfo(context),
             _buildAgentInfo(context),
+            _buildListOfSuppliers(context),
           ],
         ),
       ),
@@ -85,23 +85,17 @@ class InfoAgentScreen extends StatelessWidget {
                     margin: const EdgeInsets.only(right: 12),
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(6),
-                      child: 1 == 1
+                      child: _agentDetail.imageUrl == null
                           ? Image.asset(
                               'assets/images/no_image.png',
                               height: 60,
                               width: 60,
                               fit: BoxFit.cover,
                             )
-                          : // TODO: CHANGE TO AGENT.IMAGE
-                          CachedNetworkImage(
-                              imageUrl: '${_agentDetail.agentCode}',
+                          : FadeInImage.assetNetwork(
+                              image: '${_agentDetail.imageUrl}',
                               fit: BoxFit.cover,
-                              placeholder: (ctx, url) => Image.asset(
-                                'assets/images/logo.png',
-                                height: 60,
-                                width: 60,
-                                fit: BoxFit.cover,
-                              ),
+                              placeholder: 'assets/images/logo.png',
                               height: 60,
                               width: 60,
                             ),
@@ -162,31 +156,107 @@ class InfoAgentScreen extends StatelessWidget {
     );
   }
 
-//  Widget _buildAgentInfo(BuildContext context) {
-//    print('tessssss: ${_providerToko.agentDetail}');
-//
-//    return Container(
-//          color: Colors.white,
-//          width: double.infinity,
-//          margin: const EdgeInsets.only(top: 8),
-//          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-//          child: Column(
-//            crossAxisAlignment: CrossAxisAlignment.start,
-//            children: <Widget>[
-//              Container(
-//                margin: const EdgeInsets.only(bottom: 16),
-//                child: Text(
-//                  'Agen',
-//                  style: PadiMallTextTheme.sz14weight600Soft(context),
-//                ),
-//              ),
-//              _buildInfoRow(context, 'Kode Agen', '${_providerToko.agentDetail.agentCode}'),
-//              _buildInfoRow(context, 'Nama', '${_providerToko.agentDetail.name}'),
-//              _buildInfoRow(context, 'No. HP', '${_providerToko.agentDetail.phone}'),
-//            ],
-//          ),
-//        );
-//  }
+  Widget _buildListOfSuppliers(BuildContext context) {
+    return ListView.builder(
+      itemCount: _providerToko.agentDetail.suppliers.length,
+      shrinkWrap: true,
+      physics: NeverScrollableScrollPhysics(),
+      itemBuilder: (context, index) {
+        var supplier = _providerToko.agentDetail.suppliers[index];
+
+        print("is : ${supplier.imageUrl == null}");
+        return Container(
+          color: Colors.white,
+          width: double.infinity,
+          margin: const EdgeInsets.only(top: 8),
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Container(
+                margin: const EdgeInsets.only(bottom: 16),
+                child: Text(
+                  'Supplier Saya',
+                  style: PadiMallTextTheme.sz14weight600Soft(context),
+                ),
+              ),
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Container(
+                    margin: const EdgeInsets.only(right: 12),
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(6),
+                      child: supplier.imageUrl == null
+                          ? Image.asset(
+                              'assets/images/no_image.png',
+                              height: 60,
+                              width: 60,
+                              fit: BoxFit.cover,
+                            )
+                          : FadeInImage.assetNetwork(
+                              image: '${supplier.imageUrl}',
+                              fit: BoxFit.cover,
+                              placeholder: 'assets/images/logo.png',
+                              height: 60,
+                              width: 60,
+                            ),
+                    ),
+                  ),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Container(
+                          margin: const EdgeInsets.only(bottom: 2),
+                          child: Text(
+                            '${supplier.name}',
+                            style: PadiMallTextTheme.sz14weight600Soft(context),
+                          ),
+                        ),
+                        Row(
+                          children: <Widget>[
+                            Container(
+                              margin: const EdgeInsets.only(right: 4),
+                              child: Icon(
+                                Icons.call,
+                                color: Colors.grey,
+                                size: 15,
+                              ),
+                            ),
+                            Text(
+                              '${supplier.phone}',
+                              style: PadiMallTextTheme.sz12weight500Grey(context),
+                            ),
+                          ],
+                        ),
+                        Row(
+                          children: <Widget>[
+                            Container(
+                              margin: const EdgeInsets.only(right: 4),
+                              child: Icon(
+                                Icons.location_on,
+                                color: Colors.grey,
+                                size: 15,
+                              ),
+                            ),
+                            Text(
+                              '${supplier.address}',
+                              style: PadiMallTextTheme.sz12weight500Grey(context),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
 
   Widget _buildInfoRow(BuildContext context, String label, String value) {
     return Container(

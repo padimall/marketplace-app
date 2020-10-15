@@ -47,7 +47,7 @@ class Agent {
   String agentCode;
   String imageUrl;
   int status;
-  List<SupplierDetail> suppliers;
+  List<Supplier> suppliers;
 
   factory Agent.fromJson(Map<String, dynamic> json) => Agent(
     id: json["id"] == null ? null : json["id"],
@@ -59,7 +59,7 @@ class Agent {
     agentCode: json["agent_code"] == null ? null : json["agent_code"],
     imageUrl: json["image"] == null ? null : json["image"],
     status: json["status"] == null ? null : json["status"],
-    suppliers: json["supplier"] == null ? null : List<SupplierDetail>.from(json["supplier"].map((x) => SupplierDetail.fromJson(x))),
+    suppliers: json["supplier"] == null ? null : List<Supplier>.from(json["supplier"].map((x) => Supplier.fromJson(x))),
   );
 
   Map<String, dynamic> toJson() => {

@@ -96,9 +96,9 @@ class ProviderToko with ChangeNotifier {
     }
   }
 
-  SupplierDetail _supplierDetail;
+  Supplier _supplierDetail;
 
-  SupplierDetail get supplierDetail => _supplierDetail;
+  Supplier get supplierDetail => _supplierDetail;
 
   Future<void> getSupplierDetail(BuildContext context) async {
     try {
@@ -134,6 +134,10 @@ class ProviderToko with ChangeNotifier {
 
   Agent get agentDetail => _agentDetail;
 
+  Agent _agentOfSupplier;
+
+  Agent get agentOfSupplier => _agentOfSupplier;
+
   Future<void> getSuppliersAgentInfo() async {
     try {
       var url = '${global.API_URL_PREFIX}/api/v1/supplier/my-agent';
@@ -153,9 +157,9 @@ class ProviderToko with ChangeNotifier {
       var jsonObject = PostResSuppliersAgentDetail.fromJson(jsonDecode(response.body));
 
       if (response.statusCode == 200) {
-        _agentDetail = jsonObject.data;
+        _agentOfSupplier = jsonObject.data;
       } else if (response.statusCode == 404) {
-        _agentDetail = null;
+        _agentOfSupplier = jsonObject.data;
       }
     } catch (e) {
       print(e.toString());
@@ -214,7 +218,6 @@ class ProviderToko with ChangeNotifier {
         options: Options(
           headers: {
             'X-Requested-With': 'XMLHttpRequest',
-//            'Content-Type': 'application/json',
             'Authorization': 'Bearer ' + await FlutterSecureStorageServices.getUserToken(),
           },
         ),
