@@ -128,7 +128,7 @@ class _RegisterAgentScreenState extends State<RegisterAgentScreen> {
                     onPressed: () {
                       if (_formRegister.currentState.validate()) {
                         _formRegister.currentState.save();
-                        _providerToko.createAgent(context, _agentName, _phoneNum);
+                        _providerToko.createAgent(context, _agentName, _phoneNum, _imageSelected);
                       }
                     },
                     color: Theme.of(context).primaryColor,

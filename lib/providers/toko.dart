@@ -326,27 +326,33 @@ class ProviderToko with ChangeNotifier {
     }
   }
 
-  Future<void> createAgent(BuildContext context, String agentName, String phoneNumber) async {
+  Future<void> createAgent(BuildContext context, String agentName, String phoneNumber, File selectedImage) async {
     try {
       CustomAlertDialog.loading(context);
       var url = '${global.API_URL_PREFIX}/api/v1/agent/store';
 
-      var requestBody = {
+      String _pictureFilename;
+      if (selectedImage != null) {
+        _pictureFilename = selectedImage.path.split('/').last;
+      }
+
+      var dio = Dio();
+      FormData formData = FormData.fromMap({
         'name': agentName,
         'phone': phoneNumber,
-      };
-
-      http.Response response = await http.post(
+        'image': selectedImage == null ? null : await MultipartFile.fromFile(selectedImage.path, filename: _pictureFilename),
+      });
+      Response response = await dio.post(
         url,
-        headers: {
-          'X-Requested-With': 'XMLHttpRequest',
-          'Content-Type': 'application/json',
-          'Authorization': 'Bearer ' + await FlutterSecureStorageServices.getUserToken(),
-        },
-        body: json.encode(requestBody),
+        data: formData,
+        options: Options(
+          headers: {
+            'X-Requested-With': 'XMLHttpRequest',
+//            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + await FlutterSecureStorageServices.getUserToken(),
+          },
+        ),
       );
-      print(response.body);
-      print(response.statusCode);
 
       if (response.statusCode == 201) {
         Navigator.pop(context);
