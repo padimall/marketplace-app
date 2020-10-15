@@ -15,6 +15,7 @@ import 'package:padimall_app/screens/info_buyer_screen.dart';
 import 'package:padimall_app/screens/info_toko_edit_screen.dart';
 import 'package:padimall_app/screens/info_toko_screen.dart';
 import 'package:padimall_app/screens/keranjang_screen.dart';
+import 'package:padimall_app/screens/list_suppliers_product_screen.dart';
 import 'package:padimall_app/screens/login_screen.dart';
 import 'package:padimall_app/screens/pembelian_screen.dart';
 import 'package:padimall_app/screens/penjualan_screen.dart';
@@ -94,6 +95,7 @@ class MyApp extends StatelessWidget {
           EditPasswordScreen.routeName: (ctx) => EditPasswordScreen(),
           InfoAgentEditScreen.routeName: (ctx) => InfoAgentEditScreen(),
           RegisterAgentScreen.routeName: (ctx) => RegisterAgentScreen(),
+          ListSupplierProductScreen.routeName: (ctx) => ListSupplierProductScreen(),
         },
       ),
     );

@@ -200,7 +200,7 @@ class ProviderProduct with ChangeNotifier {
           _listSupplierProducts.clear();
           _listSupplierProducts = jsonObject.data;
         } else if (jsonObject.status == 0){
-
+          _listSupplierProducts.clear();
         }
       } else {}
     } catch (e) {

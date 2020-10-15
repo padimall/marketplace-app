@@ -1,29 +1,23 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:padimall_app/providers/products.dart';
+import 'package:padimall_app/models/post_show_supplier_detail.dart';
 import 'package:padimall_app/providers/toko.dart';
-import 'package:padimall_app/screens/produk_tambah_screen.dart';
 import 'package:padimall_app/utils/build_future_builder.dart';
 import 'package:padimall_app/utils/custom_text_theme.dart';
-import 'package:padimall_app/widgets/akun/product_in_row.dart';
-import 'package:padimall_app/widgets/produk_anda/product_agent.dart';
-import 'package:padimall_app/widgets/produk_anda/product_supplier.dart';
+import 'package:padimall_app/widgets/supplier/supplier_widget.dart';
 import 'package:provider/provider.dart';
 
-class ProdukAndaScreen extends StatelessWidget {
-  static final routeName = 'produk-anda-screen';
-  ProviderProduct _providerProduct;
+class ListSupplierProductScreen extends StatelessWidget {
+  static final routeName = 'list-supplier-product-screen';
   ProviderToko _providerToko;
 
   @override
   Widget build(BuildContext context) {
-    _providerProduct = Provider.of<ProviderProduct>(context, listen: false);
     _providerToko = Provider.of<ProviderToko>(context, listen: false);
 
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          'Daftar Produk Anda',
+          'Supplier Anda',
           style: PadiMallTextTheme.sz16weight700(context),
         ),
         elevation: 1,
@@ -34,20 +28,6 @@ class ProdukAndaScreen extends StatelessWidget {
             Navigator.pop(context);
           },
         ),
-        actions: <Widget>[
-          Container(
-            margin: const EdgeInsets.only(right: 20),
-            child: GestureDetector(
-              onTap: () {
-                Navigator.pushNamed(context, ProdukTambahScreen.routeName);
-              },
-              child: Icon(
-                Icons.add,
-                size: 25,
-              ),
-            ),
-          )
-        ],
         backgroundColor: Colors.white,
         bottom: PreferredSize(
           preferredSize: const Size.fromHeight(60),
@@ -77,7 +57,7 @@ class ProdukAndaScreen extends StatelessWidget {
                         Icons.clear,
                         size: 15,
                       ),
-                      hintText: 'Cari nama produk anda',
+                      hintText: 'Cari nama supplier anda',
                       hintStyle: PadiMallTextTheme.sz14weight500Grey(context),
                       border: InputBorder.none,
                       focusedBorder: InputBorder.none,
@@ -92,7 +72,30 @@ class ProdukAndaScreen extends StatelessWidget {
           ),
         ),
       ),
-      body: _providerToko.agentDetail != null ? ProdukAndaAgentWidget() : ProdukAndaSupplierWidget(),
+      body: buildFutureBuilder(
+        _providerToko.getAgentDetail(context),
+        Consumer<ProviderToko>(
+          builder: (ctx, provider, _) => SingleChildScrollView(
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: GridView.builder(
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2,
+                  childAspectRatio: 1 / 1,
+                  crossAxisSpacing: 12,
+                  mainAxisSpacing: 16,
+                ),
+                itemCount: _providerToko.agentDetail.suppliers.length,
+                shrinkWrap: true,
+                physics: NeverScrollableScrollPhysics(),
+                itemBuilder: (ctx, index) => SupplierWidget(
+                  supplier: _providerToko.agentDetail.suppliers[index],
+                ),
+              ),
+            ),
+          ),
+        ),
+      ),
     );
   }
 }
