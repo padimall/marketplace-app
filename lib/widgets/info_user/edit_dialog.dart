@@ -57,7 +57,7 @@ class EditBuyerDialogWidget {
                   controller: textEditingController,
                   textAlignVertical: TextAlignVertical.top,
                   maxLength: _maxLength,
-                  maxLines: 3,
+                  maxLines: 2,
                   autofocus: true,
                 ),
                 Container(

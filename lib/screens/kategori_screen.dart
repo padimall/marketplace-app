@@ -90,14 +90,14 @@ class KategoriScreen extends StatelessWidget {
         padding: const EdgeInsets.all(8.0),
         child: Row(
           children: [
-            Container(
-              margin: const EdgeInsets.only(right: 4),
-              child: Icon(
-                Icons.info,
-                color: Colors.black26,
-                size: 15,
-              ),
-            ),
+//            Container(
+//              margin: const EdgeInsets.only(right: 4),
+//              child: Icon(
+//                Icons.info,
+//                color: Colors.black26,
+//                size: 15,
+//              ),
+//            ),
             Text(
               '${_productCategoriesState.listMainCategories[_productCategoriesState.selectedMainCategoryIndex].productCategories.length} sub-kategori ditemukan',
               style: PadiMallTextTheme.sz11weight500(context),
