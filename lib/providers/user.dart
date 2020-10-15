@@ -75,9 +75,14 @@ class ProviderUser with ChangeNotifier {
       if (response.statusCode == 201) {
         Navigator.pop(context);
         Fluttertoast.showToast(msg: 'Akun berhasil dibuat, silahkan login', toastLength: Toast.LENGTH_LONG, backgroundColor: Colors.grey);
+      } else if (response.statusCode == 422) {
+        if (response.body.contains('The email has already been taken')) {
+          Fluttertoast.showToast(msg: "Email telah digunakan", toastLength: Toast.LENGTH_LONG, backgroundColor: Colors.grey);
+        } else if (response.body.contains('phone')) {
+          Fluttertoast.showToast(msg: "No. HP telah terdaftar", toastLength: Toast.LENGTH_LONG, backgroundColor: Colors.grey);
+        }
       } else {
-        print(response.statusCode);
-        Fluttertoast.showToast(msg: response.statusCode.toString(), toastLength: Toast.LENGTH_LONG);
+        Fluttertoast.showToast(msg: response.statusCode.toString(), toastLength: Toast.LENGTH_LONG, backgroundColor: Colors.grey);
       }
     } catch (e) {
       print(e.toString());
