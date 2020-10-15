@@ -246,7 +246,7 @@ class InfoProduk extends StatelessWidget {
                 style: PadiMallTextTheme.sz14weight500(context),
               ),
               Text(
-                '${product.weight} kg',
+                '${textNumberFormatter(product.weight.toDouble())} kg',
                 style: PadiMallTextTheme.sz14weight500(context),
               ),
             ],
@@ -259,7 +259,20 @@ class InfoProduk extends StatelessWidget {
                 style: PadiMallTextTheme.sz14weight500(context),
               ),
               Text(
-                '${product.minOrder} kg',
+                '${textNumberFormatter(product.minOrder.toDouble())} kg',
+                style: PadiMallTextTheme.sz14weight500(context),
+              ),
+            ],
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              Text(
+                'Stok',
+                style: PadiMallTextTheme.sz14weight500(context),
+              ),
+              Text(
+                '${textNumberFormatter(product.stock.toDouble())} kg',
                 style: PadiMallTextTheme.sz14weight500(context),
               ),
             ],
