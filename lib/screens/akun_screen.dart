@@ -7,6 +7,7 @@ import 'package:padimall_app/widgets/akun/agent_saya.dart';
 import 'package:padimall_app/widgets/akun/akun_pembeli.dart';
 import 'package:padimall_app/widgets/akun/no_toko_yet.dart';
 import 'package:padimall_app/widgets/akun/no_user_yet.dart';
+import 'package:padimall_app/widgets/akun/regis_agent_in_progress.dart';
 import 'package:padimall_app/widgets/akun/toko_saya.dart';
 import 'package:provider/provider.dart';
 
@@ -63,7 +64,10 @@ class _AkunScreenState extends State<AkunScreen> {
                     builder: (ctx, provider, _) => TabBarView(
                       children: <Widget>[
                         AkunPembeliWidget(),
-                        _providerToko.agentDetail != null ? AgentSayaWidget() : _providerToko.supplierDetail != null ? TokoSayaWidget() : NoTokoYetWidget(),
+                        _returnTokoSayaWidget(),
+//                          _providerToko.agentDetail != null ? AgentSayaWidget() : (_providerToko.supplierDetail != null
+//                              ? TokoSayaWidget()
+//                              : NoTokoYetWidget()),
                       ],
                     ),
                   )
@@ -73,6 +77,20 @@ class _AkunScreenState extends State<AkunScreen> {
         ),
       ),
     );
+  }
+
+  Widget _returnTokoSayaWidget() {
+    if (_providerToko.agentDetail != null) {
+      if (_providerToko.agentDetail.status == 0) {
+        return RegisAgentInProgress();
+      } else if (_providerToko.agentDetail.status == 1) {
+        return AgentSayaWidget();
+      }
+    } else if (_providerToko.supplierDetail != null) {
+      return TokoSayaWidget();
+    } else {
+      return NoTokoYetWidget();
+    }
   }
 }
 

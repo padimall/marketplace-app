@@ -4,7 +4,6 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:padimall_app/providers/user.dart';
 import 'package:padimall_app/screens/first_screen.dart';
-import 'package:padimall_app/screens/login_screen.dart';
 import 'package:provider/provider.dart';
 
 class StartUpModel with ChangeNotifier {

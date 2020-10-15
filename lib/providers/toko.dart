@@ -70,13 +70,16 @@ class ProviderToko with ChangeNotifier {
         ),
       );
 
-      if (response.statusCode == 201) {
-        Fluttertoast.showToast(msg: 'Anda berhasil menjadi Supplier.', toastLength: Toast.LENGTH_LONG, backgroundColor: Colors.grey);
-        Navigator.pop(context);
-        getSupplierDetail(context);
-      } else if (response.statusCode == 404) {
+      print(response.statusCode);
+      print(response.data);
+
+      if (response.statusCode == 200) {
         Fluttertoast.showToast(msg: 'Kode Agent tidak cocok.', toastLength: Toast.LENGTH_LONG, backgroundColor: Theme.of(context).accentColor);
         agentCodeController.clear();
+      } else if (response.statusCode == 201) {
+        Fluttertoast.showToast(msg: 'Anda berhasil menjadi Supplier.', toastLength: Toast.LENGTH_LONG, backgroundColor: Theme.of(context).primaryColor);
+        Navigator.pop(context);
+        getSupplierDetail(context);
       } else if (response.statusCode == 422) {
         Fluttertoast.showToast(
             msg: 'Format Gambar salah. (Hanya menerima png, jpg, jpeg).', toastLength: Toast.LENGTH_LONG, backgroundColor: Theme.of(context).accentColor);
@@ -278,7 +281,6 @@ class ProviderToko with ChangeNotifier {
 
       if (response.statusCode == 200) {
         _agentDetail = jsonObject.data;
-        print('tes: ${_agentDetail.agentCode}');
       } else if (response.statusCode == 404) {
         _agentDetail = null;
       }
@@ -314,6 +316,41 @@ class ProviderToko with ChangeNotifier {
       if (response.statusCode == 200) {
         Navigator.pop(context);
         Fluttertoast.showToast(msg: 'Data berhasil diperbaharui', toastLength: Toast.LENGTH_LONG, backgroundColor: Theme.of(context).primaryColor);
+        getAgentDetail(context);
+      }
+    } catch (e) {
+      print(e.toString());
+    } finally {
+      Navigator.pop(context);
+      notifyListeners();
+    }
+  }
+
+  Future<void> createAgent(BuildContext context, String agentName, String phoneNumber) async {
+    try {
+      CustomAlertDialog.loading(context);
+      var url = '${global.API_URL_PREFIX}/api/v1/agent/store';
+
+      var requestBody = {
+        'name': agentName,
+        'phone': phoneNumber,
+      };
+
+      http.Response response = await http.post(
+        url,
+        headers: {
+          'X-Requested-With': 'XMLHttpRequest',
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + await FlutterSecureStorageServices.getUserToken(),
+        },
+        body: json.encode(requestBody),
+      );
+      print(response.body);
+      print(response.statusCode);
+
+      if (response.statusCode == 201) {
+        Navigator.pop(context);
+        Fluttertoast.showToast(msg: 'Pendaftaran anda sedang diproses.', toastLength: Toast.LENGTH_LONG, backgroundColor: Theme.of(context).primaryColor);
         getAgentDetail(context);
       }
     } catch (e) {

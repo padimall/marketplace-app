@@ -1,3 +1,5 @@
+import 'package:padimall_app/models/post_show_supplier_detail.dart';
+
 class PostResSuppliersAgentDetail {
   PostResSuppliersAgentDetail({
     this.status,
@@ -31,6 +33,9 @@ class Agent {
     this.createdAt,
     this.updatedAt,
     this.agentCode,
+    this.imageUrl,
+    this.status,
+    this.suppliers
   });
 
   String id;
@@ -40,6 +45,9 @@ class Agent {
   DateTime createdAt;
   DateTime updatedAt;
   String agentCode;
+  String imageUrl;
+  int status;
+  List<SupplierDetail> suppliers;
 
   factory Agent.fromJson(Map<String, dynamic> json) => Agent(
     id: json["id"] == null ? null : json["id"],
@@ -49,6 +57,9 @@ class Agent {
     createdAt: json["created_at"] == null ? null : DateTime.parse(json["created_at"]),
     updatedAt: json["updated_at"] == null ? null : DateTime.parse(json["updated_at"]),
     agentCode: json["agent_code"] == null ? null : json["agent_code"],
+    imageUrl: json["image"] == null ? null : json["image"],
+    status: json["status"] == null ? null : json["status"],
+    suppliers: json["supplier"] == null ? null : List<SupplierDetail>.from(json["supplier"].map((x) => SupplierDetail.fromJson(x))),
   );
 
   Map<String, dynamic> toJson() => {
