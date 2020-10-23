@@ -42,12 +42,13 @@ class _LoginScreenState extends State<LoginScreen> {
                     margin: const EdgeInsets.only(bottom: 24),
                     child: TextFormField(
                       decoration: InputDecoration(
-                        labelText: 'Email',
-                        hintText: 'Masukkan email anda',
+                        labelText: 'Email atau No. HP',
+                        hintText: 'Masukkan email atau No. HP anda',
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10),
                         ),
                       ),
+                      style: PadiMallTextTheme.sz14weight500(context),
                       validator: (input) {
                         return input.isEmpty ? 'Kolom ini harus diisi' : null;
                       },
@@ -74,6 +75,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           },
                         ),
                       ),
+                      style: PadiMallTextTheme.sz14weight500(context),
                       obscureText: widget.isPassVisible ? false : true,
                       validator: (input) {
                         return input.isEmpty ? 'Kolom ini harus diisi' : null;

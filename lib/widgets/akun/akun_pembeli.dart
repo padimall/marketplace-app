@@ -4,6 +4,7 @@ import 'package:padimall_app/screens/login_screen.dart';
 import 'package:padimall_app/screens/pembelian_screen.dart';
 import 'package:padimall_app/utils/flutter_secure_storage_services.dart';
 import 'package:padimall_app/widgets/akun/list_tile.dart';
+import 'package:padimall_app/widgets/alert_dialog/yesNo.dart';
 
 class AkunPembeliWidget extends StatelessWidget {
   @override
@@ -28,8 +29,12 @@ class AkunPembeliWidget extends StatelessWidget {
           title: 'Keluar',
           subtitle: '',
           handler: () {
-            FlutterSecureStorageServices.deleteUserToken();
-            Navigator.pushNamedAndRemoveUntil(context, LoginScreen.routeName, (route) => false);
+            showAlertDialogYesNo(context, 'Yakin ingin keluar?', 'Kamu perlu login kembali jika ingin melanjutkan aktivitas sebelumnya', 'Keluar', 'Batal', () {
+              FlutterSecureStorageServices.deleteUserToken();
+              Navigator.pushNamedAndRemoveUntil(context, LoginScreen.routeName, (route) => false);
+            }, () {
+              Navigator.pop(context);
+            });
           },
         ),
       ],

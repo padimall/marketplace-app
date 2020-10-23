@@ -97,7 +97,7 @@ class ProviderUser with ChangeNotifier {
       var url = '${global.API_URL_PREFIX}/api/v1/login';
 
       var requestBody = {
-        'email': email,
+        'email_or_phone': email,
         'password': password,
         'remember_me': true,
         'device_id': await FirebaseMessagingService.getDeviceToken(),
