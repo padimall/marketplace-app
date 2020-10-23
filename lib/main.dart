@@ -9,6 +9,8 @@ import 'package:padimall_app/screens/detail_pembelian.dart';
 import 'package:padimall_app/screens/detail_penjualan.dart';
 import 'package:padimall_app/screens/edit_password_screen.dart';
 import 'package:padimall_app/screens/first_screen.dart';
+import 'package:padimall_app/screens/forgot_pass_sent_screen.dart';
+import 'package:padimall_app/screens/forgot_password_screen.dart';
 import 'package:padimall_app/screens/info_agent_edit_screen.dart';
 import 'package:padimall_app/screens/info_agent_screen.dart';
 import 'package:padimall_app/screens/info_buyer_screen.dart';
@@ -100,6 +102,8 @@ class MyApp extends StatelessWidget {
           ListSupplierProductScreen.routeName: (ctx) => ListSupplierProductScreen(),
           ProdukSupplierAnda.routeName: (ctx) => ProdukSupplierAnda(),
           ProdukViewOnlyScreen.routeName: (ctx) => ProdukViewOnlyScreen(),
+          ForgotPasswordScreen.routeName: (ctx) => ForgotPasswordScreen(),
+          ForgotPassSentScreen.routeName: (ctx) => ForgotPassSentScreen(),
         },
       ),
     );

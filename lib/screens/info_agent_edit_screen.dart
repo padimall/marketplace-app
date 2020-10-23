@@ -58,7 +58,7 @@ class _InfoAgentEditScreenState extends State<InfoAgentEditScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          'Ubah Informasi Agent',
+          'Ubah Informasi Agen',
           style: PadiMallTextTheme.sz16weight700(context),
         ),
         elevation: 1,

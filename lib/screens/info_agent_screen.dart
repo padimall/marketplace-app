@@ -19,7 +19,7 @@ class InfoAgentScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          'Informasi Agent',
+          'Informasi Agen',
           style: PadiMallTextTheme.sz16weight700(context),
         ),
         elevation: 0,
@@ -63,7 +63,7 @@ class InfoAgentScreen extends StatelessWidget {
                   Container(
                     margin: const EdgeInsets.only(bottom: 16),
                     child: Text(
-                      'Agent',
+                      'Agen',
                       style: PadiMallTextTheme.sz14weight600Soft(context),
                     ),
                   ),

@@ -7,6 +7,7 @@ import 'package:padimall_app/models/post_login_dev.dart';
 import 'package:padimall_app/models/post_show_supplier_detail.dart';
 import 'package:padimall_app/models/post_show_user_profile.dart';
 import 'package:padimall_app/screens/first_screen.dart';
+import 'package:padimall_app/screens/forgot_pass_sent_screen.dart';
 import 'package:padimall_app/utils/custom_alert_dialog.dart';
 import 'package:padimall_app/utils/custom_logic.dart';
 import 'package:padimall_app/utils/firebase_messaging_services.dart';
@@ -74,15 +75,15 @@ class ProviderUser with ChangeNotifier {
 
       if (response.statusCode == 201) {
         Navigator.pop(context);
-        Fluttertoast.showToast(msg: 'Akun berhasil dibuat, silahkan login', toastLength: Toast.LENGTH_LONG, backgroundColor: Colors.grey);
+        Fluttertoast.showToast(msg: 'Akun berhasil dibuat, silahkan login', toastLength: Toast.LENGTH_LONG, backgroundColor:  Theme.of(context).primaryColor);
       } else if (response.statusCode == 422) {
         if (response.body.contains('The email has already been taken')) {
-          Fluttertoast.showToast(msg: "Email telah digunakan", toastLength: Toast.LENGTH_LONG, backgroundColor: Colors.grey);
+          Fluttertoast.showToast(msg: "Email telah digunakan", toastLength: Toast.LENGTH_LONG, backgroundColor: Theme.of(context).accentColor);
         } else if (response.body.contains('phone')) {
-          Fluttertoast.showToast(msg: "No. HP telah terdaftar", toastLength: Toast.LENGTH_LONG, backgroundColor: Colors.grey);
+          Fluttertoast.showToast(msg: "No. HP telah terdaftar", toastLength: Toast.LENGTH_LONG, backgroundColor: Theme.of(context).accentColor);
         }
       } else {
-        Fluttertoast.showToast(msg: response.statusCode.toString(), toastLength: Toast.LENGTH_LONG, backgroundColor: Colors.grey);
+        Fluttertoast.showToast(msg: response.statusCode.toString(), toastLength: Toast.LENGTH_LONG, backgroundColor:  Theme.of(context).accentColor);
       }
     } catch (e) {
       print(e.toString());
@@ -258,4 +259,39 @@ class ProviderUser with ChangeNotifier {
       notifyListeners();
     }
   }
+
+  Future<void> forgotPassword(BuildContext context, String email) async {
+    try {
+      CustomAlertDialog.loading(context);
+      var url = '${global.API_URL_PREFIX}/api/v1/password/forgot';
+      print(url);
+
+      var requestBody = {
+        'email': email,
+      };
+
+      http.Response response = await http.post(
+        url,
+        headers: {
+          'X-Requested-With': 'XMLHttpRequest',
+          'Content-Type': 'application/json',
+        },
+        body: json.encode(requestBody),
+      );
+      print(response.body);
+      print(response.statusCode);
+
+      Navigator.pop(context);
+      if (response.statusCode == 200) {
+        Navigator.pushReplacementNamed(context, ForgotPassSentScreen.routeName, arguments: email);
+      } else if (response.statusCode == 422) {
+        Fluttertoast.showToast(msg: 'Email tidak terdaftar', toastLength: Toast.LENGTH_LONG, backgroundColor: Theme.of(context).accentColor);
+      }
+    } catch (e) {
+      print(e.toString());
+    } finally {
+      notifyListeners();
+    }
+  }
+
 }

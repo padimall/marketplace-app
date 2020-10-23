@@ -2,6 +2,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:padimall_app/providers/user.dart';
 import 'package:padimall_app/screens/first_screen.dart';
+import 'package:padimall_app/screens/forgot_password_screen.dart';
 import 'package:padimall_app/screens/register_screen.dart';
 import 'package:padimall_app/utils/custom_text_theme.dart';
 import 'package:provider/provider.dart';
@@ -89,9 +90,14 @@ class _LoginScreenState extends State<LoginScreen> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: <Widget>[
-                        Text(
-                          'Lupa kata sandi',
-                          style: PadiMallTextTheme.sz13weight500Green(context),
+                        GestureDetector(
+                          onTap: () {
+                            Navigator.pushNamed(context, ForgotPasswordScreen.routeName);
+                          },
+                          child: Text(
+                            'Lupa kata sandi',
+                            style: PadiMallTextTheme.sz13weight500Green(context),
+                          ),
                         ),
                       ],
                     ),
@@ -104,8 +110,6 @@ class _LoginScreenState extends State<LoginScreen> {
                         if (_formLogin.currentState.validate()) {
                           _formLogin.currentState.save();
                           _providerUser.signInUser(context, _email, _password);
-//                          Navigator.pushNamedAndRemoveUntil(
-//                              context, FirstScreen.routeName, (Route<dynamic> route) => false);
                         }
                       },
                       color: Theme.of(context).primaryColor,
