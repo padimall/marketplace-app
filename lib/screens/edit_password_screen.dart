@@ -53,6 +53,7 @@ class EditPasswordScreen extends StatelessWidget {
                               borderRadius: BorderRadius.circular(10),
                             ),
                           ),
+                          style: PadiMallTextTheme.sz14weight500(context),
                           obscureText: true,
                           controller: _oldPassController,
                           validator: (input) {
@@ -71,6 +72,7 @@ class EditPasswordScreen extends StatelessWidget {
                               borderRadius: BorderRadius.circular(10),
                             ),
                           ),
+                          style: PadiMallTextTheme.sz14weight500(context),
                           obscureText: true,
                           controller: _newPassController,
                           validator: Validators.compose(
@@ -97,6 +99,7 @@ class EditPasswordScreen extends StatelessWidget {
                               borderRadius: BorderRadius.circular(10),
                             ),
                           ),
+                          style: PadiMallTextTheme.sz14weight500(context),
                           controller: _newPassConfirmationController,
                           obscureText: true,
                           validator: (input) {

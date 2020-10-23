@@ -9,6 +9,7 @@ import 'package:padimall_app/utils/custom_text_theme.dart';
 import 'package:padimall_app/widgets/akun/product_in_row.dart';
 import 'package:padimall_app/widgets/produk_anda/product_agent.dart';
 import 'package:padimall_app/widgets/produk_anda/product_supplier.dart';
+import 'package:padimall_app/widgets/produk_supplier_anda/product_in_row.dart';
 import 'package:provider/provider.dart';
 
 class ProdukSupplierAnda extends StatelessWidget {
@@ -24,7 +25,7 @@ class ProdukSupplierAnda extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          'Daftar Supplier Anda',
+          'Produk ${supplier.name}',
           style: PadiMallTextTheme.sz16weight700(context),
         ),
         elevation: 1,
@@ -35,20 +36,6 @@ class ProdukSupplierAnda extends StatelessWidget {
             Navigator.pop(context);
           },
         ),
-        actions: <Widget>[
-          Container(
-            margin: const EdgeInsets.only(right: 20),
-            child: GestureDetector(
-              onTap: () {
-                Navigator.pushNamed(context, ProdukTambahScreen.routeName);
-              },
-              child: Icon(
-                Icons.add,
-                size: 25,
-              ),
-            ),
-          )
-        ],
         backgroundColor: Colors.white,
         bottom: PreferredSize(
           preferredSize: const Size.fromHeight(60),
@@ -78,7 +65,7 @@ class ProdukSupplierAnda extends StatelessWidget {
                         Icons.clear,
                         size: 15,
                       ),
-                      hintText: 'Cari nama produk anda',
+                      hintText: 'Cari nama produk',
                       hintStyle: PadiMallTextTheme.sz14weight500Grey(context),
                       border: InputBorder.none,
                       focusedBorder: InputBorder.none,
@@ -99,55 +86,56 @@ class ProdukSupplierAnda extends StatelessWidget {
           builder: (ctx, provider, _) => SingleChildScrollView(
             child: _providerProduct.listSupplierProducts.isNotEmpty
                 ? ListView.builder(
-              itemCount: _providerProduct.listSupplierProducts.length,
-              shrinkWrap: true,
-              physics: NeverScrollableScrollPhysics(),
-              itemBuilder: (ctx, index) {
-                return ProductInRow(
-                  product: _providerProduct.listSupplierProducts[index],
-                );
-              },
-            )
-                : Container(
-              width: double.infinity,
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisSize: MainAxisSize.max,
-                children: [
-                  Container(
-                    margin: const EdgeInsets.only(top: 40),
-                    child: SvgPicture.asset(
-                      'assets/images/empty.svg',
-                      height: 200,
-                    ),
-                  ),
-                  Container(
-                    margin: const EdgeInsets.only(top: 20, bottom: 20),
-                    child: Text(
-                      'Toko anda masih belum memiliki produk untuk dijual. Yuk kita tambahkan',
-                      textAlign: TextAlign.center,
-                      style: PadiMallTextTheme.sz14weight500(context),
-                    ),
-                  ),
-                  RaisedButton(
-                    onPressed: () {
-                      Navigator.pushNamed(context, ProdukTambahScreen.routeName);
+                    itemCount: _providerProduct.listSupplierProducts.length,
+                    shrinkWrap: true,
+                    physics: NeverScrollableScrollPhysics(),
+                    itemBuilder: (ctx, index) {
+                      return YourSupplierProductInRow(
+                        product: _providerProduct.listSupplierProducts[index],
+                        supplierId: supplier.id,
+                      );
                     },
-                    child: Text(
-                      'Tambah Produk',
-                      style: PadiMallTextTheme.sz14weight700White(context),
-                    ),
-                    color: Theme.of(context).accentColor,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(4),
-                      ),
-                    ),
                   )
-                ],
-              ),
-            ),
+                : Container(
+                    width: double.infinity,
+                    padding: const EdgeInsets.symmetric(horizontal: 16),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisSize: MainAxisSize.max,
+                      children: [
+                        Container(
+                          margin: const EdgeInsets.only(top: 40),
+                          child: SvgPicture.asset(
+                            'assets/images/empty.svg',
+                            height: 200,
+                          ),
+                        ),
+                        Container(
+                          margin: const EdgeInsets.only(top: 20, bottom: 20),
+                          child: Text(
+                            'Toko anda masih belum memiliki produk untuk dijual. Yuk kita tambahkan',
+                            textAlign: TextAlign.center,
+                            style: PadiMallTextTheme.sz14weight500(context),
+                          ),
+                        ),
+                        RaisedButton(
+                          onPressed: () {
+                            Navigator.pushNamed(context, ProdukTambahScreen.routeName);
+                          },
+                          child: Text(
+                            'Tambah Produk',
+                            style: PadiMallTextTheme.sz14weight700White(context),
+                          ),
+                          color: Theme.of(context).accentColor,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.all(
+                              Radius.circular(4),
+                            ),
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
           ),
         ),
       ),

@@ -384,4 +384,35 @@ class ProviderProduct with ChangeNotifier {
       print(e.toString());
     } finally {}
   }
+
+  Future<void> updateStatusProduct(BuildContext context, Product product, String supplierId) async {
+    try {
+      CustomAlertDialog.loading(context);
+      var url = '${global.API_URL_PREFIX}/api/v1/product/update-status';
+
+      var requestBody = {
+        'target_id': product.id,
+        'status': product.status == '1' ? 0 : 1,
+      };
+
+      http.Response response = await http.post(
+        url,
+        headers: {
+          'X-Requested-With': 'XMLHttpRequest',
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + await FlutterSecureStorageServices.getUserToken(),
+        },
+        body: json.encode(requestBody),
+      );
+      print(url);
+      print(response.body);
+      Navigator.pop(context);
+      if (response.statusCode == 200) {
+        Fluttertoast.showToast(msg: 'Status produk berhasil diperbaharui.', toastLength: Toast.LENGTH_LONG, backgroundColor: Theme.of(context).accentColor);
+        getSupplierOfAgentProduct(supplierId);
+      }
+    } catch (e) {
+      print(e.toString());
+    } finally {}
+  }
 }

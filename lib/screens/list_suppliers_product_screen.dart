@@ -18,7 +18,7 @@ class ListSupplierProductScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          'Supplier Anda',
+          'Daftar Supplier Anda',
           style: PadiMallTextTheme.sz16weight700(context),
         ),
         elevation: 1,

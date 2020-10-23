@@ -1,17 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:padimall_app/models/post_show_products.dart';
+import 'package:padimall_app/providers/products.dart';
 import 'package:padimall_app/screens/produk_edit_screen.dart';
 import 'package:padimall_app/utils/custom_image_url.dart';
 import 'package:padimall_app/utils/custom_text_theme.dart';
 import 'package:padimall_app/utils/text_number_formatter.dart';
+import 'package:provider/provider.dart';
 
-class ProductInRow extends StatelessWidget {
+class YourSupplierProductInRow extends StatelessWidget {
   Product product;
+  String supplierId;
 
-  ProductInRow({this.product});
+  YourSupplierProductInRow({this.product, this.supplierId});
+
+  ProviderProduct _providerProduct;
 
   @override
   Widget build(BuildContext context) {
+    _providerProduct = Provider.of(context, listen: false);
+
     return Container(
       margin: const EdgeInsets.only(top: 8),
       padding: const EdgeInsets.symmetric(vertical: 12.0, horizontal: 16),
@@ -68,28 +75,21 @@ class ProductInRow extends StatelessWidget {
                   children: [
                     GestureDetector(
                       onTap: () {
-                        Navigator.pushNamed(context, ProdukEditScreen.routeName, arguments: product);
+                        // TODO: Navigate to Product Preview Screen
+//                        Navigator.pushNamed(context, ProdukEditScreen.routeName, arguments: product);
                       },
                       child: Text(
-                        'Ubah',
+                        'Lihat',
                         style: PadiMallTextTheme.sz13weight700Green(context),
                       ),
                     ),
-                    product.status == "1"
-                        ? Container()
-                        : ClipRRect(
-                            borderRadius: BorderRadius.circular(4),
-                            child: Container(
-                              color: Theme.of(context).accentColor,
-                              child: Padding(
-                                padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
-                                child: Text(
-                                  'In Review',
-                                  style: PadiMallTextTheme.sz11weight700White(context),
-                                ),
-                              ),
-                            ),
-                          )
+                    Switch(
+                      value: product.status == "1" ? true : false,
+//                      value: product.stock == 1 ? true : false,
+                      onChanged: (bool value) {
+                        _providerProduct.updateStatusProduct(context, product, supplierId);
+                      },
+                    ),
                   ],
                 ),
               ],
