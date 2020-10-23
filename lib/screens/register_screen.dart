@@ -39,7 +39,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 children: <Widget>[
                   Container(
                     margin: const EdgeInsets.only(bottom: 32),
-                    child: Image.asset('assets/images/logo.png'),
+                    child: Image.asset(
+                      'assets/images/logo.png',
+                      height: 125,
+                    ),
                   ),
                   Container(
                     margin: const EdgeInsets.only(bottom: 24),
@@ -51,6 +54,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           borderRadius: BorderRadius.circular(10),
                         ),
                       ),
+                      style: PadiMallTextTheme.sz14weight500(context),
                       validator: (input) {
                         return input.isEmpty ? 'Kolom ini hendak diisi' : null;
                       },
@@ -67,11 +71,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           borderRadius: BorderRadius.circular(10),
                         ),
                       ),
+                      style: PadiMallTextTheme.sz14weight500(context),
                       keyboardType: TextInputType.number,
-                      validator: Validators.compose([
-                        Validators.required('Kolom ini hendak diisi'),
-                        Validators.minLength(10, 'Nomor yang dimasukkan minimal memiliki 10 digit angka')
-                      ]),
+                      validator: Validators.compose(
+                          [Validators.required('Kolom ini hendak diisi'), Validators.minLength(10, 'Nomor yang dimasukkan minimal memiliki 10 digit angka')]),
                       onSaved: (input) => _phoneNum = input,
                     ),
                   ),
@@ -85,6 +88,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           borderRadius: BorderRadius.circular(10),
                         ),
                       ),
+                      style: PadiMallTextTheme.sz14weight500(context),
                       validator: (input) {
                         return input.isEmpty ? 'Kolom ini hendak diisi' : null;
                       },
@@ -101,6 +105,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           borderRadius: BorderRadius.circular(10),
                         ),
                       ),
+                      style: PadiMallTextTheme.sz14weight500(context),
                       validator: Validators.compose([
                         Validators.required('Kolom ini hendak diisi'),
                         Validators.patternRegExp(RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$'), 'Format Email salah')
@@ -118,9 +123,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           borderRadius: BorderRadius.circular(10),
                         ),
                         suffixIcon: IconButton(
-                          icon: Icon(widget._isPassVisible
-                              ? Icons.visibility
-                              : Icons.visibility_off),
+                          icon: Icon(widget._isPassVisible ? Icons.visibility : Icons.visibility_off),
                           color: Colors.grey,
                           onPressed: () {
                             widget._isPassVisible = !widget._isPassVisible;
@@ -128,16 +131,14 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           },
                         ),
                       ),
+                      style: PadiMallTextTheme.sz14weight500(context),
                       obscureText: widget._isPassVisible ? false : true,
                       validator: Validators.compose(
                         [
                           Validators.required('Kolom ini hendak diisi'),
                           Validators.patternRegExp(
-                              RegExp(
-                                  r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{0,}$'),
-                              'Pastikan diisi dengan 1 huruf besar, 1 huruf kecil, dan 1 angka'),
-                          Validators.minLength(
-                              8, 'Diisi dengan minimal 8 karakter'),
+                              RegExp(r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{0,}$'), 'Pastikan diisi dengan 1 huruf besar, 1 huruf kecil, dan 1 angka'),
+                          Validators.minLength(8, 'Diisi dengan minimal 8 karakter'),
                         ],
                       ),
                       onSaved: (input) => _pass = input,
@@ -153,19 +154,16 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           borderRadius: BorderRadius.circular(10),
                         ),
                         suffixIcon: IconButton(
-                          icon: Icon(widget._isPassConfirmedVisible
-                              ? Icons.visibility
-                              : Icons.visibility_off),
+                          icon: Icon(widget._isPassConfirmedVisible ? Icons.visibility : Icons.visibility_off),
                           color: Colors.grey,
                           onPressed: () {
-                            widget._isPassConfirmedVisible =
-                                !widget._isPassConfirmedVisible;
+                            widget._isPassConfirmedVisible = !widget._isPassConfirmedVisible;
                             setState(() {});
                           },
                         ),
                       ),
-                      obscureText:
-                          widget._isPassConfirmedVisible ? false : true,
+                      style: PadiMallTextTheme.sz14weight500(context),
+                      obscureText: widget._isPassConfirmedVisible ? false : true,
                       validator: (input) {
                         return input.isEmpty ? 'Kolom ini hendak diisi' : null;
                       },
@@ -182,7 +180,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           if (_pass == _passConfirmed) {
                             _providerUser.signUpUser(context, _name, _address, _email, _phoneNum, _pass, _passConfirmed);
                           } else {
-                            Fluttertoast.showToast(msg: 'Kata sandi tidak sama dengan kolom konfirmasi kata sandi', backgroundColor: Colors.grey, toastLength: Toast.LENGTH_LONG);
+                            Fluttertoast.showToast(
+                                msg: 'Kata sandi tidak sama dengan kolom konfirmasi kata sandi', backgroundColor: Colors.grey, toastLength: Toast.LENGTH_LONG);
                           }
                         }
                       },

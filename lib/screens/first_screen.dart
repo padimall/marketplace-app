@@ -7,7 +7,7 @@ import 'package:padimall_app/screens/keranjang_screen.dart';
 
 class FirstScreen extends StatefulWidget {
   static final routeName = 'first-screen';
-  int _selectedIndex = 3;
+  int _selectedIndex = 0;
 
   @override
   _FirstScreenState createState() => _FirstScreenState();

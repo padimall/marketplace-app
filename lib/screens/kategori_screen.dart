@@ -26,7 +26,7 @@ class KategoriScreen extends StatelessWidget {
       ),
       backgroundColor: Colors.white,
       body: buildFutureBuilder(
-        _productCategoriesState.getMainProductCategories(),
+        _productCategoriesState.getMainAndSubProductCategories(),
         Consumer<ProviderProductCategories>(
           builder: (ctx, provider, _) => Row(
             crossAxisAlignment: CrossAxisAlignment.start,

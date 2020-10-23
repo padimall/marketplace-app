@@ -15,7 +15,7 @@ class BerandaKategori extends StatelessWidget {
     _productCategoriesState = Provider.of(context, listen: false);
 
     return buildFutureBuilder(
-      _productCategoriesState.getProductCategories(),
+      _productCategoriesState.getMainProductCategories(),
       Consumer<ProviderProductCategories>(
         builder: (ctx, provider, _) => Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -31,6 +31,9 @@ class BerandaKategori extends StatelessWidget {
             Container(
               height: 100,
               child: ListView.builder(
+                itemCount: _productCategoriesState.listMainCategories.length,
+                shrinkWrap: true,
+                scrollDirection: Axis.horizontal,
                 itemBuilder: (ctx, index) {
                   double _leftMargin = 4.0;
                   double _rightMargin = 4.0;
@@ -38,15 +41,15 @@ class BerandaKategori extends StatelessWidget {
                   if (index == 0) {
                     _leftMargin = 16;
                   }
-                  if (index == _productCategoriesState.listProductCategories.length - 1) {
+                  if (index == _productCategoriesState.listMainCategories.length - 1) {
                     _rightMargin = 16;
                   }
 
-                  var _productCategory = _productCategoriesState.listProductCategories[index];
+                  var _productMainCategory = _productCategoriesState.listMainCategories[index];
 
                   return GestureDetector(
                     onTap: () {
-                      Navigator.pushNamed(context, ProductByCategoryScreen.routeName, arguments: _productCategory);
+//                      Navigator.pushNamed(context, ProductByCategoryScreen.routeName, arguments: _productMainCategory);
                     },
                     child: Container(
                       margin: EdgeInsets.only(left: _leftMargin, right: _rightMargin),
@@ -73,7 +76,7 @@ class BerandaKategori extends StatelessWidget {
                                 child: Container(
                                   child: FadeInImage.assetNetwork(
                                     placeholder: 'assets/images/logo.png',
-                                    image: '${_productCategory.image}',
+                                    image: '${_productMainCategory.image}',
                                     height: 125,
                                     width: 125,
                                     fit: BoxFit.cover,
@@ -83,7 +86,9 @@ class BerandaKategori extends StatelessWidget {
                               Container(
                                 padding: const EdgeInsets.symmetric(horizontal: 4),
                                 child: Text(
-                                  '${_productCategory.name}',
+                                  '${_productMainCategory.name}',
+                                  maxLines: 3,
+                                  overflow: TextOverflow.ellipsis,
                                   textAlign: TextAlign.center,
                                   style: PadiMallTextTheme.sz14weight700White(context),
                                 ),
@@ -94,10 +99,58 @@ class BerandaKategori extends StatelessWidget {
                       ),
                     ),
                   );
+
+//                  return GestureDetector(
+//                    onTap: () {
+//                      Navigator.pushNamed(context, ProductByCategoryScreen.routeName, arguments: _productCategory);
+//                    },
+//                    child: Container(
+//                      margin: EdgeInsets.only(left: _leftMargin, right: _rightMargin),
+//                      child: ClipRRect(
+//                        borderRadius: BorderRadius.circular(10),
+//                        child: Container(
+//                          height: 100,
+//                          width: 100,
+//                          decoration: BoxDecoration(
+//                            gradient: LinearGradient(
+//                              colors: [
+//                                Colors.black,
+//                                Colors.black,
+//                              ],
+//                              begin: Alignment.centerLeft,
+//                              end: Alignment(1.0, 1.0),
+//                            ),
+//                          ),
+//                          child: Stack(
+//                            alignment: Alignment.center,
+//                            children: <Widget>[
+//                              Opacity(
+//                                opacity: 0.6,
+//                                child: Container(
+//                                  child: FadeInImage.assetNetwork(
+//                                    placeholder: 'assets/images/logo.png',
+//                                    image: '${_productCategory.image}',
+//                                    height: 125,
+//                                    width: 125,
+//                                    fit: BoxFit.cover,
+//                                  ),
+//                                ),
+//                              ),
+//                              Container(
+//                                padding: const EdgeInsets.symmetric(horizontal: 4),
+//                                child: Text(
+//                                  '${_productCategory.name}',
+//                                  textAlign: TextAlign.center,
+//                                  style: PadiMallTextTheme.sz14weight700White(context),
+//                                ),
+//                              ),
+//                            ],
+//                          ),
+//                        ),
+//                      ),
+//                    ),
+//                  );
                 },
-                itemCount: _productCategoriesState.listProductCategories.length,
-                shrinkWrap: true,
-                scrollDirection: Axis.horizontal,
               ),
             ),
           ],

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:padimall_app/models/post_show_products.dart';
 import 'package:padimall_app/providers/products.dart';
 import 'package:padimall_app/screens/produk_edit_screen.dart';
+import 'package:padimall_app/screens/produk_viewonly_screen.dart';
 import 'package:padimall_app/utils/custom_image_url.dart';
 import 'package:padimall_app/utils/custom_text_theme.dart';
 import 'package:padimall_app/utils/text_number_formatter.dart';
@@ -75,8 +76,7 @@ class YourSupplierProductInRow extends StatelessWidget {
                   children: [
                     GestureDetector(
                       onTap: () {
-                        // TODO: Navigate to Product Preview Screen
-//                        Navigator.pushNamed(context, ProdukEditScreen.routeName, arguments: product);
+                        Navigator.pushNamed(context, ProdukViewOnlyScreen.routeName, arguments: product);
                       },
                       child: Text(
                         'Lihat',

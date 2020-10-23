@@ -35,8 +35,11 @@ class _LoginScreenState extends State<LoginScreen> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   Container(
-                    margin: const EdgeInsets.only(bottom: 32),
-                    child: Image.asset('assets/images/logo.png'),
+                    margin: const EdgeInsets.only(bottom: 48),
+                    child: Image.asset(
+                      'assets/images/logo.png',
+                      height: 125,
+                    ),
                   ),
                   Container(
                     margin: const EdgeInsets.only(bottom: 24),
@@ -65,9 +68,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           borderRadius: BorderRadius.circular(10),
                         ),
                         suffixIcon: IconButton(
-                          icon: Icon(widget.isPassVisible
-                              ? Icons.visibility
-                              : Icons.visibility_off),
+                          icon: Icon(widget.isPassVisible ? Icons.visibility : Icons.visibility_off),
                           color: Colors.grey,
                           onPressed: () {
                             widget.isPassVisible = !widget.isPassVisible;
@@ -126,19 +127,16 @@ class _LoginScreenState extends State<LoginScreen> {
                         RichText(
                           textAlign: TextAlign.center,
                           text: TextSpan(
-                            style: PadiMallTextTheme.sz14weight500Grey(context)
-                                .copyWith(height: 1.5),
+                            style: PadiMallTextTheme.sz14weight500Grey(context).copyWith(height: 1.5),
                             children: [
                               TextSpan(text: 'Belum punya akun? '),
                               TextSpan(
                                 text: 'Daftar disini',
-                                recognizer: new TapGestureRecognizer()..onTap = () {
-                                  Navigator.pushNamed(context, RegisterScreen.routeName);
-                                },
-                                style:
-                                    PadiMallTextTheme.sz14weight700Green(context)
-                                        .copyWith(
-                                            decoration: TextDecoration.underline),
+                                recognizer: new TapGestureRecognizer()
+                                  ..onTap = () {
+                                    Navigator.pushNamed(context, RegisterScreen.routeName);
+                                  },
+                                style: PadiMallTextTheme.sz14weight700Green(context).copyWith(decoration: TextDecoration.underline),
                               ),
                             ],
                           ),

@@ -56,7 +56,7 @@ class ProviderProductCategories with ChangeNotifier {
 
   List<ProductMainCategory> get listMainCategories => _listMainCategories;
 
-  Future<void> getMainProductCategories() async {
+  Future<void> getMainAndSubProductCategories() async {
     try {
       // GET PRODUCT MAIN CATEGORY
       var url = '${global.API_URL_PREFIX}/api/v1/main-category/all';
@@ -79,6 +79,34 @@ class ProviderProductCategories with ChangeNotifier {
         for (int i = 0; i < _listMainCategories.length; i++) {
           await getSubCategoryFromMainCategory(i);
         }
+      }
+    } catch (e) {
+      print(e.toString());
+    } finally {
+      notifyListeners();
+    }
+  }
+
+  Future<void> getMainProductCategories() async {
+    try {
+      // GET PRODUCT MAIN CATEGORY
+      var url = '${global.API_URL_PREFIX}/api/v1/main-category/all';
+
+      http.Response response = await http.post(
+        url,
+        headers: {
+          'X-Requested-With': 'XMLHttpRequest',
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + await FlutterSecureStorageServices.getDevToken(),
+        },
+      );
+      print(url);
+      print(response.body);
+      var jsonObject = PostResMainCategories.fromJson(json.decode(response.body));
+
+      if (response.statusCode == 200) {
+        _listMainCategories.clear();
+        _listMainCategories.addAll(jsonObject.data);
       }
     } catch (e) {
       print(e.toString());
