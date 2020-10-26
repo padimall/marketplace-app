@@ -170,7 +170,8 @@ class ProviderProduct with ChangeNotifier {
         getSupplierProduct();
       } else {
         Navigator.pop(context);
-        Fluttertoast.showToast(msg: 'Terjadi kesalahan. (${response.statusCode})', toastLength: Toast.LENGTH_LONG, backgroundColor: Theme.of(context).primaryColor);
+        Fluttertoast.showToast(
+            msg: 'Terjadi kesalahan. (${response.statusCode})', toastLength: Toast.LENGTH_LONG, backgroundColor: Theme.of(context).primaryColor);
       }
     } on DioError catch (dioError) {
       // Something happened in setting up or sending the request that triggered an Error
@@ -414,5 +415,42 @@ class ProviderProduct with ChangeNotifier {
     } catch (e) {
       print(e.toString());
     } finally {}
+  }
+
+  Future<void> searchProduct(BuildContext context, String searchName) async {
+    print(searchName);
+    try {
+      var url = '${global.API_URL_PREFIX}/api/v1/product/search';
+
+      var requestBody = {
+        'name': searchName,
+      };
+
+      http.Response response = await http.post(
+        url,
+        headers: {
+          'X-Requested-With': 'XMLHttpRequest',
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + await FlutterSecureStorageServices.getUserToken(),
+        },
+        body: json.encode(requestBody),
+      );
+      print(url);
+      print(response.body);
+
+      var jsonObject = PostResShowProducts.fromJson(json.decode(response.body));
+
+      if (response.statusCode == 200) {
+        _listProduct.clear();
+        if (jsonObject.status == 1) {
+          _listProduct.addAll(jsonObject.data);
+        }
+//        Fluttertoast.showToast(msg: 'Status produk berhasil diperbaharui.', toastLength: Toast.LENGTH_LONG, backgroundColor: Theme.of(context).accentColor);
+      }
+    } catch (e) {
+      print(e.toString());
+    } finally {
+      notifyListeners();
+    }
   }
 }

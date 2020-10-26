@@ -23,6 +23,7 @@ import 'package:padimall_app/screens/pembelian_screen.dart';
 import 'package:padimall_app/screens/penjualan_screen.dart';
 import 'package:padimall_app/screens/product_by_category_screen.dart';
 import 'package:padimall_app/screens/product_detail_screen.dart';
+import 'package:padimall_app/screens/product_search_screen.dart';
 import 'package:padimall_app/screens/produk_anda_screen.dart';
 import 'package:padimall_app/screens/produk_edit_screen.dart';
 import 'package:padimall_app/screens/produk_supplier_anda.dart';
@@ -104,6 +105,7 @@ class MyApp extends StatelessWidget {
           ProdukViewOnlyScreen.routeName: (ctx) => ProdukViewOnlyScreen(),
           ForgotPasswordScreen.routeName: (ctx) => ForgotPasswordScreen(),
           ForgotPassSentScreen.routeName: (ctx) => ForgotPassSentScreen(),
+          ProductSearchScreen.routeName: (ctx) => ProductSearchScreen(),
         },
       ),
     );
