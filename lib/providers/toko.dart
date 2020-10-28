@@ -329,10 +329,11 @@ class ProviderToko with ChangeNotifier {
     }
   }
 
-  Future<void> createAgent(BuildContext context, String agentName, String phoneNumber, File selectedImage) async {
+  Future<void> createAgent(BuildContext context, String agentName, String address, String phoneNumber, File selectedImage) async {
     try {
       CustomAlertDialog.loading(context);
       var url = '${global.API_URL_PREFIX}/api/v1/agent/store';
+      print(url);
 
       String _pictureFilename;
       if (selectedImage != null) {
@@ -343,6 +344,7 @@ class ProviderToko with ChangeNotifier {
       FormData formData = FormData.fromMap({
         'name': agentName,
         'phone': phoneNumber,
+        'address': address,
         'image': selectedImage == null ? null : await MultipartFile.fromFile(selectedImage.path, filename: _pictureFilename),
       });
       Response response = await dio.post(
@@ -356,6 +358,7 @@ class ProviderToko with ChangeNotifier {
           },
         ),
       );
+      print(response.data);
 
       if (response.statusCode == 201) {
         Navigator.pop(context);

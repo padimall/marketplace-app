@@ -13,6 +13,7 @@ import 'package:mime/mime.dart';
 import 'package:multi_image_picker/multi_image_picker.dart';
 import 'package:padimall_app/models/post_show_product_categories.dart';
 import 'package:padimall_app/models/post_show_products.dart';
+import 'package:padimall_app/models/product_main_category.dart';
 import 'package:padimall_app/utils/custom_alert_dialog.dart';
 import 'package:padimall_app/utils/flutter_secure_storage_services.dart';
 import '../utils/global.dart' as global;
@@ -446,6 +447,43 @@ class ProviderProduct with ChangeNotifier {
           _listProduct.addAll(jsonObject.data);
         }
 //        Fluttertoast.showToast(msg: 'Status produk berhasil diperbaharui.', toastLength: Toast.LENGTH_LONG, backgroundColor: Theme.of(context).accentColor);
+      }
+    } catch (e) {
+      print(e.toString());
+    } finally {
+      notifyListeners();
+    }
+  }
+
+  Future<void> getProductByMainCategory(BuildContext context, ProductMainCategory mainCategory) async {
+    print(mainCategory.id);
+    try {
+      var url = '${global.API_URL_PREFIX}/api/v1/product/main-category';
+
+      var requestBody = {
+        'target_id': mainCategory.id,
+      };
+
+      http.Response response = await http.post(
+        url,
+        headers: {
+          'X-Requested-With': 'XMLHttpRequest',
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + await FlutterSecureStorageServices.getUserToken(),
+        },
+        body: json.encode(requestBody),
+      );
+      print(url);
+      print(response.body);
+
+      var jsonObject = PostResShowProducts.fromJson(json.decode(response.body));
+
+      if (response.statusCode == 200) {
+        _listProduct.clear();
+        if (jsonObject.status == 1) {
+          _listProduct.addAll(jsonObject.data);
+        }
+        print('item: ${_listProduct.length}');
       }
     } catch (e) {
       print(e.toString());

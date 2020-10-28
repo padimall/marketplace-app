@@ -163,7 +163,7 @@ class ProductDetailScreen extends StatelessWidget {
                           );
                         }
                       },
-
+                      color: Theme.of(context).primaryColor,
                       child: Text(
                         'Beli Sekarang',
                         style: PadiMallTextTheme.sz16weight700White(context),

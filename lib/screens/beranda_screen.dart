@@ -93,24 +93,6 @@ class _BerandaScreenState extends State<BerandaScreen> with TickerProviderStateM
                                 'Cari nama produk anda',
                                 style: PadiMallTextTheme.sz12weight500Grey(context),
                               ),
-//                            Expanded(
-//                              child: TextFormField(
-//                                decoration: InputDecoration(
-//                                  suffix: Icon(
-//                                    Icons.clear,
-//                                    size: 15,
-//                                  ),
-//                                  hintText: 'Cari nama produk anda',
-//                                  hintStyle:
-//                                  PadiMallTextTheme.sz14weight500Grey(context),
-//                                  border: InputBorder.none,
-//                                  focusedBorder: InputBorder.none,
-//                                  enabledBorder: InputBorder.none,
-//                                  errorBorder: InputBorder.none,
-//                                  disabledBorder: InputBorder.none,
-//                                ),
-//                              ),
-//                            ),
                             ],
                           ),
                         ),

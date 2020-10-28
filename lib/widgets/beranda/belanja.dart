@@ -11,6 +11,7 @@ class BerandaBelanja extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     _productState = Provider.of(context, listen: false);
+    print('masuk lagi');
 
     return buildFutureBuilder(
       _productState.getProducts(),

@@ -23,7 +23,7 @@ class _RegisterAgentScreenState extends State<RegisterAgentScreen> {
 
   TextEditingController _agentCodeController = TextEditingController();
 
-  String _agentName, _phoneNum;
+  String _agentName, _address, _phoneNum;
 
   ProviderToko _providerToko;
 
@@ -105,6 +105,23 @@ class _RegisterAgentScreenState extends State<RegisterAgentScreen> {
                   ),
                 ),
                 Container(
+                  margin: const EdgeInsets.only(bottom: 18),
+                  child: TextFormField(
+                    decoration: InputDecoration(
+                      labelText: 'Alamat',
+                      hintText: 'Masukkan alamat anda',
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                    ),
+                    style: PadiMallTextTheme.sz14weight500(context),
+                    validator: (input) {
+                      return input.isEmpty ? 'Kolom ini hendak diisi' : null;
+                    },
+                    onSaved: (input) => _address = input,
+                  ),
+                ),
+                Container(
                   margin: const EdgeInsets.only(bottom: 24),
                   child: TextFormField(
                     decoration: InputDecoration(
@@ -128,7 +145,7 @@ class _RegisterAgentScreenState extends State<RegisterAgentScreen> {
                     onPressed: () {
                       if (_formRegister.currentState.validate()) {
                         _formRegister.currentState.save();
-                        _providerToko.createAgent(context, _agentName, _phoneNum, _imageSelected);
+                        _providerToko.createAgent(context, _agentName, _address, _phoneNum, _imageSelected);
                       }
                     },
                     color: Theme.of(context).primaryColor,
@@ -168,11 +185,11 @@ class _RegisterAgentScreenState extends State<RegisterAgentScreen> {
               } else {
                 CustomAlertDialog.editAndDeletePicture(
                   context,
-                      () {
+                  () {
                     Navigator.pop(context);
                     _getImage(context, ImageSource.gallery);
                   },
-                      () {
+                  () {
                     Navigator.pop(context);
                     setState(() {
                       _imageSelected = null;
@@ -187,17 +204,17 @@ class _RegisterAgentScreenState extends State<RegisterAgentScreen> {
                 borderRadius: BorderRadius.circular(6),
                 child: _imageSelected == null
                     ? Image.asset(
-                  'assets/images/add_picture.png',
-                  height: 100,
-                  width: 100,
-                  fit: BoxFit.cover,
-                )
+                        'assets/images/add_picture.png',
+                        height: 100,
+                        width: 100,
+                        fit: BoxFit.cover,
+                      )
                     : Image.file(
-                  _imageSelected,
-                  height: 100,
-                  width: 100,
-                  fit: BoxFit.cover,
-                ),
+                        _imageSelected,
+                        height: 100,
+                        width: 100,
+                        fit: BoxFit.cover,
+                      ),
               ),
             ),
           ),

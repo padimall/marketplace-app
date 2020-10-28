@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:padimall_app/providers/product_categories.dart';
 import 'package:padimall_app/screens/product_by_category_screen.dart';
+import 'package:padimall_app/screens/product_by_maincategory_screen.dart';
 import 'package:padimall_app/utils/build_future_builder.dart';
 import 'package:padimall_app/utils/custom_image_url.dart';
 import 'package:padimall_app/utils/custom_text_theme.dart';
@@ -13,6 +14,7 @@ class BerandaKategori extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     _productCategoriesState = Provider.of(context, listen: false);
+    print('masuk kategori');
 
     return buildFutureBuilder(
       _productCategoriesState.getMainProductCategories(),
@@ -49,7 +51,7 @@ class BerandaKategori extends StatelessWidget {
 
                   return GestureDetector(
                     onTap: () {
-//                      Navigator.pushNamed(context, ProductByCategoryScreen.routeName, arguments: _productMainCategory);
+                      Navigator.pushNamed(context, ProductByMainCategoryScreen.routeName, arguments: _productMainCategory);
                     },
                     child: Container(
                       margin: EdgeInsets.only(left: _leftMargin, right: _rightMargin),
