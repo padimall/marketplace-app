@@ -22,6 +22,10 @@ class EditAgentDialogWidget {
         _maxLength = 20;
         break;
       case 1:
+        _keyboardType = TextInputType.text;
+        _maxLength = null;
+        break;
+      case 2:
         _keyboardType = TextInputType.number;
         _maxLength = 14;
         break;

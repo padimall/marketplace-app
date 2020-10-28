@@ -53,6 +53,8 @@ class ProductWidget extends StatelessWidget {
                 children: <Widget>[
                   Text(
                     '${product.name}',
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
                     style: PadiMallTextTheme.sz13weight600(context),
                   ),
                   Text(

@@ -30,6 +30,7 @@ class Agent {
     this.userId,
     this.name,
     this.phone,
+    this.address,
     this.createdAt,
     this.updatedAt,
     this.agentCode,
@@ -41,6 +42,7 @@ class Agent {
   String id;
   String userId;
   String name;
+  String address;
   String phone;
   DateTime createdAt;
   DateTime updatedAt;
@@ -53,6 +55,7 @@ class Agent {
     id: json["id"] == null ? null : json["id"],
     userId: json["user_id"] == null ? null : json["user_id"],
     name: json["name"] == null ? null : json["name"],
+    address: json["address"] == null ? null : json["address"],
     phone: json["phone"] == null ? null : json["phone"],
     createdAt: json["created_at"] == null ? null : DateTime.parse(json["created_at"]),
     updatedAt: json["updated_at"] == null ? null : DateTime.parse(json["updated_at"]),
@@ -66,6 +69,7 @@ class Agent {
     "id": id == null ? null : id,
     "user_id": userId == null ? null : userId,
     "name": name == null ? null : name,
+    "address": address == null ? null : address,
     "phone": phone == null ? null : phone,
     "created_at": createdAt == null ? null : createdAt.toIso8601String(),
     "updated_at": updatedAt == null ? null : updatedAt.toIso8601String(),

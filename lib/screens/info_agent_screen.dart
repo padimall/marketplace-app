@@ -1,5 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:clipboard/clipboard.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:padimall_app/models/post_show_supplier_detail.dart';
 import 'package:padimall_app/models/post_show_suppliers_agent_detail.dart';
 import 'package:padimall_app/providers/toko.dart';
@@ -106,42 +108,65 @@ class InfoAgentScreen extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
                         Container(
-                          margin: const EdgeInsets.only(bottom: 2),
+                          margin: const EdgeInsets.only(bottom: 8),
                           child: Text(
                             '${_agentDetail.name}',
                             style: PadiMallTextTheme.sz14weight600Soft(context),
                           ),
                         ),
-                        Row(
-                          children: <Widget>[
-                            Container(
-                              margin: const EdgeInsets.only(right: 4),
-                              child: Icon(
-                                Icons.call,
-                                color: Colors.grey,
-                                size: 15,
+                        Container(
+                          margin: const EdgeInsets.only(bottom: 8),
+                          child: Row(
+                            children: <Widget>[
+                              Container(
+                                margin: const EdgeInsets.only(right: 4),
+                                child: Icon(
+                                  Icons.call,
+                                  color: Colors.grey,
+                                  size: 15,
+                                ),
                               ),
-                            ),
-                            Text(
-                              '${_agentDetail.phone}',
-                              style: PadiMallTextTheme.sz12weight500Grey(context),
-                            ),
-                          ],
+                              Text(
+                                '${_agentDetail.phone}',
+                                style: PadiMallTextTheme.sz12weight500Grey(context),
+                              ),
+                            ],
+                          ),
                         ),
                         Row(
-                          children: <Widget>[
-                            Container(
-                              margin: const EdgeInsets.only(right: 4),
-                              child: Icon(
-                                Icons.vpn_key,
-                                color: Colors.grey,
-                                size: 15,
+                          children: [
+                            Row(
+                              children: <Widget>[
+                                Container(
+                                  margin: const EdgeInsets.only(right: 4),
+                                  child: Icon(
+                                    Icons.vpn_key,
+                                    color: Colors.grey,
+                                    size: 15,
+                                  ),
+                                ),
+                                Text(
+                                  '${_agentDetail.agentCode}',
+                                  style: PadiMallTextTheme.sz12weight500Grey(context),
+                                ),
+                              ],
+                            ),
+                            GestureDetector(
+                              onTap: () {
+                                FlutterClipboard.copy(_agentDetail.agentCode).then((value) => Fluttertoast.showToast(
+                                    msg: 'Kode Agen berhasil di copy',
+                                    toastLength: Toast.LENGTH_LONG,
+                                    backgroundColor: Theme.of(context).primaryColor));
+                              },
+                              child: Container(
+                                margin: const EdgeInsets.only(left: 8),
+                                child: Icon(
+                                  Icons.content_copy,
+                                  color: Colors.grey[600],
+                                  size: 20,
+                                ),
                               ),
-                            ),
-                            Text(
-                              '${_agentDetail.agentCode}',
-                              style: PadiMallTextTheme.sz12weight500Grey(context),
-                            ),
+                            )
                           ],
                         ),
                       ],
@@ -169,97 +194,107 @@ class InfoAgentScreen extends StatelessWidget {
             style: PadiMallTextTheme.sz14weight600Soft(context),
           ),
         ),
-        ListView.builder(
-          itemCount: _providerToko.agentDetail.suppliers.length,
-          shrinkWrap: true,
-          physics: NeverScrollableScrollPhysics(),
-          itemBuilder: (context, index) {
-            var supplier = _providerToko.agentDetail.suppliers[index];
+        _providerToko.agentDetail.suppliers.length < 1
+            ? Container(
+                color: Colors.white,
+                width: double.infinity,
+                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                child: Text(
+                  'Anda belum memiliki Supplier',
+                  style: PadiMallTextTheme.sz12weight500Grey(context),
+                ),
+              )
+            : ListView.builder(
+                itemCount: _providerToko.agentDetail.suppliers.length,
+                shrinkWrap: true,
+                physics: NeverScrollableScrollPhysics(),
+                itemBuilder: (context, index) {
+                  var supplier = _providerToko.agentDetail.suppliers[index];
 
-            print("is : ${supplier.imageUrl == null}");
-            return Container(
-              color: Colors.white,
-              width: double.infinity,
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Container(
-                        margin: const EdgeInsets.only(right: 12),
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(6),
-                          child: supplier.imageUrl == null
-                              ? Image.asset(
-                                  'assets/images/no_image.png',
-                                  height: 60,
-                                  width: 60,
-                                  fit: BoxFit.cover,
-                                )
-                              : FadeInImage.assetNetwork(
-                                  image: '${supplier.imageUrl}',
-                                  fit: BoxFit.cover,
-                                  placeholder: 'assets/images/logo.png',
-                                  height: 60,
-                                  width: 60,
-                                ),
-                        ),
-                      ),
-                      Expanded(
-                        child: Column(
+                  print("is : ${supplier.imageUrl == null}");
+                  return Container(
+                    color: Colors.white,
+                    width: double.infinity,
+                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Row(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
                             Container(
-                              margin: const EdgeInsets.only(bottom: 2),
-                              child: Text(
-                                '${supplier.name}',
-                                style: PadiMallTextTheme.sz14weight600Soft(context),
+                              margin: const EdgeInsets.only(right: 12),
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(6),
+                                child: supplier.imageUrl == null
+                                    ? Image.asset(
+                                        'assets/images/no_image.png',
+                                        height: 60,
+                                        width: 60,
+                                        fit: BoxFit.cover,
+                                      )
+                                    : FadeInImage.assetNetwork(
+                                        image: '${supplier.imageUrl}',
+                                        fit: BoxFit.cover,
+                                        placeholder: 'assets/images/logo.png',
+                                        height: 60,
+                                        width: 60,
+                                      ),
                               ),
                             ),
-                            Row(
-                              children: <Widget>[
-                                Container(
-                                  margin: const EdgeInsets.only(right: 4),
-                                  child: Icon(
-                                    Icons.call,
-                                    color: Colors.grey,
-                                    size: 15,
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: <Widget>[
+                                  Container(
+                                    margin: const EdgeInsets.only(bottom: 2),
+                                    child: Text(
+                                      '${supplier.name}',
+                                      style: PadiMallTextTheme.sz14weight600Soft(context),
+                                    ),
                                   ),
-                                ),
-                                Text(
-                                  '${supplier.phone}',
-                                  style: PadiMallTextTheme.sz12weight500Grey(context),
-                                ),
-                              ],
-                            ),
-                            Row(
-                              children: <Widget>[
-                                Container(
-                                  margin: const EdgeInsets.only(right: 4),
-                                  child: Icon(
-                                    Icons.location_on,
-                                    color: Colors.grey,
-                                    size: 15,
+                                  Row(
+                                    children: <Widget>[
+                                      Container(
+                                        margin: const EdgeInsets.only(right: 4),
+                                        child: Icon(
+                                          Icons.call,
+                                          color: Colors.grey,
+                                          size: 15,
+                                        ),
+                                      ),
+                                      Text(
+                                        '${supplier.phone}',
+                                        style: PadiMallTextTheme.sz12weight500Grey(context),
+                                      ),
+                                    ],
                                   ),
-                                ),
-                                Text(
-                                  '${supplier.address}',
-                                  style: PadiMallTextTheme.sz12weight500Grey(context),
-                                ),
-                              ],
+                                  Row(
+                                    children: <Widget>[
+                                      Container(
+                                        margin: const EdgeInsets.only(right: 4),
+                                        child: Icon(
+                                          Icons.location_on,
+                                          color: Colors.grey,
+                                          size: 15,
+                                        ),
+                                      ),
+                                      Text(
+                                        '${supplier.address}',
+                                        style: PadiMallTextTheme.sz12weight500Grey(context),
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
                             ),
                           ],
                         ),
-                      ),
-                    ],
-                  ),
-                ],
+                      ],
+                    ),
+                  );
+                },
               ),
-            );
-          },
-        ),
       ],
     );
   }

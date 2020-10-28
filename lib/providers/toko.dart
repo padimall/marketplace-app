@@ -301,7 +301,8 @@ class ProviderToko with ChangeNotifier {
 
       var requestBody = {
         'name': indexProfile == 0 ? textEditingController.text : null,
-        'phone': indexProfile == 1 ? textEditingController.text : null,
+        'address': indexProfile == 1 ? textEditingController.text : null,
+        'phone': indexProfile == 2 ? textEditingController.text : null,
       };
 
       http.Response response = await http.post(
