@@ -31,7 +31,7 @@ class BerandaKategori extends StatelessWidget {
               ),
             ),
             Container(
-              height: 100,
+              height: 125,
               child: ListView.builder(
                 itemCount: _productCategoriesState.listMainCategories.length,
                 shrinkWrap: true,
@@ -55,51 +55,78 @@ class BerandaKategori extends StatelessWidget {
                     },
                     child: Container(
                       margin: EdgeInsets.only(left: _leftMargin, right: _rightMargin),
+                      width: 100,
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(10),
-                        child: Container(
-                          height: 100,
-                          width: 100,
-                          decoration: BoxDecoration(
-                            gradient: LinearGradient(
-                              colors: [
-                                Colors.black,
-                                Colors.black,
-                              ],
-                              begin: Alignment.centerLeft,
-                              end: Alignment(1.0, 1.0),
+                        child: Column(
+                          children: [
+                            Container(
+                              child: FadeInImage.assetNetwork(
+                                placeholder: 'assets/images/logo.png',
+                                image: '${_productMainCategory.image}',
+                                height: 70,
+                                width: 70,
+                                fit: BoxFit.cover,
+                              ),
                             ),
-                          ),
-                          child: Stack(
-                            alignment: Alignment.center,
-                            children: <Widget>[
-                              Opacity(
-                                opacity: 0.6,
-                                child: Container(
-                                  child: FadeInImage.assetNetwork(
-                                    placeholder: 'assets/images/logo.png',
-                                    image: '${_productMainCategory.image}',
-                                    height: 125,
-                                    width: 125,
-                                    fit: BoxFit.cover,
-                                  ),
-                                ),
-                              ),
-                              Container(
-                                padding: const EdgeInsets.symmetric(horizontal: 4),
-                                child: Text(
-                                  '${_productMainCategory.name}',
-                                  maxLines: 3,
-                                  overflow: TextOverflow.ellipsis,
-                                  textAlign: TextAlign.center,
-                                  style: PadiMallTextTheme.sz14weight700White(context),
-                                ),
-                              ),
-                            ],
-                          ),
+                            Text(
+                              '${_productMainCategory.name}',
+                              maxLines: 3,
+                              overflow: TextOverflow.ellipsis,
+                              textAlign: TextAlign.center,
+                              style: PadiMallTextTheme.sz11weight500(context),
+                            ),
+                          ],
                         ),
                       ),
                     ),
+//                    child: Container(
+//                      margin: EdgeInsets.only(left: _leftMargin, right: _rightMargin),
+//                      child: ClipRRect(
+//                        borderRadius: BorderRadius.circular(10),
+//                        child: Container(
+//                          height: 100,
+//                          width: 100,
+//                          decoration: BoxDecoration(
+//                            gradient: LinearGradient(
+//                              colors: [
+//                                Colors.transparent,
+//                                Colors.transparent,
+//                              ],
+//                              begin: Alignment.centerLeft,
+//                              end: Alignment(1.0, 1.0),
+//                            ),
+//                          ),
+//                          child: Stack(
+//                            alignment: Alignment.center,
+//                            children: <Widget>[
+//                              Opacity(
+//                                opacity: 0.6,
+//                                child: Container(
+//                                  child: FadeInImage.assetNetwork(
+//                                    placeholder: 'assets/images/logo.png',
+//                                    image: '${_productMainCategory.image}',
+//                                    height: 125,
+//                                    width: 125,
+//                                    fit: BoxFit.cover,
+//                                  ),
+//                                ),
+//                              ),
+//                              Container(
+//                                padding: const EdgeInsets.symmetric(horizontal: 4),
+//                                child: Text(
+//                                  '${_productMainCategory.name}',
+//                                  maxLines: 3,
+//                                  overflow: TextOverflow.ellipsis,
+//                                  textAlign: TextAlign.center,
+//                                  style: PadiMallTextTheme.sz14weight700(context),
+//                                ),
+//                              ),
+//                            ],
+//                          ),
+//                        ),
+//                      ),
+//                    ),
                   );
 
 //                  return GestureDetector(
