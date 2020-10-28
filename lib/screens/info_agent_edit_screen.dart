@@ -82,8 +82,9 @@ class _InfoAgentEditScreenState extends State<InfoAgentEditScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
 //                _buildAgentPicture(context),
-                _buildInfoRow(context, 'Nama Toko', '${_providerToko.agentDetail.name}', 0),
-                _buildInfoRow(context, 'No. HP', '${_providerToko.agentDetail.phone}', 1),
+                _buildInfoRow(context, 'Nama Toko', '${_providerToko.agentOfSupplier.name}', 0),
+                _buildInfoRow(context, 'Alamat', '${_providerToko.agentOfSupplier.address}', 1),
+                _buildInfoRow(context, 'No. HP', '${_providerToko.agentOfSupplier.phone}', 2),
               ],
             ),
           ),
