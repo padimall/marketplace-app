@@ -74,7 +74,7 @@ class BerandaKategori extends StatelessWidget {
                               maxLines: 3,
                               overflow: TextOverflow.ellipsis,
                               textAlign: TextAlign.center,
-                              style: PadiMallTextTheme.sz11weight500(context),
+                              style: PadiMallTextTheme.sz11weight600(context),
                             ),
                           ],
                         ),

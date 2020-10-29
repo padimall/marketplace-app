@@ -7,12 +7,12 @@ class PostShowBanner {
 
   int status;
   String message;
-  List<Banner> data;
+  List<NewsBanner> data;
 
   factory PostShowBanner.fromJson(Map<String, dynamic> json) => PostShowBanner(
     status: json["status"] == null ? null : json["status"],
     message: json["message"] == null ? null : json["message"],
-    data: json["data"] == null ? null : List<Banner>.from(json["data"].map((x) => Banner.fromJson(x))),
+    data: json["data"] == null ? null : List<NewsBanner>.from(json["data"].map((x) => NewsBanner.fromJson(x))),
   );
 
   Map<String, dynamic> toJson() => {
@@ -22,8 +22,8 @@ class PostShowBanner {
   };
 }
 
-class Banner {
-  Banner({
+class NewsBanner {
+  NewsBanner({
     this.id,
     this.image,
     this.type,
@@ -37,7 +37,7 @@ class Banner {
   DateTime createdAt;
   DateTime updatedAt;
 
-  factory Banner.fromJson(Map<String, dynamic> json) => Banner(
+  factory NewsBanner.fromJson(Map<String, dynamic> json) => NewsBanner(
     id: json["id"] == null ? null : json["id"],
     image: json["image"] == null ? null : json["image"],
     type: json["type"] == null ? null : json["type"],
