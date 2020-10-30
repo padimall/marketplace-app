@@ -327,54 +327,53 @@ class ProdukEditScreen extends StatelessWidget {
                 itemCount: product.images.length + 1,
                 shrinkWrap: true,
                 physics: NeverScrollableScrollPhysics(),
-                itemBuilder: (ctx, index) => GestureDetector(
-                  onTap: () {
-//                _providerProduct.getSingleImage(context, ImageSource.gallery);
-                    _providerProduct.loadAssetsPicture(index);
-                  },
-                  child: Stack(
-                    children: [
-                      Container(
-                        margin: const EdgeInsets.all(8.0),
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(6),
-                          child: index >= product.images.length
-                              ? Image.asset(
+                itemBuilder: (ctx, index) => Stack(
+                  children: [
+                    Container(
+                      margin: const EdgeInsets.all(8.0),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(6),
+                        child: index >= product.images.length
+                            ? GestureDetector(
+                                onTap: () {
+                                  _providerProduct.loadAssetsPicture(index);
+                                },
+                                child: Image.asset(
                                   'assets/images/add_picture.png',
                                   height: 75,
                                   width: 75,
                                   fit: BoxFit.cover,
-                                )
-                              : CachedNetworkImage(
-                                  imageUrl: product.images[index].url,
-                                  height: 75,
-                                  width: 75,
-                                  fit: BoxFit.cover,
                                 ),
-                        ),
-                      ),
-                      index < product.images.length
-                          ? Positioned(
-                              top: 0,
-                              right: 0,
-                              child: GestureDetector(
-                                onTap: () {
-                                  _providerProduct.removeListProductImage(index);
-                                },
-                                child: CircleAvatar(
-                                  radius: 10,
-                                  child: Icon(
-                                    Icons.clear,
-                                    color: Colors.white,
-                                    size: 15,
-                                  ),
-                                  backgroundColor: Colors.black87,
-                                ),
+                              )
+                            : CachedNetworkImage(
+                                imageUrl: product.images[index].url,
+                                height: 75,
+                                width: 75,
+                                fit: BoxFit.cover,
                               ),
-                            )
-                          : Container(),
-                    ],
-                  ),
+                      ),
+                    ),
+                    index < product.images.length
+                        ? Positioned(
+                            top: 0,
+                            right: 0,
+                            child: GestureDetector(
+                              onTap: () {
+                                _providerProduct.removeListProductImage(index);
+                              },
+                              child: CircleAvatar(
+                                radius: 10,
+                                child: Icon(
+                                  Icons.clear,
+                                  color: Colors.white,
+                                  size: 15,
+                                ),
+                                backgroundColor: Colors.black87,
+                              ),
+                            ),
+                          )
+                        : Container(),
+                  ],
                 ),
               ),
             ),

@@ -30,7 +30,15 @@ class _FirstScreenState extends State<FirstScreen> {
         type: BottomNavigationBarType.fixed,
         items: [
           BottomNavigationBarItem(
-            icon: Icon(Icons.book),
+            icon: widget._selectedIndex == 0
+                ? Image.asset(
+                    'assets/images/home_on.png',
+                    height: 20,
+                  )
+                : Image.asset(
+                    'assets/images/home_off.png',
+                    height: 20,
+                  ),
             title: FittedBox(
               child: Text(
                 'Beranda',
@@ -42,7 +50,15 @@ class _FirstScreenState extends State<FirstScreen> {
             ),
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.book),
+            icon: widget._selectedIndex == 1
+                ? Image.asset(
+                    'assets/images/category_on.png',
+                    height: 20,
+                  )
+                : Image.asset(
+                    'assets/images/category_off.png',
+                    height: 20,
+                  ),
             title: FittedBox(
               child: Text(
                 'Kategori',
@@ -54,7 +70,15 @@ class _FirstScreenState extends State<FirstScreen> {
             ),
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.book),
+            icon: widget._selectedIndex == 2
+                ? Image.asset(
+                    'assets/images/cart_on.png',
+                    height: 20,
+                  )
+                : Image.asset(
+                    'assets/images/cart_off.png',
+                    height: 20,
+                  ),
             title: FittedBox(
               child: Text(
                 'Keranjang',
@@ -66,7 +90,15 @@ class _FirstScreenState extends State<FirstScreen> {
             ),
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.book),
+            icon: widget._selectedIndex == 3
+                ? Image.asset(
+                    'assets/images/user_on.png',
+                    height: 20,
+                  )
+                : Image.asset(
+                    'assets/images/user_off.png',
+                    height: 20,
+                  ),
             title: FittedBox(
               child: Text(
                 'Akun',
