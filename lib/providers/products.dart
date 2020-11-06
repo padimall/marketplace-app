@@ -9,6 +9,8 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:image_size_getter/file_input.dart';
+import 'package:image_size_getter/image_size_getter.dart';
 import 'package:mime/mime.dart';
 import 'package:multi_image_picker/multi_image_picker.dart';
 import 'package:padimall_app/models/post_show_product_categories.dart';
@@ -61,20 +63,24 @@ class ProviderProduct with ChangeNotifier {
 
   Future<void> loadAssetsPicture(int index) async {
     try {
-//      _listProductImage.clear();
       List<Asset> _listAssets = List<Asset>();
       _listAssets = await MultiImagePicker.pickImages(
         maxImages: 4 - _listProductImage.length,
-        enableCamera: false,
+        enableCamera: true,
       );
 
       _listAssets.forEach((asset) async {
         var path = await FlutterAbsolutePath.getAbsolutePath(asset.identifier);
-        _listProductImage.add(File(path));
-        print(path);
-        String mimeStr = lookupMimeType(path);
-        var fileType = mimeStr.split('/');
-        print('fileType: ${fileType}');
+        File file = File(path);
+        print('size: ${file.lengthSync()}');
+        if (file.lengthSync() < 2000000) {
+          _listProductImage.add(File(path));
+          String mimeStr = lookupMimeType(path);
+          var fileType = mimeStr.split('/');
+          print('fileType: ${fileType}');
+        } else {
+          Fluttertoast.showToast(msg: "Gambar tidak boleh melebihi 2Mb", backgroundColor: Colors.redAccent);
+        }
       });
     } on PlatformException catch (e) {
       print(e.message);
