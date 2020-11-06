@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:padimall_app/providers/banners.dart';
 import 'package:padimall_app/screens/product_search_screen.dart';
 import 'package:padimall_app/utils/custom_text_theme.dart';
 import 'package:padimall_app/widgets/beranda/belanja.dart';
 import 'package:padimall_app/widgets/beranda/carousel.dart';
 import 'package:padimall_app/widgets/beranda/kategori.dart';
+import 'package:provider/provider.dart';
 
 class BerandaScreen extends StatefulWidget {
   @override

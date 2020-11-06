@@ -32,12 +32,15 @@ class ProviderBanner with ChangeNotifier {
         _listBanner.clear();
         if (jsonObject.status == 1) {
           _listBanner.addAll(jsonObject.data);
+          print('panjang banner: ${_listBanner.length}');
+          notifyListeners();
         }
       }
     } catch (e) {
       print(e.toString());
     } finally {
       notifyListeners();
+      print('notify');
     }
   }
 }

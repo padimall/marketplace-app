@@ -19,7 +19,7 @@ class ProdukAndaAgentWidget extends StatelessWidget {
       _providerProduct.getAgentProduct(),
       Consumer<ProviderProduct>(
         builder: (ctx, provider, _) => SingleChildScrollView(
-          child: _providerProduct.listSupplierProducts != null
+          child: _providerProduct.listSupplierProducts.isNotEmpty
               ? ListView.builder(
                   itemCount: _providerProduct.listSupplierProducts.length,
                   shrinkWrap: true,

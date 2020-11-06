@@ -16,7 +16,6 @@ class ProviderProductCategories with ChangeNotifier {
   int get selectedMainCategoryIndex => _selectedMainCategoryIndex;
 
   void setSelectedMainCategoryIndex(int value) {
-    print("nilai: $value");
     _selectedMainCategoryIndex = value;
     notifyListeners();
   }
