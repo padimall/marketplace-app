@@ -302,7 +302,6 @@ class ProviderProduct with ChangeNotifier {
         print('pic file name: ${_pictureFilename}');
         var multipartFile = MultipartFile.fromFileSync(fileProduct.path, filename: _pictureFilename);
         _imageList.add(multipartFile);
-        print('sus ko');
       });
 
       var dio = Dio();
@@ -347,6 +346,7 @@ class ProviderProduct with ChangeNotifier {
         Navigator.pop(context);
         Fluttertoast.showToast(msg: 'Produk anda berhasil diperbaharui.', toastLength: Toast.LENGTH_LONG, backgroundColor: Theme.of(context).primaryColor);
         getSupplierProduct();
+        getAgentProduct();
       }
     } on DioError catch (dioError) {
       // Something happened in setting up or sending the request that triggered an Error

@@ -189,7 +189,7 @@ class ProdukEditScreen extends StatelessWidget {
                               hintText: 'Tuliskan deskripsi produk Anda',
                               hintStyle: PadiMallTextTheme.sz14weight500Grey(context),
                             ),
-                            maxLength: 50,
+                            maxLength: 500,
                             controller: descController,
                           )
                         ],
