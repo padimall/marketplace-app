@@ -461,6 +461,10 @@ class ProviderProduct with ChangeNotifier {
     }
   }
 
+  List<Product> _listProductByMainCategory = [];
+
+  List<Product> get listProductByMainCategory => _listProductByMainCategory;
+
   Future<void> getProductByMainCategory(BuildContext context, ProductMainCategory mainCategory) async {
     print(mainCategory.id);
     try {
@@ -485,11 +489,11 @@ class ProviderProduct with ChangeNotifier {
       var jsonObject = PostResShowProducts.fromJson(json.decode(response.body));
 
       if (response.statusCode == 200) {
-        _listProduct.clear();
+        _listProductByMainCategory.clear();
         if (jsonObject.status == 1) {
-          _listProduct.addAll(jsonObject.data);
+          _listProductByMainCategory.addAll(jsonObject.data);
         }
-        print('item: ${_listProduct.length}');
+        print('item: ${_listProductByMainCategory.length}');
       }
     } catch (e) {
       print(e.toString());

@@ -88,11 +88,11 @@ class ProductByMainCategoryScreen extends StatelessWidget {
                             crossAxisSpacing: 12,
                             mainAxisSpacing: 16,
                           ),
-                          itemCount: _providerProduct.listProduct.length,
+                          itemCount: _providerProduct.listProductByMainCategory.length,
                           shrinkWrap: true,
                           physics: NeverScrollableScrollPhysics(),
                           itemBuilder: (ctx, index) => ProductWidget(
-                            product: _providerProduct.listProduct[index],
+                            product: _providerProduct.listProductByMainCategory[index],
                           ),
                         ),
                       ],
