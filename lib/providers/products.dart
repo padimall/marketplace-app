@@ -343,27 +343,8 @@ class ProviderProduct with ChangeNotifier {
         await deleteProductImage(imageIdInTrash);
       });
 
-      // Upload new image in listProductImage
-//      for (var file in _listProductImage) {
-//        formData.files.addAll([
-//          MapEntry(
-//            "image[]",
-//            MultipartFile.fromFileSync(file.path, filename: file.path.split('/').last),
-//          )
-//        ]);
-//      }
-//      Response responseUploadNewImage = await dio.post(
-//        url,
-//        data: formData,
-//        options: Options(
-//          headers: {
-//            'X-Requested-With': 'XMLHttpRequest',
-//            'Authorization': 'Bearer ' + await FlutterSecureStorageServices.getUserToken(),
-//          },
-//        ),
-//      );
-//
-//      print('new pic: ${responseUploadNewImage.data}');
+      // Upload image in listProductImage
+      await addProductImage(productId);
 
       Navigator.pop(context);
       if (response.statusCode == 200) {
@@ -378,6 +359,36 @@ class ProviderProduct with ChangeNotifier {
     } finally {
       notifyListeners();
     }
+  }
+
+  Future<void> addProductImage(String productId) async {
+    var url = '${global.API_URL_PREFIX}/api/v1/product-image/store';
+    var dio = Dio();
+    FormData formData = FormData.fromMap(
+      {
+        'product_id': productId,
+      },
+    );
+    for (var file in _listProductImage) {
+      formData.files.addAll([
+        MapEntry(
+          "image[]",
+          MultipartFile.fromFileSync(file.path, filename: file.path.split('/').last),
+        )
+      ]);
+    }
+    Response response = await dio.post(
+      url,
+      data: formData,
+      options: Options(
+        headers: {
+          'X-Requested-With': 'XMLHttpRequest',
+          'Authorization': 'Bearer ' + await FlutterSecureStorageServices.getUserToken(),
+        },
+      ),
+    );
+
+    print('new pic: ${response.data}');
   }
 
   Future<void> deleteProductImage(String imageId) async {
