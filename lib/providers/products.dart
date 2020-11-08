@@ -124,15 +124,6 @@ class ProviderProduct with ChangeNotifier {
       CustomAlertDialog.loading(context);
       var url = '${global.API_URL_PREFIX}/api/v1/product/store';
 
-      List<MultipartFile> _imageList = [];
-      _listProductImage.forEach((fileProduct) {
-        var _pictureFilename = fileProduct.path.split('/').last;
-        print('pic file name: ${_pictureFilename}');
-        var multipartFile = MultipartFile.fromFileSync(fileProduct.path, filename: _pictureFilename);
-        _imageList.add(multipartFile);
-        print('sus ko');
-      });
-
       var dio = Dio();
       FormData formData = FormData.fromMap(
         {
@@ -274,10 +265,12 @@ class ProviderProduct with ChangeNotifier {
       var jsonObject = PostResShowProducts.fromJson(json.decode(response.body));
 
       if (response.statusCode == 200) {
+        _listSupplierProducts.clear();
         if (jsonObject.status == 1) {
-          _listSupplierProducts.clear();
           _listSupplierProducts = jsonObject.data;
-        } else if (jsonObject.status == 0) {}
+        } else if (jsonObject.status == 0) {
+          // No item found
+        }
       } else {}
     } catch (e) {
       print(e.toString());
@@ -291,6 +284,20 @@ class ProviderProduct with ChangeNotifier {
     notifyListeners();
   }
 
+  List<String> _listImageInTrash = [];
+
+  List<String> get listImageInTrash => _listImageInTrash;
+
+  void addImageProductToTemporaryTrash(String imageId) {
+    _listImageInTrash.add(imageId);
+    notifyListeners();
+  }
+
+  void resetListProductInTemporaryTrash() {
+    _listImageInTrash.clear();
+    notifyListeners();
+  }
+
   void resetListProductImage() {
     _listProductImage.clear();
     notifyListeners();
@@ -301,14 +308,6 @@ class ProviderProduct with ChangeNotifier {
     try {
       CustomAlertDialog.loading(context);
       var url = '${global.API_URL_PREFIX}/api/v1/product/update';
-
-      List<MultipartFile> _imageList = [];
-      _listProductImage.forEach((fileProduct) {
-        var _pictureFilename = fileProduct.path.split('/').last;
-        print('pic file name: ${_pictureFilename}');
-        var multipartFile = MultipartFile.fromFileSync(fileProduct.path, filename: _pictureFilename);
-        _imageList.add(multipartFile);
-      });
 
       var dio = Dio();
       FormData formData = FormData.fromMap(
@@ -324,14 +323,7 @@ class ProviderProduct with ChangeNotifier {
           'min_order': minOrder.text.replaceAll('.', ''),
         },
       );
-//      for (var file in _listProductImage) {
-//        formData.files.addAll([
-//          MapEntry(
-//            "image[]",
-//            MultipartFile.fromFileSync(file.path, filename: file.path.split('/').last),
-//          )
-//        ]);
-//      }
+
       Response response = await dio.post(
         url,
         data: formData,
@@ -345,7 +337,33 @@ class ProviderProduct with ChangeNotifier {
 
       print(url);
       print(response.data);
-      print(response.statusCode);
+
+      // Delete image in listImageInTrash
+      _listImageInTrash.forEach((imageIdInTrash) async {
+        await deleteProductImage(imageIdInTrash);
+      });
+
+      // Upload new image in listProductImage
+//      for (var file in _listProductImage) {
+//        formData.files.addAll([
+//          MapEntry(
+//            "image[]",
+//            MultipartFile.fromFileSync(file.path, filename: file.path.split('/').last),
+//          )
+//        ]);
+//      }
+//      Response responseUploadNewImage = await dio.post(
+//        url,
+//        data: formData,
+//        options: Options(
+//          headers: {
+//            'X-Requested-With': 'XMLHttpRequest',
+//            'Authorization': 'Bearer ' + await FlutterSecureStorageServices.getUserToken(),
+//          },
+//        ),
+//      );
+//
+//      print('new pic: ${responseUploadNewImage.data}');
 
       Navigator.pop(context);
       if (response.statusCode == 200) {
@@ -360,6 +378,26 @@ class ProviderProduct with ChangeNotifier {
     } finally {
       notifyListeners();
     }
+  }
+
+  Future<void> deleteProductImage(String imageId) async {
+    var url = '${global.API_URL_PREFIX}/api/v1/product-image/delete';
+
+    var requestBody = {
+      'target_id': imageId,
+    };
+
+    http.Response response = await http.post(
+      url,
+      headers: {
+        'X-Requested-With': 'XMLHttpRequest',
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + await FlutterSecureStorageServices.getUserToken(),
+      },
+      body: json.encode(requestBody),
+    );
+    print(url);
+    print(response.body);
   }
 
   Future<void> deleteProduct(BuildContext context, Product product) async {
@@ -387,6 +425,7 @@ class ProviderProduct with ChangeNotifier {
         Fluttertoast.showToast(msg: 'Produk berhasil dihapus.', toastLength: Toast.LENGTH_LONG, backgroundColor: Theme.of(context).accentColor);
         Navigator.pop(context);
         getSupplierProduct();
+        getAgentProduct();
       }
     } catch (e) {
       print(e.toString());

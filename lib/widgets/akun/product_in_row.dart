@@ -1,17 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:padimall_app/models/post_show_products.dart';
+import 'package:padimall_app/providers/products.dart';
 import 'package:padimall_app/screens/produk_edit_screen.dart';
 import 'package:padimall_app/utils/custom_image_url.dart';
 import 'package:padimall_app/utils/custom_text_theme.dart';
 import 'package:padimall_app/utils/text_number_formatter.dart';
+import 'package:provider/provider.dart';
 
 class ProductInRow extends StatelessWidget {
   Product product;
 
   ProductInRow({this.product});
 
+  ProviderProduct _providerProduct;
+
   @override
   Widget build(BuildContext context) {
+    _providerProduct = Provider.of<ProviderProduct>(context, listen: false);
+
     return Container(
       margin: const EdgeInsets.only(top: 8),
       padding: const EdgeInsets.symmetric(vertical: 12.0, horizontal: 16),
@@ -67,8 +73,12 @@ class ProductInRow extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     GestureDetector(
-                      onTap: () {
-                        Navigator.pushNamed(context, ProdukEditScreen.routeName, arguments: product);
+                      onTap: () async {
+                        await Navigator.pushNamed(context, ProdukEditScreen.routeName, arguments: product);
+                        _providerProduct.resetListProductInTemporaryTrash();
+                        _providerProduct.resetListProductImage();
+                        _providerProduct.getAgentProduct();
+                        _providerProduct.getSupplierProduct();
                       },
                       child: Text(
                         'Ubah',

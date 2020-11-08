@@ -189,6 +189,7 @@ class ProdukEditScreen extends StatelessWidget {
                               hintText: 'Tuliskan deskripsi produk Anda',
                               hintStyle: PadiMallTextTheme.sz14weight500Grey(context),
                             ),
+                            style: PadiMallTextTheme.sz14weight500(context),
                             maxLength: 500,
                             controller: descController,
                           )
@@ -275,9 +276,6 @@ class ProdukEditScreen extends StatelessWidget {
                         onPressed: () {
                           _providerProduct.updateProduct(context, product.id, nameController, priceController, weightController, descController,
                               _selectedProductCategory, stockController, minOrderController);
-//                          Navigator.pop(context);
-//                          Fluttertoast.showToast(
-//                              msg: 'Data produk berhasil di edit', toastLength: Toast.LENGTH_LONG, backgroundColor: Theme.of(context).primaryColor);
                         },
                         color: Theme.of(context).primaryColor,
                         shape: RoundedRectangleBorder(
@@ -324,7 +322,9 @@ class ProdukEditScreen extends StatelessWidget {
                   crossAxisSpacing: 0,
                   mainAxisSpacing: 0,
                 ),
-                itemCount: product.images.length + 1,
+                itemCount: (product.images.length + _providerProduct.listProductImage.length) >= 4
+                    ? product.images.length + _providerProduct.listProductImage.length
+                    : product.images.length + _providerProduct.listProductImage.length + 1,
                 shrinkWrap: true,
                 physics: NeverScrollableScrollPhysics(),
                 itemBuilder: (ctx, index) => Stack(
@@ -333,7 +333,7 @@ class ProdukEditScreen extends StatelessWidget {
                       margin: const EdgeInsets.all(8.0),
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(6),
-                        child: index >= product.images.length
+                        child: index >= product.images.length + _providerProduct.listProductImage.length
                             ? GestureDetector(
                                 onTap: () {
                                   _providerProduct.loadAssetsPicture(index);
@@ -345,21 +345,33 @@ class ProdukEditScreen extends StatelessWidget {
                                   fit: BoxFit.cover,
                                 ),
                               )
-                            : CachedNetworkImage(
-                                imageUrl: product.images[index].url,
-                                height: 75,
-                                width: 75,
-                                fit: BoxFit.cover,
-                              ),
+                            : index >= product.images.length
+                                ? Image.file(
+                                    _providerProduct.listProductImage[index - product.images.length],
+                                    height: double.infinity,
+                                    width: double.infinity,
+                                    fit: BoxFit.cover,
+                                  )
+                                : CachedNetworkImage(
+                                    imageUrl: product.images[index].url,
+                                    height: 75,
+                                    width: 75,
+                                    fit: BoxFit.cover,
+                                  ),
                       ),
                     ),
-                    index < product.images.length
+                    index < product.images.length + _providerProduct.listProductImage.length
                         ? Positioned(
                             top: 0,
                             right: 0,
                             child: GestureDetector(
                               onTap: () {
-                                _providerProduct.removeListProductImage(index);
+                                if (index >= product.images.length) {
+                                  _providerProduct.removeListProductImage(index - product.images.length);
+                                } else {
+                                  _providerProduct.addImageProductToTemporaryTrash(product.images[index].id);
+                                  product.images.removeAt(index);
+                                }
                               },
                               child: CircleAvatar(
                                 radius: 10,
