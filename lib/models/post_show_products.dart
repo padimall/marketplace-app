@@ -1,3 +1,5 @@
+import 'package:padimall_app/models/post_show_suppliers_agent_detail.dart';
+
 class PostResShowProducts {
   PostResShowProducts({
     this.status,
@@ -36,6 +38,7 @@ class Product {
     this.minOrder,
     this.createdAt,
     this.updatedAt,
+    this.agent,
     this.images,
   });
 
@@ -51,6 +54,7 @@ class Product {
   int minOrder;
   DateTime createdAt;
   DateTime updatedAt;
+  Agent agent;
   List<ImageProduct> images;
 
   factory Product.fromJson(Map<String, dynamic> json) => Product(
@@ -66,6 +70,7 @@ class Product {
     minOrder: json["min_order"] == null ? null : json["min_order"],
     createdAt: json["created_at"] == null ? null : DateTime.parse(json["created_at"]),
     updatedAt: json["updated_at"] == null ? null : DateTime.parse(json["updated_at"]),
+    agent: json["agent"] == null ? null : Agent.fromJson(json["agent"]),
     images: json["image"] == null ? null : List<ImageProduct>.from(json["image"].map((x) => ImageProduct.fromJson(x))),
   );
 
@@ -81,6 +86,7 @@ class Product {
     "status": status == null ? null : status,
     "created_at": createdAt == null ? null : createdAt.toIso8601String(),
     "updated_at": updatedAt == null ? null : updatedAt.toIso8601String(),
+    "agent": agent == null ? null : agent.toJson(),
     "image": images == null ? null : List<dynamic>.from(images.map((x) => x.toJson())),
   };
 }

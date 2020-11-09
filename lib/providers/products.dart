@@ -14,6 +14,7 @@ import 'package:image_size_getter/image_size_getter.dart';
 import 'package:mime/mime.dart';
 import 'package:multi_image_picker/multi_image_picker.dart';
 import 'package:padimall_app/models/post_show_product_categories.dart';
+import 'package:padimall_app/models/post_show_product_detail.dart';
 import 'package:padimall_app/models/post_show_products.dart';
 import 'package:padimall_app/models/product_main_category.dart';
 import 'package:padimall_app/utils/custom_alert_dialog.dart';
@@ -49,6 +50,43 @@ class ProviderProduct with ChangeNotifier {
       if (response.statusCode == 200) {
         _listProduct.clear();
         _listProduct.addAll(jsonObject.data);
+      }
+    } catch (e) {
+      print(e.toString());
+    } finally {
+      notifyListeners();
+    }
+  }
+
+  Product _productDetail;
+
+  Product get productDetail => _productDetail;
+
+  Future<void> getProductDetail(BuildContext context, String productId) async {
+    try {
+      var url = '${global.API_URL_PREFIX}/api/v1/product/detail';
+
+      var requestBody = {
+        'target_id': productId,
+      };
+
+      http.Response response = await http.post(
+        url,
+        headers: {
+          'X-Requested-With': 'XMLHttpRequest',
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + await FlutterSecureStorageServices.getDevToken(),
+        },
+        body: json.encode(requestBody),
+      );
+      print(url);
+      print(response.body);
+      var jsonObject = PostResShowProductDetail.fromJson(json.decode(response.body));
+
+      if (response.statusCode == 200) {
+        if (jsonObject.status == 1) {
+          _productDetail = jsonObject.data;
+        }
       }
     } catch (e) {
       print(e.toString());

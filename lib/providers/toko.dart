@@ -264,6 +264,36 @@ class ProviderToko with ChangeNotifier {
     }
   }
 
+  Future<void> getAgentDetailByAgentId(String agentId) async {
+    try {
+      var url = '${global.API_URL_PREFIX}/api/v1/agent/detail';
+      print(url);
+
+      http.Response response = await http.post(
+        url,
+        headers: {
+          'X-Requested-With': 'XMLHttpRequest',
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + await FlutterSecureStorageServices.getUserToken(),
+        },
+      );
+      print(response.body);
+      print(response.statusCode);
+
+      var jsonObject = PostResSuppliersAgentDetail.fromJson(jsonDecode(response.body));
+
+      if (response.statusCode == 200) {
+        _agentDetail = jsonObject.data;
+      } else if (response.statusCode == 404) {
+        _agentDetail = null;
+      }
+    } catch (e) {
+      print(e.toString());
+    } finally {
+      notifyListeners();
+    }
+  }
+
   Future<void> getAgentDetail(BuildContext context) async {
     try {
       var url = '${global.API_URL_PREFIX}/api/v1/agent/detail';
