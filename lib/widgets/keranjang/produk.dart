@@ -4,17 +4,30 @@ import 'package:padimall_app/models/order.dart';
 import 'package:padimall_app/utils/custom_text_theme.dart';
 import 'package:padimall_app/utils/text_number_formatter.dart';
 
-class KeranjangProdukWidget extends StatelessWidget {
+class KeranjangProdukWidget extends StatefulWidget {
   Order order;
 
   KeranjangProdukWidget({this.order});
 
-  final quantityController = MoneyMaskedTextController(
-      thousandSeparator: '.', precision: 0, decimalSeparator: '');
+  @override
+  _KeranjangProdukWidgetState createState() => _KeranjangProdukWidgetState();
+}
+
+class _KeranjangProdukWidgetState extends State<KeranjangProdukWidget> {
+  bool _isOverStock = false;
+  MoneyMaskedTextController quantityController = MoneyMaskedTextController(thousandSeparator: '.', precision: 0, decimalSeparator: '');
+
+  @override
+  void initState() {
+    quantityController.text = widget.order.quantity.toString();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
-    quantityController.text = order.quantity.toString();
+    if (_isOverStock) {
+      quantityController.text = widget.order.stock.toString();
+    }
 
     return Container(
       margin: const EdgeInsets.only(top: 16),
@@ -48,15 +61,26 @@ class KeranjangProdukWidget extends StatelessWidget {
                       Container(
                         margin: const EdgeInsets.only(bottom: 2),
                         child: Text(
-                          '${order.name}',
+                          '${widget.order.name}',
                           style: PadiMallTextTheme.sz12weight600(context),
                         ),
                       ),
                       Container(
                         margin: const EdgeInsets.only(bottom: 8),
-                        child: Text(
-                          'Rp ${textNumberFormatter(order.price.toDouble())}',
-                          style: PadiMallTextTheme.sz12weight600Red(context),
+                        child: Row(
+                          children: [
+                            Container(
+                              margin: const EdgeInsets.only(right: 8),
+                              child: Text(
+                                'Rp ${textNumberFormatter(widget.order.price.toDouble())}',
+                                style: PadiMallTextTheme.sz12weight600Red(context),
+                              ),
+                            ),
+                            Text(
+                              '(stock: ${textNumberFormatter(widget.order.stock.toDouble())})',
+                              style: PadiMallTextTheme.sz12weight500Grey(context),
+                            ),
+                          ],
                         ),
                       ),
                       Row(
@@ -75,12 +99,29 @@ class KeranjangProdukWidget extends StatelessWidget {
                               style: PadiMallTextTheme.sz13weight500(context),
                               keyboardType: TextInputType.number,
                               controller: quantityController,
+                              onChanged: (value) {
+                                value = value.replaceAll('.', ''); // remove delimiter
+                                if (int.parse(value) <= widget.order.stock) {
+                                  print('false');
+                                  _isOverStock = false;
+                                } else {
+                                  print('true');
+                                  _isOverStock = true;
+                                }
+                                setState(() {});
+                              },
                             ),
                           ),
                           Text(
                             'kilo',
                             style: PadiMallTextTheme.sz12weight500Grey(context),
                           ),
+                          _isOverStock
+                              ? Text(
+                                  ' (max. order: ${textNumberFormatter(widget.order.stock.toDouble())})',
+                                  style: PadiMallTextTheme.sz12weight600Red(context),
+                                )
+                              : Container(),
                         ],
                       )
                     ],
