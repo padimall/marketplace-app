@@ -1,13 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_masked_text/flutter_masked_text.dart';
+import 'package:padimall_app/models/order.dart';
 import 'package:padimall_app/utils/custom_text_theme.dart';
+import 'package:padimall_app/utils/text_number_formatter.dart';
 
 class KeranjangProdukWidget extends StatelessWidget {
+  Order order;
+
+  KeranjangProdukWidget({this.order});
+
   final quantityController = MoneyMaskedTextController(
       thousandSeparator: '.', precision: 0, decimalSeparator: '');
 
   @override
   Widget build(BuildContext context) {
+    quantityController.text = order.quantity.toString();
+
     return Container(
       margin: const EdgeInsets.only(top: 16),
       color: Colors.white,
@@ -40,14 +48,14 @@ class KeranjangProdukWidget extends StatelessWidget {
                       Container(
                         margin: const EdgeInsets.only(bottom: 2),
                         child: Text(
-                          'Bawang Putih',
+                          '${order.name}',
                           style: PadiMallTextTheme.sz12weight600(context),
                         ),
                       ),
                       Container(
                         margin: const EdgeInsets.only(bottom: 8),
                         child: Text(
-                          'Rp20.000',
+                          'Rp ${textNumberFormatter(order.price.toDouble())}',
                           style: PadiMallTextTheme.sz12weight600Red(context),
                         ),
                       ),

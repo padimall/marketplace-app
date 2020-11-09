@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
+import 'package:padimall_app/models/post_show_products.dart';
 import 'package:padimall_app/models/post_show_user_cart.dart';
 import 'package:http/http.dart' as http;
 import 'package:padimall_app/utils/flutter_secure_storage_services.dart';
@@ -42,14 +43,14 @@ class ProviderCart with ChangeNotifier {
     }
   }
 
-  Future<void> addOneProductToCart(String productId) async {
+  Future<void> addProductWithMinOrderToCart(Product product) async {
     try {
       var url = '${global.API_URL_PREFIX}/api/v1/cart/store';
       print(url);
 
       var requestBody = {
-        'product_id': productId,
-        'quantity': 1,
+        'product_id': product.id,
+        'quantity': product.minOrder,
         'status': 1,
       };
 

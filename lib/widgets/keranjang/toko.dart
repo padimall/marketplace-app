@@ -1,8 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:padimall_app/models/post_show_user_cart.dart';
 import 'package:padimall_app/utils/custom_text_theme.dart';
 import 'package:padimall_app/widgets/keranjang/produk.dart';
 
 class KeranjangTokoWidget extends StatelessWidget {
+  Cart cart;
+
+  KeranjangTokoWidget({this.cart});
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -22,11 +27,11 @@ class KeranjangTokoWidget extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     Text(
-                      'Toko Subur Selalu',
+                      '${cart.agent.name}',
                       style: PadiMallTextTheme.sz13weight600(context),
                     ),
                     Text(
-                      'Medan, Sumatera utara',
+                      '${cart.agent.address}',
                       style: PadiMallTextTheme.sz10weight500Grey(context),
                     ),
                   ],
@@ -34,7 +39,18 @@ class KeranjangTokoWidget extends StatelessWidget {
               ),
             ],
           ),
-          KeranjangProdukWidget(),
+          ListView.builder(
+            itemCount: cart.orders.length,
+            shrinkWrap: true,
+            physics: NeverScrollableScrollPhysics(),
+            itemBuilder: (ctx,index) {
+              var order = cart.orders[index];
+
+              return KeranjangProdukWidget(
+                order: order,
+              );
+            },
+          ),
         ],
       ),
     );

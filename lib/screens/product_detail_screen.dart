@@ -128,7 +128,7 @@ class ProductDetailScreen extends StatelessWidget {
                         child: RaisedButton(
                           onPressed: () async {
                             if (await CustomLogic.isUserTokenExist()) {
-                              _providerCart.addOneProductToCart(_product.id);
+                              _providerCart.addProductWithMinOrderToCart(_providerProduct.productDetail);
 //                              Navigator.pushNamed(context, KeranjangScreen.routeName);
                             } else {
                               showAlertDialogOk(

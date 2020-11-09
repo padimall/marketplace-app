@@ -75,7 +75,11 @@ class KeranjangScreen extends StatelessWidget {
                                     shrinkWrap: true,
                                     physics: NeverScrollableScrollPhysics(),
                                     itemBuilder: (ctx, index) {
-                                      return KeranjangTokoWidget();
+                                      var cart = _providerCart.listUserCart[index];
+
+                                      return KeranjangTokoWidget(
+                                        cart: cart,
+                                      );
                                     },
                                   ),
                                 ),
