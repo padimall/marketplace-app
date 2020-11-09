@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_pro/carousel_pro.dart';
 import 'package:flutter/material.dart';
 import 'package:padimall_app/models/post_show_products.dart';
+import 'package:padimall_app/providers/cart.dart';
 import 'package:padimall_app/providers/products.dart';
 import 'package:padimall_app/providers/toko.dart';
 import 'package:padimall_app/screens/checkout_screen.dart';
@@ -19,13 +20,13 @@ import 'package:provider/provider.dart';
 class ProductDetailScreen extends StatelessWidget {
   static final routeName = 'product-detail-screen';
 
-  ProviderToko _providerToko;
+  ProviderCart _providerCart;
   ProviderProduct _providerProduct;
 
   @override
   Widget build(BuildContext context) {
     Product _product = ModalRoute.of(context).settings.arguments;
-    _providerToko = Provider.of(context, listen: false);
+    _providerCart = Provider.of(context, listen: false);
     _providerProduct = Provider.of(context, listen: false);
 
     Widget _carouselImages = new AspectRatio(
@@ -33,7 +34,7 @@ class ProductDetailScreen extends StatelessWidget {
       child: _providerProduct.productDetail != null
           ? Carousel(
               boxFit: BoxFit.cover,
-              images: _product.images
+              images: _providerProduct.productDetail.images
                   .map((productImages) => CachedNetworkImage(
                         imageUrl: productImages.url,
                         fit: BoxFit.cover,
@@ -67,130 +68,133 @@ class ProductDetailScreen extends StatelessWidget {
       ),
       body: buildFutureBuilder(
         _providerProduct.getProductDetail(context, _product.id),
-        Column(
-          children: <Widget>[
-            Expanded(
-              child: SingleChildScrollView(
-                child: Column(
-                  children: <Widget>[
-                    _product.images.length < 1
-                        ? AspectRatio(
-                            aspectRatio: 1,
-                            child: Image.asset(
-                              'assets/images/no_image.png',
-                              fit: BoxFit.cover,
+        Consumer<ProviderProduct>(
+          builder: (ctx, provider, _) => Column(
+            children: <Widget>[
+              Expanded(
+                child: SingleChildScrollView(
+                  child: Column(
+                    children: <Widget>[
+                      _providerProduct.productDetail.images.length < 1
+                          ? AspectRatio(
+                              aspectRatio: 1,
+                              child: Image.asset(
+                                'assets/images/no_image.png',
+                                fit: BoxFit.cover,
+                              ),
+                            )
+                          : ListView(
+                              shrinkWrap: true,
+                              physics: NeverScrollableScrollPhysics(),
+                              children: <Widget>[
+                                _carouselImages,
+                              ],
                             ),
-                          )
-                        : ListView(
-                            shrinkWrap: true,
-                            physics: NeverScrollableScrollPhysics(),
-                            children: <Widget>[
-                              _carouselImages,
-                            ],
+                      NamaHargaProduk(
+                        product: _providerProduct.productDetail,
+                      ),
+                      SizedBox(
+                        height: 8,
+                      ),
+                      InfoProduk(
+                        product: _providerProduct.productDetail,
+                      ),
+                      SizedBox(
+                        height: 8,
+                      ),
+                      InfoToko(
+                        product: _providerProduct.productDetail,
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                decoration: BoxDecoration(color: Colors.white, boxShadow: [
+                  BoxShadow(
+                    color: Colors.grey[300],
+                    blurRadius: 1.0,
+                    spreadRadius: 1.0,
+                  )
+                ]),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: <Widget>[
+                    Flexible(
+                      flex: 1,
+                      child: Container(
+                        width: double.infinity,
+                        child: RaisedButton(
+                          onPressed: () async {
+                            if (await CustomLogic.isUserTokenExist()) {
+                              _providerCart.addOneProductToCart(_product.id);
+//                              Navigator.pushNamed(context, KeranjangScreen.routeName);
+                            } else {
+                              showAlertDialogOk(
+                                context,
+                                false,
+                                'Yuk Sign In',
+                                'Silahkan Sign In terlebih dahulu untuk menggunakan fitur ini',
+                                'Sign In',
+                                () {
+                                  Navigator.pop(context);
+                                  Navigator.pushNamed(context, LoginScreen.routeName);
+                                },
+                              );
+                            }
+                          },
+                          color: Theme.of(context).accentColor,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.all(
+                              Radius.circular(4),
+                            ),
                           ),
-                    NamaHargaProduk(
-                      product: _providerProduct.productDetail,
+                          child: Text(
+                            '+ Keranjang',
+                            style: PadiMallTextTheme.sz16weight700White(context),
+                          ),
+                        ),
+                      ),
                     ),
                     SizedBox(
-                      height: 8,
+                      width: 16,
                     ),
-                    InfoProduk(
-                      product: _providerProduct.productDetail,
-                    ),
-                    SizedBox(
-                      height: 8,
-                    ),
-                    InfoToko(
-                      product: _providerProduct.productDetail,
+                    Flexible(
+                      flex: 1,
+                      child: Container(
+                        width: double.infinity,
+                        child: RaisedButton(
+                          onPressed: () async {
+                            if (await CustomLogic.isUserTokenExist()) {
+                              Navigator.pushNamed(context, CheckoutScreen.routeName);
+                            } else {
+                              showAlertDialogOk(
+                                context,
+                                false,
+                                'Yuk Sign In',
+                                'Silahkan Sign In terlebih dahulu untuk menggunakan fitur ini',
+                                'Sign In',
+                                () {
+                                  Navigator.pop(context);
+                                  Navigator.pushNamed(context, LoginScreen.routeName);
+                                },
+                              );
+                            }
+                          },
+                          color: Theme.of(context).primaryColor,
+                          child: Text(
+                            'Beli Sekarang',
+                            style: PadiMallTextTheme.sz16weight700White(context),
+                          ),
+                        ),
+                      ),
                     ),
                   ],
                 ),
-              ),
-            ),
-            Container(
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-              decoration: BoxDecoration(color: Colors.white, boxShadow: [
-                BoxShadow(
-                  color: Colors.grey[300],
-                  blurRadius: 1.0,
-                  spreadRadius: 1.0,
-                )
-              ]),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: <Widget>[
-                  Flexible(
-                    flex: 1,
-                    child: Container(
-                      width: double.infinity,
-                      child: RaisedButton(
-                        onPressed: () async {
-                          if (await CustomLogic.isUserTokenExist()) {
-                            Navigator.pushNamed(context, KeranjangScreen.routeName);
-                          } else {
-                            showAlertDialogOk(
-                              context,
-                              false,
-                              'Yuk Sign In',
-                              'Silahkan Sign In terlebih dahulu untuk menggunakan fitur ini',
-                              'Sign In',
-                              () {
-                                Navigator.pop(context);
-                                Navigator.pushNamed(context, LoginScreen.routeName);
-                              },
-                            );
-                          }
-                        },
-                        color: Theme.of(context).accentColor,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.all(
-                            Radius.circular(4),
-                          ),
-                        ),
-                        child: Text(
-                          '+ Keranjang',
-                          style: PadiMallTextTheme.sz16weight700White(context),
-                        ),
-                      ),
-                    ),
-                  ),
-                  SizedBox(
-                    width: 16,
-                  ),
-                  Flexible(
-                    flex: 1,
-                    child: Container(
-                      width: double.infinity,
-                      child: RaisedButton(
-                        onPressed: () async {
-                          if (await CustomLogic.isUserTokenExist()) {
-                            Navigator.pushNamed(context, CheckoutScreen.routeName);
-                          } else {
-                            showAlertDialogOk(
-                              context,
-                              false,
-                              'Yuk Sign In',
-                              'Silahkan Sign In terlebih dahulu untuk menggunakan fitur ini',
-                              'Sign In',
-                              () {
-                                Navigator.pop(context);
-                                Navigator.pushNamed(context, LoginScreen.routeName);
-                              },
-                            );
-                          }
-                        },
-                        color: Theme.of(context).primaryColor,
-                        child: Text(
-                          'Beli Sekarang',
-                          style: PadiMallTextTheme.sz16weight700White(context),
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            )
-          ],
+              )
+            ],
+          ),
         ),
       ),
     );

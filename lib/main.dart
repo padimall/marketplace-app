@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:padimall_app/providers/banners.dart';
+import 'package:padimall_app/providers/cart.dart';
 import 'package:padimall_app/providers/histories.dart';
 import 'package:padimall_app/providers/product_categories.dart';
 import 'package:padimall_app/providers/products.dart';
@@ -65,6 +66,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (ctx) => ProviderProductCategories(),),
         ChangeNotifierProvider(create: (ctx) => ProviderProduct(),),
         ChangeNotifierProvider(create: (ctx) => ProviderBanner(),),
+        ChangeNotifierProvider(create: (ctx) => ProviderCart(),),
       ],
       child: MaterialApp(
         title: 'PadiMall',

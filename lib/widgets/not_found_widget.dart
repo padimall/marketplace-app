@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:padimall_app/utils/custom_text_theme.dart';
 
-class BuilNotFoundWidget extends StatelessWidget {
+class BuildNotFoundWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(

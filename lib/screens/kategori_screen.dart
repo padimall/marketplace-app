@@ -49,7 +49,7 @@ class KategoriScreen extends StatelessWidget {
               ),
               _productCategoriesState.listMainCategories[provider.selectedMainCategoryIndex].productCategories.isEmpty
                   ? Expanded(
-                      child: BuilNotFoundWidget(),
+                      child: BuildNotFoundWidget(),
                     )
                   : Expanded(
                       child: SingleChildScrollView(
