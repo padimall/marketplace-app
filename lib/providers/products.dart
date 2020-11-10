@@ -58,7 +58,10 @@ class ProviderProduct with ChangeNotifier {
     }
   }
 
-  Product _productDetail;
+
+  Product _productDetail = Product(
+    images: [],
+  );
 
   Product get productDetail => _productDetail;
 

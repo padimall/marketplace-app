@@ -31,7 +31,7 @@ class ProductDetailScreen extends StatelessWidget {
 
     Widget _carouselImages = new AspectRatio(
       aspectRatio: 1,
-      child: _providerProduct.productDetail != null
+      child: _providerProduct.productDetail.images.isNotEmpty
           ? Carousel(
               boxFit: BoxFit.cover,
               images: _providerProduct.productDetail.images
@@ -75,7 +75,7 @@ class ProductDetailScreen extends StatelessWidget {
                 child: SingleChildScrollView(
                   child: Column(
                     children: <Widget>[
-                      _providerProduct.productDetail.images.length < 1
+                      _providerProduct.productDetail.images.isEmpty
                           ? AspectRatio(
                               aspectRatio: 1,
                               child: Image.asset(
@@ -87,7 +87,26 @@ class ProductDetailScreen extends StatelessWidget {
                               shrinkWrap: true,
                               physics: NeverScrollableScrollPhysics(),
                               children: <Widget>[
-                                _carouselImages,
+//                            _carouselImages,
+                                AspectRatio(
+                                  aspectRatio: 1,
+                                  child: _providerProduct.productDetail.images.isNotEmpty
+                                      ? Carousel(
+                                          boxFit: BoxFit.cover,
+                                          images: _providerProduct.productDetail.images
+                                              .map((productImages) => CachedNetworkImage(
+                                                    imageUrl: productImages.url,
+                                                    fit: BoxFit.cover,
+                                                  ))
+                                              .toList(),
+                                          autoplay: true,
+                                          autoplayDuration: Duration(seconds: 4),
+                                          dotSize: 4,
+                                          indicatorBgPadding: 4,
+                                          dotBgColor: Theme.of(context).accentColor.withOpacity(0.5),
+                                        )
+                                      : Container(),
+                                ),
                               ],
                             ),
                       NamaHargaProduk(
