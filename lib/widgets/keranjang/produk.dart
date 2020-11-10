@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_masked_text/flutter_masked_text.dart';
 import 'package:padimall_app/models/order.dart';
+import 'package:padimall_app/providers/cart.dart';
+import 'package:padimall_app/utils/custom_alert_dialog.dart';
 import 'package:padimall_app/utils/custom_text_theme.dart';
 import 'package:padimall_app/utils/text_number_formatter.dart';
+import 'package:provider/provider.dart';
 
 class KeranjangProdukWidget extends StatefulWidget {
   Order order;
@@ -17,6 +20,8 @@ class _KeranjangProdukWidgetState extends State<KeranjangProdukWidget> {
   bool _isOverStock = false;
   MoneyMaskedTextController quantityController = MoneyMaskedTextController(thousandSeparator: '.', precision: 0, decimalSeparator: '');
 
+  ProviderCart _providerCart;
+
   @override
   void initState() {
     quantityController.text = widget.order.quantity.toString();
@@ -25,6 +30,8 @@ class _KeranjangProdukWidgetState extends State<KeranjangProdukWidget> {
 
   @override
   Widget build(BuildContext context) {
+    _providerCart = Provider.of(context, listen: false);
+
     if (_isOverStock) {
       quantityController.text = widget.order.stock.toString();
     }
@@ -85,6 +92,23 @@ class _KeranjangProdukWidgetState extends State<KeranjangProdukWidget> {
                       ),
                       Row(
                         children: <Widget>[
+                          GestureDetector(
+                            child: Container(
+                              margin: const EdgeInsets.only(right: 8),
+                              child: Icon(
+                                Icons.delete,
+                                color: Colors.grey[500],
+                              ),
+                            ),
+                            onTap: () {
+                              CustomAlertDialog.dialogOfTwo(context, true, 'Hapus dari keranjang?', 'Apakah anda hendak mengeluarkan barang ini dari keranjang anda?', 'Keluarkan', 'Batal', () {
+                                Navigator.pop(context);
+                                _providerCart.deleteProductFromCart(context, widget.order.cartId);
+                              }, () {
+                                Navigator.pop(context);
+                              });
+                            },
+                          ),
                           Text(
                             'Jumlah: ',
                             style: PadiMallTextTheme.sz12weight500Grey(context),

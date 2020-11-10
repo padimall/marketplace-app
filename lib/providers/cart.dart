@@ -1,9 +1,12 @@
 import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:padimall_app/models/post_show_products.dart';
 import 'package:padimall_app/models/post_show_user_cart.dart';
 import 'package:http/http.dart' as http;
+import 'package:padimall_app/utils/custom_alert_dialog.dart';
 import 'package:padimall_app/utils/flutter_secure_storage_services.dart';
 import 'package:padimall_app/utils/global.dart' as global;
 
@@ -66,9 +69,43 @@ class ProviderCart with ChangeNotifier {
       print(response.body);
       print(response.statusCode);
 
-//      var jsonObject = PostResShowUserCart.fromJson(jsonDecode(response.body));
-
       if (response.statusCode == 200) {}
+    } catch (e) {
+      print(e.toString());
+    } finally {
+      notifyListeners();
+    }
+  }
+
+  Future<void> deleteProductFromCart(BuildContext context, String cartId) async {
+    try {
+      CustomAlertDialog.loading(context);
+      var url = '${global.API_URL_PREFIX}/api/v1/cart/delete';
+      print(url);
+      print(cartId);
+
+      var requestBody = {
+        'target_id': cartId,
+      };
+
+      http.Response response = await http.post(
+        url,
+        headers: {
+          'X-Requested-With': 'XMLHttpRequest',
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + await FlutterSecureStorageServices.getUserToken(),
+        },
+        body: json.encode(requestBody),
+      );
+      print(response.body);
+      print(response.statusCode);
+
+      Navigator.pop(context);
+      if (response.statusCode == 200) {
+        getUserCart();
+      } else {
+        Fluttertoast.showToast(msg: "Terjadi kesalahan. Error code: ${response.statusCode}", backgroundColor: Theme.of(context).accentColor);
+      }
     } catch (e) {
       print(e.toString());
     } finally {

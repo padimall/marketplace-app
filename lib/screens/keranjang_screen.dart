@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:padimall_app/providers/cart.dart';
 import 'package:padimall_app/providers/user.dart';
 import 'package:padimall_app/utils/build_future_builder.dart';
@@ -44,7 +45,7 @@ class KeranjangScreen extends StatelessWidget {
                             description: 'Keranjang kamu masih kosong nih. Yuk kita isi dulu',
                             buttonTitle: 'Mulai Belanja',
                             buttonFunctionHandler: () {
-                              //
+                              Fluttertoast.showToast(msg: "On Development", backgroundColor: Theme.of(context).accentColor);
                             },
                           )
                         : Column(
