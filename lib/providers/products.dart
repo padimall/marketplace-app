@@ -515,43 +515,6 @@ class ProviderProduct with ChangeNotifier {
     } finally {}
   }
 
-  Future<void> searchProduct(BuildContext context, String searchName) async {
-    print(searchName);
-    try {
-      var url = '${global.API_URL_PREFIX}/api/v1/product/search';
-
-      var requestBody = {
-        'name': searchName,
-      };
-
-      http.Response response = await http.post(
-        url,
-        headers: {
-          'X-Requested-With': 'XMLHttpRequest',
-          'Content-Type': 'application/json',
-          'Authorization': 'Bearer ' + await FlutterSecureStorageServices.getUserToken(),
-        },
-        body: json.encode(requestBody),
-      );
-      print(url);
-      print(response.body);
-
-      var jsonObject = PostResShowProducts.fromJson(json.decode(response.body));
-
-      if (response.statusCode == 200) {
-        _listProduct.clear();
-        if (jsonObject.status == 1) {
-          _listProduct.addAll(jsonObject.data);
-        }
-//        Fluttertoast.showToast(msg: 'Status produk berhasil diperbaharui.', toastLength: Toast.LENGTH_LONG, backgroundColor: Theme.of(context).accentColor);
-      }
-    } catch (e) {
-      print(e.toString());
-    } finally {
-      notifyListeners();
-    }
-  }
-
   List<Product> _listProductByMainCategory = [];
 
   List<Product> get listProductByMainCategory => _listProductByMainCategory;
@@ -586,6 +549,44 @@ class ProviderProduct with ChangeNotifier {
         }
         print('item: ${_listProductByMainCategory.length}');
       }
+    } catch (e) {
+      print(e.toString());
+    } finally {
+      notifyListeners();
+    }
+  }
+
+  List<Product> _listOfSearchedProduct = [];
+
+  List<Product> get listOfSearchedProduct => _listOfSearchedProduct;
+
+  Future<void> searchProductByName(String name) async {
+    try {
+      var url = '${global.API_URL_PREFIX}/api/v1/product/search';
+
+      var requestBody = {
+        'name': name,
+      };
+
+      http.Response response = await http.post(url,
+          headers: {
+            'X-Requested-With': 'XMLHttpRequest',
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + await FlutterSecureStorageServices.getUserToken(),
+          },
+          body: json.encode(requestBody));
+      print(url);
+      print(response.body);
+      var jsonObject = PostResShowProducts.fromJson(json.decode(response.body));
+
+      if (response.statusCode == 200) {
+        if (jsonObject.status == 1) {
+          _listOfSearchedProduct.clear();
+          _listOfSearchedProduct = jsonObject.data;
+        } else if (jsonObject.status == 0) {
+          _listOfSearchedProduct.clear();
+        }
+      } else {}
     } catch (e) {
       print(e.toString());
     } finally {
