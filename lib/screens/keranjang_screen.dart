@@ -37,7 +37,7 @@ class KeranjangScreen extends StatelessWidget {
           body: !_providerUser.isUserLogin
               ? NoUserYetWidget()
               : buildFutureBuilder(
-                  _providerCart.getUserCart(),
+                  _providerCart.getUserCart(context),
                   Consumer<ProviderCart>(
                     builder: (ctx, provider, _) => _providerCart.listUserCart.isEmpty
                         ? BuildNotFoundWithCTAWidget(
