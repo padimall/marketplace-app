@@ -2,10 +2,22 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:padimall_app/utils/custom_text_theme.dart';
 import 'package:padimall_app/widgets/alert_dialog/loading.dart';
+import 'package:padimall_app/widgets/others/alertDialogCanUpdate.dart';
+import 'package:padimall_app/widgets/others/alertDialogForceUpdate.dart';
 
 class CustomAlertDialog {
   static void loading(BuildContext context) {
     transparentLoadingCircular(context, "Loading..", (){});
+  }
+
+  static void canUpdate(BuildContext context) {
+    String _appUrl = 'https://play.google.com/store/apps/details?id=com.example.padimall_app';
+    showAlertDialogCanUpdate(context, 'Update app?', 'Akan ada versi yang terbaru loh. Jangan ketinggalan yah', _appUrl);
+  }
+
+  static void forceUpdate(BuildContext context) {
+    String _appUrl = 'https://play.google.com/store/apps/details?id=com.example.padimall_app';
+    showAlertDialogForceUpdate(context, 'Update yuk', 'Akan ada versi yang terbaru loh. Jangan ketinggalan yah', _appUrl);
   }
 
   static Future<String> editAndDeletePicture(BuildContext context, Function tapHandler1, Function tapHandler2) {
