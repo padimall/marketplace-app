@@ -21,14 +21,15 @@ class KeranjangBottomBarWidget extends StatelessWidget {
                 style: PadiMallTextTheme.sz14weight600(context),
               ),
               Text(
-                'Rp2.000.000',
+                'Rp2.xxx.xxx',
                 style: PadiMallTextTheme.sz14weight600Red(context),
               ),
             ],
           ),
           RaisedButton(
             onPressed: () {
-              Navigator.pushNamed(context, CheckoutScreen.routeName);
+              // Navigator.pushNamed(context, CheckoutScreen.routeName);
+              Fluttertoast.showToast(msg: "Still Development (Checkout)", backgroundColor: Theme.of(context).accentColor);
             },
             color: Theme.of(context).primaryColor,
             shape: RoundedRectangleBorder(

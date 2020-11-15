@@ -90,8 +90,8 @@ class _RegisterSupplierScreenState extends State<RegisterSupplierScreen> {
                   margin: const EdgeInsets.only(bottom: 12),
                   child: TextFormField(
                     decoration: InputDecoration(
-                      labelText: 'Nama Toko',
-                      hintText: 'Masukkan nama toko anda',
+                      labelText: 'Nama',
+                      hintText: 'Masukkan nama anda',
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(10),
                       ),
@@ -108,8 +108,8 @@ class _RegisterSupplierScreenState extends State<RegisterSupplierScreen> {
                   margin: const EdgeInsets.only(bottom: 24),
                   child: TextFormField(
                     decoration: InputDecoration(
-                      labelText: 'Alamat Toko',
-                      hintText: 'Masukkan alamat lengkap toko anda',
+                      labelText: 'Alamat',
+                      hintText: 'Masukkan alamat lengkap anda',
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(10),
                       ),

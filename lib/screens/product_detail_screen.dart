@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_pro/carousel_pro.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:padimall_app/models/post_show_products.dart';
 import 'package:padimall_app/providers/cart.dart';
 import 'package:padimall_app/providers/products.dart';
@@ -186,7 +187,8 @@ class ProductDetailScreen extends StatelessWidget {
                         child: RaisedButton(
                           onPressed: () async {
                             if (await CustomLogic.isUserTokenExist()) {
-                              Navigator.pushNamed(context, CheckoutScreen.routeName);
+                              // Navigator.pushNamed(context, CheckoutScreen.routeName);
+                              Fluttertoast.showToast(msg: "Still Development (Checkout)", backgroundColor: Theme.of(context).accentColor);
                             } else {
                               showAlertDialogOk(
                                 context,

@@ -37,12 +37,6 @@ class AkunPembeliWidget extends StatelessWidget {
             }, () {
               Navigator.pop(context);
             });
-//            showAlertDialogYesNo(context, 'Yakin ingin keluar?', 'Kamu perlu login kembali jika ingin melanjutkan aktivitas sebelumnya', 'Keluar', 'Batal', () {
-//              FlutterSecureStorageServices.deleteUserToken();
-//              Navigator.pushNamedAndRemoveUntil(context, LoginScreen.routeName, (route) => false);
-//            }, () {
-//              Navigator.pop(context);
-//            });
           },
         ),
       ],

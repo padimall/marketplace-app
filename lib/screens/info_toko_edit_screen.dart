@@ -159,7 +159,6 @@ class _InfoTokoEditScreenState extends State<InfoTokoEditScreen> {
                             },
                             () {
                               Navigator.pop(context);
-                              // TODO: DELETE PIC
                               _providerToko.deleteSupplierImage(context);
                             },
                           );
@@ -187,7 +186,8 @@ class _InfoTokoEditScreenState extends State<InfoTokoEditScreen> {
                               ),
                             )
                           ],
-                        ))
+                        ),
+                      )
                     : _imageSelected == null
                         ? GestureDetector(
                             onTap: () {

@@ -68,71 +68,103 @@ class _ProductSearchScreenState extends State<ProductSearchScreen> {
         ),
       ),
       body: Consumer<ProviderProduct>(
-        builder: (ctx, provider, _) => _isLoading
-            ? LoadingWidget()
-            : SingleChildScrollView(
-                child: _providerProduct.listOfSearchedProduct.isEmpty
-                    ? Container(
-                        width: double.infinity,
-                        padding: const EdgeInsets.symmetric(horizontal: 16),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          mainAxisSize: MainAxisSize.max,
+        builder: (ctx, provider, _) => _searchInput.text == ""
+            ? Container(
+                width: double.infinity,
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisSize: MainAxisSize.max,
+                  children: [
+                    Container(
+                      margin: const EdgeInsets.only(top: 40),
+                      child: SvgPicture.asset(
+                        'assets/images/empty_cart.svg',
+                        height: 150,
+                      ),
+                    ),
+                    Container(
+                      margin: const EdgeInsets.only(top: 20, bottom: 20),
+                      child: RichText(
+                        textAlign: TextAlign.center,
+                        text: TextSpan(
                           children: [
-                            Container(
-                              margin: const EdgeInsets.only(top: 40),
-                              child: SvgPicture.asset(
-                                'assets/images/empty.svg',
-                                height: 150,
-                              ),
-                            ),
-                            Container(
-                              margin: const EdgeInsets.only(top: 20, bottom: 20),
-                              child: RichText(
-                                textAlign: TextAlign.center,
-                                text: TextSpan(
-                                  children: [
-                                    TextSpan(
-                                      text: 'Tidak ada ditemukannya barang dengan nama ',
-                                      style: PadiMallTextTheme.sz14weight500(context),
-                                    ),
-                                    TextSpan(
-                                      text: '${_searchInput.text}',
-                                      style: PadiMallTextTheme.sz14weight600(context),
-                                    )
-                                  ],
-                                ),
-                              ),
+                            TextSpan(
+                              text: 'Strolling . .  Strolling~',
+                              style: PadiMallTextTheme.sz14weight500(context),
                             ),
                           ],
                         ),
-                      )
-                    : SingleChildScrollView(
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 14.0, vertical: 16.0),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisSize: MainAxisSize.max,
-                            children: <Widget>[
-                              GridView.builder(
-                                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                                  crossAxisCount: 2,
-                                  childAspectRatio: 1 / 1,
-                                  crossAxisSpacing: 12,
-                                  mainAxisSpacing: 16,
-                                ),
-                                itemCount: _providerProduct.listOfSearchedProduct.length,
-                                shrinkWrap: true,
-                                physics: NeverScrollableScrollPhysics(),
-                                itemBuilder: (ctx, index) => ProductWidget(
-                                  product: _providerProduct.listOfSearchedProduct[index],
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
                       ),
-              ),
+                    ),
+                  ],
+                ),
+              )
+            : _isLoading
+                ? LoadingWidget()
+                : SingleChildScrollView(
+                    child: _providerProduct.listOfSearchedProduct.isEmpty
+                        ? Container(
+                            width: double.infinity,
+                            padding: const EdgeInsets.symmetric(horizontal: 16),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              mainAxisSize: MainAxisSize.max,
+                              children: [
+                                Container(
+                                  margin: const EdgeInsets.only(top: 40),
+                                  child: SvgPicture.asset(
+                                    'assets/images/empty.svg',
+                                    height: 150,
+                                  ),
+                                ),
+                                Container(
+                                  margin: const EdgeInsets.only(top: 20, bottom: 20),
+                                  child: RichText(
+                                    textAlign: TextAlign.center,
+                                    text: TextSpan(
+                                      children: [
+                                        TextSpan(
+                                          text: 'Tidak ada ditemukannya barang dengan nama ',
+                                          style: PadiMallTextTheme.sz14weight500(context),
+                                        ),
+                                        TextSpan(
+                                          text: '${_searchInput.text}',
+                                          style: PadiMallTextTheme.sz14weight600(context),
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          )
+                        : SingleChildScrollView(
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: 14.0, vertical: 16.0),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisSize: MainAxisSize.max,
+                                children: <Widget>[
+                                  GridView.builder(
+                                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                                      crossAxisCount: 2,
+                                      childAspectRatio: 1 / 1,
+                                      crossAxisSpacing: 12,
+                                      mainAxisSpacing: 16,
+                                    ),
+                                    itemCount: _providerProduct.listOfSearchedProduct.length,
+                                    shrinkWrap: true,
+                                    physics: NeverScrollableScrollPhysics(),
+                                    itemBuilder: (ctx, index) => ProductWidget(
+                                      product: _providerProduct.listOfSearchedProduct[index],
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                  ),
       ),
     );
   }
