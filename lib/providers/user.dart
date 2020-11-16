@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
+import 'package:package_info/package_info.dart';
 import 'package:padimall_app/models/post_login_dev.dart';
 import 'package:padimall_app/models/post_show_supplier_detail.dart';
 import 'package:padimall_app/models/post_show_user_profile.dart';
@@ -15,6 +16,20 @@ import 'package:padimall_app/utils/flutter_secure_storage_services.dart';
 import '../utils/global.dart' as global;
 
 class ProviderUser with ChangeNotifier {
+  PackageInfo _packageInfo = PackageInfo(
+    appName: 'N/A',
+    packageName: 'N/A',
+    buildNumber: 'N/A',
+    version: 'N/A',
+  );
+
+  PackageInfo get packageInfo => _packageInfo;
+
+  Future<void> getPackageInfo() async {
+    _packageInfo = await PackageInfo.fromPlatform();
+    notifyListeners();
+  }
+
   Future<void> signInDeveloper(BuildContext context) async {
     try {
       var url = '${global.API_URL_PREFIX}/api/v1/login-dev';
@@ -75,7 +90,7 @@ class ProviderUser with ChangeNotifier {
 
       if (response.statusCode == 201) {
         Navigator.pop(context);
-        Fluttertoast.showToast(msg: 'Akun berhasil dibuat, silahkan login', toastLength: Toast.LENGTH_LONG, backgroundColor:  Theme.of(context).primaryColor);
+        Fluttertoast.showToast(msg: 'Akun berhasil dibuat, silahkan login', toastLength: Toast.LENGTH_LONG, backgroundColor: Theme.of(context).primaryColor);
       } else if (response.statusCode == 422) {
         if (response.body.contains('The email has already been taken')) {
           Fluttertoast.showToast(msg: "Email telah digunakan", toastLength: Toast.LENGTH_LONG, backgroundColor: Theme.of(context).accentColor);
@@ -83,7 +98,7 @@ class ProviderUser with ChangeNotifier {
           Fluttertoast.showToast(msg: "No. HP telah terdaftar", toastLength: Toast.LENGTH_LONG, backgroundColor: Theme.of(context).accentColor);
         }
       } else {
-        Fluttertoast.showToast(msg: response.statusCode.toString(), toastLength: Toast.LENGTH_LONG, backgroundColor:  Theme.of(context).accentColor);
+        Fluttertoast.showToast(msg: response.statusCode.toString(), toastLength: Toast.LENGTH_LONG, backgroundColor: Theme.of(context).accentColor);
       }
     } catch (e) {
       print(e.toString());
@@ -293,5 +308,4 @@ class ProviderUser with ChangeNotifier {
       notifyListeners();
     }
   }
-
 }
