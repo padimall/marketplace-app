@@ -12,9 +12,25 @@ import 'package:padimall_app/utils/custom_alert_dialog.dart';
 import 'package:padimall_app/utils/custom_logic.dart';
 import 'package:padimall_app/utils/firebase_messaging_services.dart';
 import 'package:padimall_app/utils/flutter_secure_storage_services.dart';
+import 'package:package_info/package_info.dart';
 import '../utils/global.dart' as global;
 
 class ProviderUser with ChangeNotifier {
+  PackageInfo _packageInfo = PackageInfo(
+    appName: 'N/A',
+    packageName: 'N/A',
+    buildNumber: 'N/A',
+    version: 'N/A',
+  );
+
+  PackageInfo get packageInfo => _packageInfo;
+
+  Future<void> getPackageInfo() async {
+
+    _packageInfo = await PackageInfo.fromPlatform();
+    notifyListeners();
+  }
+
   Future<void> signInDeveloper(BuildContext context) async {
     try {
       var url = '${global.API_URL_PREFIX}/api/v1/login-dev';

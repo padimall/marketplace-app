@@ -1,15 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:padimall_app/providers/user.dart';
 import 'package:padimall_app/screens/info_buyer_screen.dart';
 import 'package:padimall_app/screens/login_screen.dart';
 import 'package:padimall_app/screens/pembelian_screen.dart';
 import 'package:padimall_app/utils/custom_alert_dialog.dart';
+import 'package:padimall_app/utils/custom_text_theme.dart';
 import 'package:padimall_app/utils/flutter_secure_storage_services.dart';
 import 'package:padimall_app/widgets/akun/list_tile.dart';
 import 'package:padimall_app/widgets/alert_dialog/yesNo.dart';
+import 'package:provider/provider.dart';
 
 class AkunPembeliWidget extends StatelessWidget {
+  ProviderUser _providerUser;
+
   @override
   Widget build(BuildContext context) {
+    _providerUser = Provider.of(context, listen: false);
+
     return Column(
       children: <Widget>[
         AkunListTile(
@@ -38,6 +45,25 @@ class AkunPembeliWidget extends StatelessWidget {
               Navigator.pop(context);
             });
           },
+        ),
+        _buildWidgetAppVersion(context),
+      ],
+    );
+  }
+
+  Widget _buildWidgetAppVersion(BuildContext context) {
+    _providerUser.getPackageInfo();
+
+    return Row(
+      children: <Widget>[
+        Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Container(
+            child: Text(
+              'Versi: ${_providerUser.packageInfo.version + ' (' + _providerUser.packageInfo.buildNumber})',
+              style: PadiMallTextTheme.sz13weight500(context),
+            ),
+          ),
         ),
       ],
     );
