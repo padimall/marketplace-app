@@ -4,6 +4,7 @@ import 'package:padimall_app/screens/akun_screen.dart';
 import 'package:padimall_app/screens/beranda_screen.dart';
 import 'package:padimall_app/screens/kategori_screen.dart';
 import 'package:padimall_app/screens/keranjang_screen.dart';
+import 'package:padimall_app/utils/check_app_version_services.dart';
 
 class FirstScreen extends StatefulWidget {
   static final routeName = 'first-screen';
@@ -20,6 +21,13 @@ class _FirstScreenState extends State<FirstScreen> {
     KeranjangScreen(),
     AkunScreen(),
   ];
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    checkAppVersion(context);
+  }
 
   @override
   Widget build(BuildContext context) {
