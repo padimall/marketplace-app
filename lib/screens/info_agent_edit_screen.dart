@@ -160,7 +160,6 @@ class _InfoAgentEditScreenState extends State<InfoAgentEditScreen> {
                             },
                             () {
                               Navigator.pop(context);
-                              // TODO: DELETE PIC
                               _providerToko.deleteImage(context, "agent");
                             },
                           );
