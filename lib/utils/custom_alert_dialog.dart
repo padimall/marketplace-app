@@ -11,12 +11,12 @@ class CustomAlertDialog {
   }
 
   static void canUpdate(BuildContext context) {
-    String _appUrl = 'https://play.google.com/store/apps/details?id=com.example.padimall_app';
+    String _appUrl = 'https://play.google.com/store/apps/details?id=com.padimallindonesia.padimall_app';
     showAlertDialogCanUpdate(context, 'Update app?', 'Akan ada versi yang terbaru loh. Jangan ketinggalan yah', _appUrl);
   }
 
   static void forceUpdate(BuildContext context) {
-    String _appUrl = 'https://play.google.com/store/apps/details?id=com.example.padimall_app';
+    String _appUrl = 'https://play.google.com/store/apps/details?id=com.padimallindonesia.padimall_app';
     showAlertDialogForceUpdate(context, 'Update yuk', 'Akan ada versi yang terbaru loh. Jangan ketinggalan yah', _appUrl);
   }
 
@@ -55,7 +55,7 @@ class CustomAlertDialog {
     Function leftButtonFunctionHandler,
     Function rightButtonFunctionHandler,
   ) {
-    return showDialog<void>(
+    return showDialog(
       context: (context),
       barrierDismissible: isDismissible, // false = user must tap button, true = tap outside dialog
       builder: (BuildContext dialogContext) {

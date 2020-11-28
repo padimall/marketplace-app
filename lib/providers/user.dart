@@ -56,6 +56,8 @@ class ProviderUser with ChangeNotifier {
 
       if (response.statusCode == 200) {
         FlutterSecureStorageServices.setDevToken(jsonObject.accessToken);
+      } else {
+        FlutterSecureStorageServices.setDevToken('');
       }
     } catch (e) {
       print(e.toString());

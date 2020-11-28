@@ -1,34 +1,34 @@
 {
   "project_info": {
-    "project_number": "673665395577",
-    "firebase_url": "https://padimall-50ff9.firebaseio.com",
-    "project_id": "padimall-50ff9",
-    "storage_bucket": "padimall-50ff9.appspot.com"
+    "project_number": "625479255407",
+    "firebase_url": "https://padimall-marketplace.firebaseio.com",
+    "project_id": "padimall-marketplace",
+    "storage_bucket": "padimall-marketplace.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:673665395577:android:d56246d1d77b416bd1dda8",
+        "mobilesdk_app_id": "1:625479255407:android:5b1175c2189f6dd7bb549a",
         "android_client_info": {
-          "package_name": "com.example.padimall_app"
+          "package_name": "com.padimallindonesia.padimall_app"
         }
       },
       "oauth_client": [
         {
-          "client_id": "673665395577-njld2riqlklgeojqfsrjnegcnq5tq3pf.apps.googleusercontent.com",
+          "client_id": "625479255407-tobegtepcrg8od2tb78tgdcajd1k6fg2.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyAsMQOMOLeW8fvU0yO2sxGTUNvGf2RSP8g"
+          "current_key": "AIzaSyDBn6qBL7t_13xMWx_hbSMiMLd9xO8G_UA"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "673665395577-njld2riqlklgeojqfsrjnegcnq5tq3pf.apps.googleusercontent.com",
+              "client_id": "625479255407-tobegtepcrg8od2tb78tgdcajd1k6fg2.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

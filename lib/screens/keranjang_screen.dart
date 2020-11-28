@@ -49,45 +49,45 @@ class KeranjangScreen extends StatelessWidget {
                             },
                           )
                         : Column(
-                            children: <Widget>[
-                              Material(
-                                color: Colors.white,
-                                elevation: 2,
-                                child: Padding(
-                                  padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                                  child: Row(
-                                    children: <Widget>[
-                                      Checkbox(
-                                        value: true,
-                                        onChanged: (value) {},
-                                      ),
-                                      Text(
-                                        'Pilih semua barang',
-                                        style: PadiMallTextTheme.sz13weight500(context),
-                                      ),
-                                    ],
-                                  ),
+                          children: <Widget>[
+                            Material(
+                              color: Colors.white,
+                              elevation: 2,
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                                child: Row(
+                                  children: <Widget>[
+                                    Checkbox(
+                                      value: true,
+                                      onChanged: (value) {},
+                                    ),
+                                    Text(
+                                      'Pilih semua barang',
+                                      style: PadiMallTextTheme.sz13weight500(context),
+                                    ),
+                                  ],
                                 ),
                               ),
-                              Expanded(
-                                child: SingleChildScrollView(
-                                  child: ListView.builder(
-                                    itemCount: _providerCart.listUserCart.length,
-                                    shrinkWrap: true,
-                                    physics: NeverScrollableScrollPhysics(),
-                                    itemBuilder: (ctx, index) {
-                                      var cart = _providerCart.listUserCart[index];
+                            ),
+                            Expanded(
+                              child: SingleChildScrollView(
+                                child: ListView.builder(
+                                  itemCount: _providerCart.listUserCart.length,
+                                  shrinkWrap: true,
+                                  physics: NeverScrollableScrollPhysics(),
+                                  itemBuilder: (ctx, index) {
+                                    var cart = _providerCart.listUserCart[index];
 
-                                      return KeranjangTokoWidget(
-                                        cart: cart,
-                                      );
-                                    },
-                                  ),
+                                    return KeranjangTokoWidget(
+                                      cart: cart,
+                                    );
+                                  },
                                 ),
                               ),
-                              KeranjangBottomBarWidget(),
-                            ],
-                          ),
+                            ),
+                            KeranjangBottomBarWidget(),
+                          ],
+                        ),
                   ),
                 ),
         ),

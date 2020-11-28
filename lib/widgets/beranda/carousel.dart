@@ -16,7 +16,7 @@ class _BerandaCarouselState extends State<BerandaCarousel> {
 
   @override
   Widget build(BuildContext context) {
-    _providerBanner = Provider.of(context, listen: false);
+    _providerBanner = Provider.of<ProviderBanner>(context, listen: false);
 
     return buildFutureBuilder(
       _providerBanner.getBannerList(context),
@@ -33,8 +33,8 @@ class _BerandaCarouselState extends State<BerandaCarousel> {
                     child: Carousel(
                       boxFit: BoxFit.cover,
                       images: _providerBanner.listBanner
-                          .map((banner) => CachedNetworkImage(
-                                imageUrl: '${banner.image}',
+                          .map((banner) => Image.network(
+                                banner.image,
                                 fit: BoxFit.cover,
                               ))
                           .toList(),

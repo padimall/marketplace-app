@@ -20,7 +20,6 @@ class ProviderBanner with ChangeNotifier {
         headers: {
           'X-Requested-With': 'XMLHttpRequest',
           'Content-Type': 'application/json',
-          'Authorization': 'Bearer ' + await FlutterSecureStorageServices.getUserToken(),
         },
       );
       print(response.body);

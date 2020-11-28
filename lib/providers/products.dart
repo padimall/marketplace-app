@@ -39,7 +39,7 @@ class ProviderProduct with ChangeNotifier {
         headers: {
           'X-Requested-With': 'XMLHttpRequest',
           'Content-Type': 'application/json',
-          'Authorization': 'Bearer ' + await FlutterSecureStorageServices.getDevToken(),
+          // 'Authorization': 'Bearer ' + await FlutterSecureStorageServices.getDevToken(),
         },
         body: json.encode(requestBody),
       );

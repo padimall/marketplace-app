@@ -134,4 +134,38 @@ class ProviderCart with ChangeNotifier {
       notifyListeners();
     }
   }
+
+  Future<void> updateCartQty(BuildContext context, String cartId, int itemQty) async {
+    try {
+      var url = '${global.API_URL_PREFIX}/api/v1/cart/update';
+      print(url);
+      print(cartId);
+
+      var requestBody = {
+        'target_id': cartId,
+        'quantity': itemQty,
+      };
+
+      http.Response response = await http.post(
+        url,
+        headers: {
+          'X-Requested-With': 'XMLHttpRequest',
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + await FlutterSecureStorageServices.getUserToken(),
+        },
+        body: json.encode(requestBody),
+      );
+      print(response.body);
+      print(response.statusCode);
+
+      if (response.statusCode == 200) {
+      } else {
+        Fluttertoast.showToast(msg: "Terjadi kesalahan. Error code: ${response.statusCode}", backgroundColor: Theme.of(context).accentColor);
+      }
+    } catch (e) {
+      print(e.toString());
+    } finally {
+      notifyListeners();
+    }
+  }
 }

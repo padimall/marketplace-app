@@ -1,4 +1,4 @@
-package com.example.padimall_app
+package com.padimallindonesia.padimall_app
 
 import io.flutter.embedding.android.FlutterActivity
 

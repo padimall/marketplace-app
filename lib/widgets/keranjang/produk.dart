@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_masked_text/flutter_masked_text.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:padimall_app/models/order.dart';
 import 'package:padimall_app/providers/cart.dart';
 import 'package:padimall_app/utils/custom_alert_dialog.dart';
@@ -18,14 +19,41 @@ class KeranjangProdukWidget extends StatefulWidget {
 
 class _KeranjangProdukWidgetState extends State<KeranjangProdukWidget> {
   bool _isOverStock = false;
+
   MoneyMaskedTextController quantityController = MoneyMaskedTextController(thousandSeparator: '.', precision: 0, decimalSeparator: '');
+
+  FocusNode focusNode;
 
   ProviderCart _providerCart;
 
   @override
   void initState() {
-    quantityController.text = widget.order.quantity.toString();
     super.initState();
+    quantityController.text = widget.order.quantity.toString();
+    focusNode = new FocusNode();
+
+    // focusNode listener
+    focusNode.addListener(() {
+      if (!focusNode.hasFocus) {
+        setState(() {
+          if (quantityController.text == "") {
+            quantityController.text = "0";
+          }
+          if (int.parse(quantityController.text) > 0) {
+            if (int.parse(quantityController.text) != widget.order.quantity) {
+              _providerCart.updateCartQty(context, widget.order.cartId, int.parse(quantityController.text));
+            }
+          } else {
+            CustomAlertDialog.dialogOfTwo(context, true, 'Hapus barang?', 'Yakin hapus?', 'Hapus', 'Batal', () {
+              _providerCart.deleteProductFromCart(context, widget.order.cartId);
+              Navigator.pop(context);
+            }, () {
+              Navigator.pop(context);
+            });
+          }
+        });
+      }
+    });
   }
 
   @override
@@ -101,7 +129,8 @@ class _KeranjangProdukWidgetState extends State<KeranjangProdukWidget> {
                               ),
                             ),
                             onTap: () {
-                              CustomAlertDialog.dialogOfTwo(context, true, 'Hapus dari keranjang?', 'Apakah anda hendak mengeluarkan barang ini dari keranjang anda?', 'Keluarkan', 'Batal', () {
+                              CustomAlertDialog.dialogOfTwo(context, true, 'Hapus dari keranjang?',
+                                  'Apakah anda hendak mengeluarkan barang ini dari keranjang anda?', 'Keluarkan', 'Batal', () {
                                 Navigator.pop(context);
                                 _providerCart.deleteProductFromCart(context, widget.order.cartId);
                               }, () {
@@ -123,17 +152,35 @@ class _KeranjangProdukWidgetState extends State<KeranjangProdukWidget> {
                               style: PadiMallTextTheme.sz13weight500(context),
                               keyboardType: TextInputType.number,
                               controller: quantityController,
+                              focusNode: focusNode,
                               onChanged: (value) {
-                                value = value.replaceAll('.', ''); // remove delimiter
-                                if (int.parse(value) <= widget.order.stock) {
-                                  print('false');
-                                  _isOverStock = false;
-                                } else {
-                                  print('true');
-                                  _isOverStock = true;
+                                if (value == "") {
+                                  quantityController.text = "0";
                                 }
-                                setState(() {});
                               },
+                              // onFieldSubmitted: (value) {
+                              //   value = value.replaceAll('.', ''); // remove delimiter
+                              //   if (int.parse(value) <= widget.order.stock) {
+                              //     print('false');
+                              //     _isOverStock = false;
+                              //
+                              //     try {
+                              //       // Update itemQty in cart if Qty > 0
+                              //       if (int.parse(value) > 0) {
+                              //         _providerCart.updateCartQty(context, widget.order.cartId, int.parse(value));
+                              //       } else {
+                              //
+                              //       }
+                              //     } catch (e) {
+                              //       Fluttertoast.showToast(msg: "Invalid quantity", backgroundColor: Theme.of(context).accentColor);
+                              //     }
+                              //
+                              //   } else {
+                              //     print('true');
+                              //     _isOverStock = true;
+                              //   }
+                              //   setState(() {});
+                              // },
                             ),
                           ),
                           Text(
