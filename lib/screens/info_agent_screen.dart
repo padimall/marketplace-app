@@ -1,18 +1,60 @@
+import 'dart:io';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:clipboard/clipboard.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:image_cropper/image_cropper.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:padimall_app/models/post_show_supplier_detail.dart';
 import 'package:padimall_app/models/post_show_suppliers_agent_detail.dart';
 import 'package:padimall_app/providers/toko.dart';
+import 'package:padimall_app/screens/info_agent_edit_screen.dart';
 import 'package:padimall_app/screens/info_toko_edit_screen.dart';
 import 'package:padimall_app/utils/build_future_builder.dart';
+import 'package:padimall_app/utils/custom_alert_dialog.dart';
 import 'package:padimall_app/utils/custom_text_theme.dart';
 import 'package:provider/provider.dart';
 
-class InfoAgentScreen extends StatelessWidget {
+class InfoAgentScreen extends StatefulWidget {
   static final routeName = 'info-agent-screen';
+
+  @override
+  _InfoAgentScreenState createState() => _InfoAgentScreenState();
+}
+
+class _InfoAgentScreenState extends State<InfoAgentScreen> {
   ProviderToko _providerToko;
+
+  File _imageSelected;
+
+  getImage(BuildContext context, ImageSource imageSource) async {
+    var image = await ImagePicker.pickImage(source: imageSource);
+
+    if (image != null) {
+      var cropped = await ImageCropper.cropImage(
+        sourcePath: image.path,
+        aspectRatio: CropAspectRatio(
+          ratioX: 1,
+          ratioY: 1,
+        ),
+        compressQuality: 30,
+        maxWidth: 700,
+        maxHeight: 700,
+        compressFormat: ImageCompressFormat.png,
+        androidUiSettings: AndroidUiSettings(
+          toolbarColor: Theme.of(context).primaryColor,
+          toolbarTitle: "Crop your image",
+        ),
+      );
+
+      setState(() {
+        _imageSelected = cropped;
+        print('image: ${_imageSelected.path}');
+        _providerToko.updateImage(context, _imageSelected, "agent");
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -71,7 +113,8 @@ class InfoAgentScreen extends StatelessWidget {
                   ),
                   GestureDetector(
                     onTap: () {
-                      Navigator.pushNamed(context, InfoTokoEditScreen.routeName);
+                      print('bah');
+                      Navigator.pushNamed(context, InfoAgentEditScreen.routeName);
                     },
                     child: Text(
                       'Ubah',

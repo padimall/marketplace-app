@@ -35,7 +35,7 @@ class InfoTokoScreen extends StatelessWidget {
         child: Column(
           children: <Widget>[
             _buildTokoInfo(context),
-            _buildAgenInfo(context),
+            if (_providerToko.agentOfSupplier != null) _buildAgenInfo(context),
           ],
         ),
       ),
@@ -68,6 +68,7 @@ class InfoTokoScreen extends StatelessWidget {
                   ),
                   GestureDetector(
                     onTap: () {
+                      print('bih');
                       Navigator.pushNamed(context, InfoTokoEditScreen.routeName);
                     },
                     child: Text(

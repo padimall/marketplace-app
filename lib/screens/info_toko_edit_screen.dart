@@ -45,7 +45,7 @@ class _InfoTokoEditScreenState extends State<InfoTokoEditScreen> {
       setState(() {
         _imageSelected = cropped;
         print('image: ${_imageSelected.path}');
-        _providerToko.updateSupplierImage(context, _imageSelected);
+        _providerToko.updateImage(context, _imageSelected, "supplier");
       });
     }
   }
@@ -159,7 +159,7 @@ class _InfoTokoEditScreenState extends State<InfoTokoEditScreen> {
                             },
                             () {
                               Navigator.pop(context);
-                              _providerToko.deleteSupplierImage(context);
+                              _providerToko.deleteImage(context, "supplier");
                             },
                           );
                         },

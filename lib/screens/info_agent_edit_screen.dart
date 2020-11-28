@@ -12,7 +12,7 @@ import 'package:padimall_app/widgets/info_toko/edit_dialog.dart';
 import 'package:provider/provider.dart';
 
 class InfoAgentEditScreen extends StatefulWidget {
-  static final routeName = 'info-toko-edit-screen';
+  static final routeName = 'info-agent-edit-screen';
 
   @override
   _InfoAgentEditScreenState createState() => _InfoAgentEditScreenState();
@@ -46,7 +46,7 @@ class _InfoAgentEditScreenState extends State<InfoAgentEditScreen> {
       setState(() {
         _imageSelected = cropped;
         print('image: ${_imageSelected.path}');
-        _providerToko.updateSupplierImage(context, _imageSelected);
+        _providerToko.updateImage(context, _imageSelected, "agent");
       });
     }
   }
@@ -81,7 +81,7 @@ class _InfoAgentEditScreenState extends State<InfoAgentEditScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-//                _buildAgentPicture(context),
+               _buildAgentPicture(context),
                 _buildInfoRow(context, 'Nama Toko', '${_providerToko.agentDetail.name}', 0),
                 _buildInfoRow(context, 'Alamat', '${_providerToko.agentDetail.address}', 1),
                 _buildInfoRow(context, 'No. HP', '${_providerToko.agentDetail.phone}', 2),
@@ -129,89 +129,89 @@ class _InfoAgentEditScreenState extends State<InfoAgentEditScreen> {
     );
   }
 
-//  Widget _buildAgentPicture(BuildContext context) {
-//    return Consumer<ProviderToko>(
-//      builder: (ctx, provider, _) => Container(
-//        margin: const EdgeInsets.fromLTRB(0, 0, 0, 16),
-//        child: Column(
-//          crossAxisAlignment: CrossAxisAlignment.center,
-//          children: <Widget>[
-//            Container(
-//              margin: const EdgeInsets.only(bottom: 0),
-//              child: Text(
-//                'Gambar Agent',
-//                style: PadiMallTextTheme.sz12weight600(context),
-//              ),
-//            ),
-//            Container(
-//              alignment: Alignment.center,
-//              width: double.infinity,
-//              margin: const EdgeInsets.all(8.0),
-//              child: ClipRRect(
-//                borderRadius: BorderRadius.circular(6),
-//                child: _providerToko.agentDetail.imageUrl != null
-//                    ? GestureDetector(
-//                    onTap: () {
-//                      CustomAlertDialog.editAndDeletePicture(
-//                        context,
-//                            () {
-//                          Navigator.pop(context);
-//                          getImage(context, ImageSource.gallery);
-//                        },
-//                            () {
-//                          Navigator.pop(context);
-//                          // TODO: DELETE PIC
-//                          _providerToko.deleteSupplierImage(context);
-//                        },
-//                      );
-//                    },
-//                    child: Stack(
-//                      alignment: Alignment.center,
-//                      children: [
-//                        CachedNetworkImage(
-//                          imageUrl: (_providerToko.agentDetail.imageUrl),
-//                          height: 75,
-//                          width: 75,
-//                          fit: BoxFit.cover,
-//                        ),
-//                        Positioned(
-//                          bottom: 0,
-//                          child: Container(
-//                            height: 20,
-//                            width: 75,
-//                            color: Colors.black87.withOpacity(0.4),
-//                            child: Text(
-//                              'Edit',
-//                              textAlign: TextAlign.center,
-//                              style: PadiMallTextTheme.sz11weight700White(context),
-//                            ),
-//                          ),
-//                        )
-//                      ],
-//                    ))
-//                    : _imageSelected == null
-//                    ? GestureDetector(
-//                  onTap: () {
-//                    getImage(context, ImageSource.gallery);
-//                  },
-//                  child: Image.asset(
-//                    'assets/images/add_picture.png',
-//                    height: 75,
-//                    width: 75,
-//                    fit: BoxFit.cover,
-//                  ),
-//                )
-//                    : Image.file(
-//                  _imageSelected,
-//                  height: 75,
-//                  width: 75,
-//                  fit: BoxFit.cover,
-//                ),
-//              ),
-//            ),
-//          ],
-//        ),
-//      ),
-//    );
-//  }
+  Widget _buildAgentPicture(BuildContext context) {
+    return Consumer<ProviderToko>(
+      builder: (ctx, provider, _) => Container(
+        margin: const EdgeInsets.fromLTRB(0, 0, 0, 16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: <Widget>[
+            Container(
+              margin: const EdgeInsets.only(bottom: 0),
+              child: Text(
+                'Gambar Agent',
+                style: PadiMallTextTheme.sz12weight600(context),
+              ),
+            ),
+            Container(
+              alignment: Alignment.center,
+              width: double.infinity,
+              margin: const EdgeInsets.all(8.0),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(6),
+                child: _providerToko.agentDetail.imageUrl != null
+                    ? GestureDetector(
+                        onTap: () {
+                          CustomAlertDialog.editAndDeletePicture(
+                            context,
+                            () {
+                              Navigator.pop(context);
+                              getImage(context, ImageSource.gallery);
+                            },
+                            () {
+                              Navigator.pop(context);
+                              // TODO: DELETE PIC
+                              _providerToko.deleteImage(context, "agent");
+                            },
+                          );
+                        },
+                        child: Stack(
+                          alignment: Alignment.center,
+                          children: [
+                            CachedNetworkImage(
+                              imageUrl: (_providerToko.agentDetail.imageUrl),
+                              height: 75,
+                              width: 75,
+                              fit: BoxFit.cover,
+                            ),
+                            Positioned(
+                              bottom: 0,
+                              child: Container(
+                                height: 20,
+                                width: 75,
+                                color: Colors.black87.withOpacity(0.4),
+                                child: Text(
+                                  'Edit',
+                                  textAlign: TextAlign.center,
+                                  style: PadiMallTextTheme.sz11weight700White(context),
+                                ),
+                              ),
+                            )
+                          ],
+                        ))
+                    : _imageSelected == null
+                        ? GestureDetector(
+                            onTap: () {
+                              getImage(context, ImageSource.gallery);
+                            },
+                            child: Image.asset(
+                              'assets/images/add_picture.png',
+                              height: 75,
+                              width: 75,
+                              fit: BoxFit.cover,
+                            ),
+                          )
+                        : Image.file(
+                            _imageSelected,
+                            height: 75,
+                            width: 75,
+                            fit: BoxFit.cover,
+                          ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
 }

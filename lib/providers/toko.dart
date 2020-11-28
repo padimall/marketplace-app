@@ -172,7 +172,6 @@ class ProviderToko with ChangeNotifier {
     try {
       CustomAlertDialog.loading(context);
       var url = '${global.API_URL_PREFIX}/api/v1/supplier/update';
-
       var requestBody = {
         'name': indexProfile == 0 ? textEditingController.text : null,
         'phone': indexProfile == 1 ? textEditingController.text : null,
@@ -204,11 +203,12 @@ class ProviderToko with ChangeNotifier {
     }
   }
 
-  Future<void> updateSupplierImage(BuildContext context, File selectedImage) async {
+  Future<void> updateImage(BuildContext context, File selectedImage, String type) async {
     try {
       CustomAlertDialog.loading(context);
       var dio = Dio();
-      var url = '${global.API_URL_PREFIX}/api/v1/supplier/update';
+      var url = '${global.API_URL_PREFIX}/api/v1/$type/update';
+      print(url);
       FormData formData = FormData.fromMap({
         'image': selectedImage == null ? null : await MultipartFile.fromFile(selectedImage.path, filename: selectedImage.path.split('/').last),
       });
@@ -233,13 +233,18 @@ class ProviderToko with ChangeNotifier {
     } catch (e) {
       print(e.toString());
     } finally {
-      getSupplierDetail(context);
+      if (type == "supplier") {
+        getSupplierDetail(context);
+      } else if (type == "agent") {
+        getAgentDetail(context);
+      }
     }
   }
 
-  Future<void> deleteSupplierImage(BuildContext context) async {
+  Future<void> deleteImage(BuildContext context, String type) async {
     try {
-      var url = '${global.API_URL_PREFIX}/api/v1/supplier/delete-image';
+      CustomAlertDialog.loading(context);
+      var url = '${global.API_URL_PREFIX}/api/v1/$type/delete-image';
       print(url);
 
       http.Response response = await http.post(
@@ -253,14 +258,20 @@ class ProviderToko with ChangeNotifier {
       print(response.body);
       print(response.statusCode);
 
+      Navigator.pop(context);
       if (response.statusCode == 200) {
-        Navigator.pop(context);
         Fluttertoast.showToast(msg: 'Data berhasil diperbaharui', toastLength: Toast.LENGTH_LONG, backgroundColor: Theme.of(context).primaryColor);
+      } else {
+        Fluttertoast.showToast(msg: 'Terjadi kesalahan. ${response.statusCode}', toastLength: Toast.LENGTH_LONG, backgroundColor: Theme.of(context).accentColor);
       }
     } catch (e) {
       print(e.toString());
     } finally {
-      getSupplierDetail(context);
+      if (type == "supplier") {
+        getSupplierDetail(context);
+      } else if (type == "agent") {
+        getAgentDetail(context);
+      }
     }
   }
 
