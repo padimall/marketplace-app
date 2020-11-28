@@ -34,10 +34,11 @@ class KeranjangTokoWidget extends StatelessWidget {
                         '${cart.agent.name}',
                         style: PadiMallTextTheme.sz13weight600(context),
                       ),
-                      Text(
-                        '${cart.agent.address}',
-                        style: PadiMallTextTheme.sz10weight500Grey(context),
-                      ),
+                      if (cart.agent.address != null)
+                        Text(
+                          '${cart.agent.address}',
+                          style: PadiMallTextTheme.sz10weight500Grey(context),
+                        ),
                     ],
                   ),
                 ),
@@ -47,7 +48,7 @@ class KeranjangTokoWidget extends StatelessWidget {
               itemCount: cart.orders.length,
               shrinkWrap: true,
               physics: NeverScrollableScrollPhysics(),
-              itemBuilder: (ctx,index) {
+              itemBuilder: (ctx, index) {
                 var order = cart.orders[index];
 
                 return KeranjangProdukWidget(
