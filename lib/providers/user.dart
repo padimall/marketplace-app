@@ -114,6 +114,7 @@ class ProviderUser with ChangeNotifier {
     try {
       CustomAlertDialog.loading(context);
       var url = '${global.API_URL_PREFIX}/api/v1/login';
+      print(url);
 
       var requestBody = {
         'email_or_phone': email,
@@ -188,6 +189,8 @@ class ProviderUser with ChangeNotifier {
 
       if (response.statusCode == 200) {
         _userProfileDetail = userDetailJson;
+      } else if (response.statusCode == 401) {
+        CustomAlertDialog.endOfSession(context);
       }
     } catch (e) {
       print(e.toString());

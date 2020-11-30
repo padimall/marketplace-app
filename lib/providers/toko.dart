@@ -120,8 +120,11 @@ class ProviderToko with ChangeNotifier {
 
       if (response.statusCode == 200) {
         _supplierDetail = jsonObject.data;
-      } else if (response.statusCode == 404) {
-        _supplierDetail = null;
+      } else {
+        _agentDetail = null;
+        if (response.statusCode == 401) {
+          CustomAlertDialog.endOfSession(context);
+        }
       }
     } catch (e) {
       print(e.toString());
@@ -262,7 +265,8 @@ class ProviderToko with ChangeNotifier {
       if (response.statusCode == 200) {
         Fluttertoast.showToast(msg: 'Data berhasil diperbaharui', toastLength: Toast.LENGTH_LONG, backgroundColor: Theme.of(context).primaryColor);
       } else {
-        Fluttertoast.showToast(msg: 'Terjadi kesalahan. ${response.statusCode}', toastLength: Toast.LENGTH_LONG, backgroundColor: Theme.of(context).accentColor);
+        Fluttertoast.showToast(
+            msg: 'Terjadi kesalahan. ${response.statusCode}', toastLength: Toast.LENGTH_LONG, backgroundColor: Theme.of(context).accentColor);
       }
     } catch (e) {
       print(e.toString());
@@ -272,36 +276,6 @@ class ProviderToko with ChangeNotifier {
       } else if (type == "agent") {
         getAgentDetail(context);
       }
-    }
-  }
-
-  Future<void> getAgentDetailByAgentId(String agentId) async {
-    try {
-      var url = '${global.API_URL_PREFIX}/api/v1/agent/detail';
-      print(url);
-
-      http.Response response = await http.post(
-        url,
-        headers: {
-          'X-Requested-With': 'XMLHttpRequest',
-          'Content-Type': 'application/json',
-          'Authorization': 'Bearer ' + await FlutterSecureStorageServices.getUserToken(),
-        },
-      );
-      print(response.body);
-      print(response.statusCode);
-
-      var jsonObject = PostResSuppliersAgentDetail.fromJson(jsonDecode(response.body));
-
-      if (response.statusCode == 200) {
-        _agentDetail = jsonObject.data;
-      } else if (response.statusCode == 404) {
-        _agentDetail = null;
-      }
-    } catch (e) {
-      print(e.toString());
-    } finally {
-      notifyListeners();
     }
   }
 
@@ -325,8 +299,11 @@ class ProviderToko with ChangeNotifier {
 
       if (response.statusCode == 200) {
         _agentDetail = jsonObject.data;
-      } else if (response.statusCode == 404) {
+      } else {
         _agentDetail = null;
+        if (response.statusCode == 401) {
+          CustomAlertDialog.endOfSession(context);
+        }
       }
     } catch (e) {
       print(e.toString());

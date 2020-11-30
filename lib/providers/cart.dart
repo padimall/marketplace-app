@@ -23,6 +23,8 @@ class ProviderCart with ChangeNotifier {
       var url = '${global.API_URL_PREFIX}/api/v1/cart/user';
       print(url);
 
+      print('tes ya: ${await FlutterSecureStorageServices.getUserToken()}');
+
       http.Response response = await http.post(
         url,
         headers: {
@@ -41,6 +43,8 @@ class ProviderCart with ChangeNotifier {
         if (jsonObject.status == 1) {
           _listUserCart.addAll(jsonObject.data);
         }
+      } else if (response.statusCode == 401) {
+        CustomAlertDialog.endOfSession(context);
       } else {
         Fluttertoast.showToast(msg: "Terjadi kesalahan. Error code: ${response.statusCode}", backgroundColor: Theme.of(context).accentColor);
       }
