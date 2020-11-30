@@ -37,6 +37,8 @@ class ProdukEditScreen extends StatelessWidget {
     minOrderController.text = product.minOrder.toString();
     stockController.text = product.stock.toString();
 
+    _providerProduct.resetListProductImage();
+
     return Scaffold(
       appBar: AppBar(
         title: Text(

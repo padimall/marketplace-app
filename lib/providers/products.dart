@@ -360,7 +360,6 @@ class ProviderProduct with ChangeNotifier {
           'description': desc.text,
           'category': productCategory.id,
           'stock': stock.text.replaceAll('.', ''),
-          'status': "1",
           'min_order': minOrder.text.replaceAll('.', ''),
         },
       );
