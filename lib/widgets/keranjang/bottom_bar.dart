@@ -1,11 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:padimall_app/providers/cart.dart';
 import 'package:padimall_app/screens/checkout_screen.dart';
 import 'package:padimall_app/utils/custom_text_theme.dart';
+import 'package:padimall_app/utils/text_number_formatter.dart';
+import 'package:provider/provider.dart';
 
 class KeranjangBottomBarWidget extends StatelessWidget {
+  ProviderCart _providerCart;
+
   @override
   Widget build(BuildContext context) {
+    _providerCart = Provider.of(context, listen: false);
+
     return Container(
       width: double.infinity,
       color: Colors.white,
@@ -21,16 +28,18 @@ class KeranjangBottomBarWidget extends StatelessWidget {
                 style: PadiMallTextTheme.sz14weight600(context),
               ),
               Text(
-                'Rp2.xxx.xxx',
+                'Rp ${textNumberFormatter(_providerCart.approximatePrice.toDouble())}',
                 style: PadiMallTextTheme.sz14weight600Red(context),
               ),
             ],
           ),
           RaisedButton(
-            onPressed: () {
-              // Navigator.pushNamed(context, CheckoutScreen.routeName);
-              Fluttertoast.showToast(msg: "Still Development (Checkout)", backgroundColor: Theme.of(context).accentColor);
-            },
+            onPressed: _providerCart.totalQuantityItemChecked < 1
+                ? null
+                : () {
+                    // Navigator.pushNamed(context, CheckoutScreen.routeName);
+                    Fluttertoast.showToast(msg: "Still Development (Checkout)", backgroundColor: Theme.of(context).accentColor);
+                  },
             color: Theme.of(context).primaryColor,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.all(
@@ -39,7 +48,7 @@ class KeranjangBottomBarWidget extends StatelessWidget {
             ),
             padding: const EdgeInsets.symmetric(horizontal: 48, vertical: 8),
             child: Text(
-              'Beli (100)',
+              'Beli (${textNumberFormatter(_providerCart.totalQuantityItemChecked.toDouble())})',
               style: PadiMallTextTheme.sz14weight700White(context),
             ),
           ),

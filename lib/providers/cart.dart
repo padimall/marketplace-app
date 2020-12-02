@@ -47,6 +47,7 @@ class ProviderCart with ChangeNotifier {
         if (jsonObject.status == 1) {
           _isCheckedAllCart = false;
           _listUserCart.addAll(jsonObject.data);
+          countApproximatePrice();
         }
       } else if (response.statusCode == 401) {
         CustomAlertDialog.endOfSession(context);
@@ -196,6 +197,7 @@ class ProviderCart with ChangeNotifier {
       }
     });
     updateIsCheckedAllCartValue();
+    countApproximatePrice();
     notifyListeners();
   }
 
@@ -209,6 +211,7 @@ class ProviderCart with ChangeNotifier {
       }
     });
     updateIsCheckedAllCartValue();
+    countApproximatePrice();
     notifyListeners();
   }
 
@@ -220,6 +223,7 @@ class ProviderCart with ChangeNotifier {
         order.isSelected = isChecked;
       });
     });
+    countApproximatePrice();
     notifyListeners();
   }
 
@@ -232,5 +236,24 @@ class ProviderCart with ChangeNotifier {
       }
     });
     _isCheckedAllCart = !_isAnyCartUnchecked;
+  }
+
+  int _approximatePrice = 0;
+  int _totalQuantityItemChecked = 0;
+
+  int get approximatePrice => _approximatePrice;
+  int get totalQuantityItemChecked => _totalQuantityItemChecked;
+
+  void countApproximatePrice() {
+    _approximatePrice = 0;
+    _totalQuantityItemChecked = 0;
+    _listUserCart.forEach((cart) {
+      cart.orders.forEach((order) {
+        if (order.isSelected) {
+          _approximatePrice += order.quantity * order.price;
+          _totalQuantityItemChecked += order.quantity;
+        }
+      });
+    });
   }
 }
