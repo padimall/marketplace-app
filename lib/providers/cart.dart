@@ -18,6 +18,10 @@ class ProviderCart with ChangeNotifier {
 
   List<Cart> get listUserCart => _listUserCart;
 
+  bool _isCheckedAllCart;
+
+  bool get isCheckedAllCart => _isCheckedAllCart;
+
   Future<void> getUserCart(BuildContext context) async {
     try {
       var url = '${global.API_URL_PREFIX}/api/v1/cart/user';
@@ -41,6 +45,7 @@ class ProviderCart with ChangeNotifier {
       if (response.statusCode == 200) {
         _listUserCart.clear();
         if (jsonObject.status == 1) {
+          _isCheckedAllCart = false;
           _listUserCart.addAll(jsonObject.data);
         }
       } else if (response.statusCode == 401) {
@@ -171,5 +176,61 @@ class ProviderCart with ChangeNotifier {
     } finally {
       notifyListeners();
     }
+  }
+
+  void updateSelectionCartByCartId(String cartId, bool isChecked) {
+    _listUserCart.forEach((cart) {
+      int _selectedOrderCount = 0;
+
+      cart.orders.forEach((order) {
+        if (order.cartId == cartId) {
+          order.isSelected = isChecked;
+        }
+        if (order.isSelected) _selectedOrderCount++;
+      });
+
+      if (_selectedOrderCount == cart.orders.length) {
+        cart.isSelected = true;
+      } else {
+        cart.isSelected = false;
+      }
+    });
+    updateIsCheckedAllCartValue();
+    notifyListeners();
+  }
+
+  void updateSelectedCartGroupedByAgent(String agentId, bool isChecked) {
+    _listUserCart.forEach((cart) {
+      if (cart.agent.id == agentId) {
+        cart.isSelected = isChecked;
+        cart.orders.forEach((order) {
+          order.isSelected = isChecked;
+        });
+      }
+    });
+    updateIsCheckedAllCartValue();
+    notifyListeners();
+  }
+
+  void setIsCheckedAllCart(bool isChecked) {
+    _isCheckedAllCart = isChecked;
+    _listUserCart.forEach((cart) {
+      cart.isSelected = isChecked;
+      cart.orders.forEach((order) {
+        order.isSelected = isChecked;
+      });
+    });
+    notifyListeners();
+  }
+
+  void updateIsCheckedAllCartValue() {
+    bool _isAnyCartUnchecked = false;
+    _listUserCart.forEach((cart) {
+      if (!cart.isSelected) {
+        _isAnyCartUnchecked = true;
+        return;
+      }
+    });
+    _isCheckedAllCart = !_isAnyCartUnchecked;
   }
 }

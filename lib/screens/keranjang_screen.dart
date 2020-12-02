@@ -59,8 +59,10 @@ class KeranjangScreen extends StatelessWidget {
                                 child: Row(
                                   children: <Widget>[
                                     Checkbox(
-                                      value: true,
-                                      onChanged: (value) {},
+                                      value: _providerCart.isCheckedAllCart,
+                                      onChanged: (value) {
+                                        _providerCart.setIsCheckedAllCart(value);
+                                      },
                                     ),
                                     Text(
                                       'Pilih semua barang',

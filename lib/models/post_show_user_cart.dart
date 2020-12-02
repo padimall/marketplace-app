@@ -29,14 +29,17 @@ class Cart {
   Cart({
     this.agent,
     this.orders,
+    this.isSelected,
   });
 
   Agent agent;
   List<Order> orders;
+  bool isSelected;
 
   factory Cart.fromJson(Map<String, dynamic> json) => Cart(
         agent: json["agent"] == null ? null : Agent.fromJson(json["agent"]),
         orders: json["orders"] == null ? null : List<Order>.from(json["orders"].map((x) => Order.fromJson(x))),
+        isSelected: false,
       );
 
   Map<String, dynamic> toJson() => {

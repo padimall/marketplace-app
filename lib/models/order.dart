@@ -7,6 +7,7 @@ class Order {
     this.quantity,
     this.stock,
     this.minOrder,
+    this.isSelected,
   });
 
   String cartId;
@@ -16,6 +17,7 @@ class Order {
   int quantity;
   int stock;
   int minOrder;
+  bool isSelected;
 
   factory Order.fromJson(Map<String, dynamic> json) => Order(
     cartId: json["cart_id"] == null ? null : json["cart_id"],
@@ -25,6 +27,7 @@ class Order {
     quantity: json["quantity"] == null ? null : json["quantity"],
     stock: json["stock"] == null ? null : json["stock"],
     minOrder: json["min_order"] == null ? null : json["min_order"],
+    isSelected: false,
   );
 
   Map<String, dynamic> toJson() => {
