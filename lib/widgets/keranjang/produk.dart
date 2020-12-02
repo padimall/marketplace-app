@@ -30,6 +30,7 @@ class _KeranjangProdukWidgetState extends State<KeranjangProdukWidget> {
   void initState() {
     super.initState();
     quantityController.text = widget.order.quantity.toString();
+    var quantityItem = int.parse(quantityController.text);
     focusNode = new FocusNode();
 
     // focusNode listener
@@ -37,19 +38,27 @@ class _KeranjangProdukWidgetState extends State<KeranjangProdukWidget> {
       if (!focusNode.hasFocus) {
         setState(() {
           if (quantityController.text == "") {
-            quantityController.text = "0";
+            quantityItem = 0;
+          } else {
+            quantityItem = int.parse(quantityController.text);
           }
-          if (int.parse(quantityController.text) > 0) {
-            if (int.parse(quantityController.text) != widget.order.quantity) {
-              _providerCart.updateCartQty(context, widget.order.cartId, int.parse(quantityController.text));
+          print('berapa: ${quantityItem}');
+          if (quantityItem <= widget.order.stock) {
+            _isOverStock = false;
+            if (quantityItem > 0) {
+              if (quantityItem != widget.order.quantity) {
+                _providerCart.updateCartQty(context, widget.order.cartId, quantityItem);
+              }
+            } else {
+              CustomAlertDialog.dialogOfTwo(context, true, 'Hapus barang?', 'Yakin hapus?', 'Hapus', 'Batal', () {
+                _providerCart.deleteProductFromCart(context, widget.order.cartId);
+                Navigator.pop(context);
+              }, () {
+                Navigator.pop(context);
+              });
             }
           } else {
-            CustomAlertDialog.dialogOfTwo(context, true, 'Hapus barang?', 'Yakin hapus?', 'Hapus', 'Batal', () {
-              _providerCart.deleteProductFromCart(context, widget.order.cartId);
-              Navigator.pop(context);
-            }, () {
-              Navigator.pop(context);
-            });
+            _isOverStock = true;
           }
         });
       }
@@ -183,10 +192,10 @@ class _KeranjangProdukWidgetState extends State<KeranjangProdukWidget> {
                               // },
                             ),
                           ),
-                          Text(
-                            'kilo',
-                            style: PadiMallTextTheme.sz12weight500Grey(context),
-                          ),
+                          // Text(
+                          //   'kilo',
+                          //   style: PadiMallTextTheme.sz12weight500Grey(context),
+                          // ),
                           _isOverStock
                               ? Text(
                                   ' (max. order: ${textNumberFormatter(widget.order.stock.toDouble())})',

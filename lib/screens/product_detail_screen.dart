@@ -302,7 +302,7 @@ class InfoProduk extends StatelessWidget {
                 style: PadiMallTextTheme.sz14weight500(context),
               ),
               Text(
-                '${textNumberFormatter(product.minOrder.toDouble())} kg',
+                '${textNumberFormatter(product.minOrder.toDouble())}',
                 style: PadiMallTextTheme.sz14weight500(context),
               ),
             ],
@@ -315,7 +315,7 @@ class InfoProduk extends StatelessWidget {
                 style: PadiMallTextTheme.sz14weight500(context),
               ),
               Text(
-                '${textNumberFormatter(product.stock.toDouble())} kg',
+                '${textNumberFormatter(product.stock.toDouble())}',
                 style: PadiMallTextTheme.sz14weight500(context),
               ),
             ],
