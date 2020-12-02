@@ -18,8 +18,6 @@ class CheckoutPengirimanWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     _providerCart = Provider.of(context, listen: false);
 
-    print('wa: ${checkoutPerAgent.agent.name}');
-
     Widget _buildListTileDurasiPengiriman(Logistic logistic) {
       return InkWell(
         onTap: () {
