@@ -256,4 +256,50 @@ class ProviderCart with ChangeNotifier {
       });
     });
   }
+
+  String getSelectedCartJsonArray() {
+    List<String> _listSelectedCart = [];
+    _listUserCart.forEach((cart) { 
+      cart.orders.forEach((order) { 
+        if (order.isSelected) {
+          _listSelectedCart.add(order.cartId);
+        }
+      });
+    });
+    print(jsonEncode(_listSelectedCart));
+    return jsonEncode(_listSelectedCart);
+  }
+
+  Future<void> getCheckoutInformation(BuildContext context) async {
+    try {
+      var url = '${global.API_URL_PREFIX}/api/v1/checkout/user';
+      print(url);
+
+      var requestBody = {
+        'carts': getSelectedCartJsonArray(),
+      };
+
+      http.Response response = await http.post(
+        url,
+        headers: {
+          'X-Requested-With': 'XMLHttpRequest',
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + await FlutterSecureStorageServices.getUserToken(),
+        },
+        body: json.encode(requestBody),
+      );
+      print(response.body);
+      print(response.statusCode);
+
+      if (response.statusCode == 200) {
+      } else {
+        Fluttertoast.showToast(msg: "Terjadi kesalahan. Error code: ${response.statusCode}", backgroundColor: Theme.of(context).accentColor);
+      }
+    } catch (e) {
+      print(e.toString());
+    } finally {
+      notifyListeners();
+    }
+  }
+
 }

@@ -37,8 +37,9 @@ class KeranjangBottomBarWidget extends StatelessWidget {
             onPressed: _providerCart.totalQuantityItemChecked < 1
                 ? null
                 : () {
-                    // Navigator.pushNamed(context, CheckoutScreen.routeName);
-                    Fluttertoast.showToast(msg: "Still Development (Checkout)", backgroundColor: Theme.of(context).accentColor);
+                    _providerCart.getCheckoutInformation(context);
+                    Navigator.pushNamed(context, CheckoutScreen.routeName);
+                    // Fluttertoast.showToast(msg: "Still Development (Checkout)", backgroundColor: Theme.of(context).accentColor);
                   },
             color: Theme.of(context).primaryColor,
             shape: RoundedRectangleBorder(
