@@ -4,6 +4,7 @@ import 'package:flushbar/flushbar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:padimall_app/models/post_show_checkout_info.dart';
 import 'package:padimall_app/models/post_show_products.dart';
 import 'package:padimall_app/models/post_show_user_cart.dart';
 import 'package:http/http.dart' as http;
@@ -242,6 +243,7 @@ class ProviderCart with ChangeNotifier {
   int _totalQuantityItemChecked = 0;
 
   int get approximatePrice => _approximatePrice;
+
   int get totalQuantityItemChecked => _totalQuantityItemChecked;
 
   void countApproximatePrice() {
@@ -259,8 +261,8 @@ class ProviderCart with ChangeNotifier {
 
   String getSelectedCartJsonArray() {
     List<String> _listSelectedCart = [];
-    _listUserCart.forEach((cart) { 
-      cart.orders.forEach((order) { 
+    _listUserCart.forEach((cart) {
+      cart.orders.forEach((order) {
         if (order.isSelected) {
           _listSelectedCart.add(order.cartId);
         }
@@ -269,6 +271,10 @@ class ProviderCart with ChangeNotifier {
     print(jsonEncode(_listSelectedCart));
     return jsonEncode(_listSelectedCart);
   }
+
+  CheckoutDetail _checkoutDetail;
+
+  CheckoutDetail get checkoutDetail => _checkoutDetail;
 
   Future<void> getCheckoutInformation(BuildContext context) async {
     try {
@@ -291,7 +297,10 @@ class ProviderCart with ChangeNotifier {
       print(response.body);
       print(response.statusCode);
 
+      var jsonObject = PostResCheckoutInfo.fromJson(jsonDecode(response.body));
+
       if (response.statusCode == 200) {
+        _checkoutDetail = jsonObject.data;
       } else {
         Fluttertoast.showToast(msg: "Terjadi kesalahan. Error code: ${response.statusCode}", backgroundColor: Theme.of(context).accentColor);
       }
@@ -302,4 +311,17 @@ class ProviderCart with ChangeNotifier {
     }
   }
 
+  void setLogisticSelection(String agentId, Logistic selectedLogistic) {
+    print('a: ${agentId}');
+
+    _checkoutDetail.checkouts.forEach((checkoutPerAgent) {
+      print('azz: ${checkoutPerAgent.agent.id}');
+      if (checkoutPerAgent.agent.id == agentId) {
+        checkoutPerAgent.logistic = selectedLogistic;
+        return;
+      }
+    });
+
+    notifyListeners();
+  }
 }

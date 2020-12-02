@@ -1,17 +1,29 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
+import 'package:padimall_app/models/post_show_checkout_info.dart';
+import 'package:padimall_app/providers/cart.dart';
 import 'package:padimall_app/utils/custom_text_theme.dart';
 import 'package:padimall_app/utils/show_modal_bottom.dart';
+import 'package:provider/provider.dart';
 
 class CheckoutPengirimanWidget extends StatelessWidget {
+  ProviderCart _providerCart;
+
+  CheckoutPerAgent checkoutPerAgent;
+
+  CheckoutPengirimanWidget({this.checkoutPerAgent});
+
   @override
   Widget build(BuildContext context) {
+    _providerCart = Provider.of(context, listen: false);
 
-    Widget _buildListTileDurasiPengiriman(String title, String subtitle) {
+    print('wa: ${checkoutPerAgent.agent.name}');
 
+    Widget _buildListTileDurasiPengiriman(Logistic logistic) {
       return InkWell(
         onTap: () {
+          _providerCart.setLogisticSelection(checkoutPerAgent.agent.id, logistic);
           Navigator.pop(context);
         },
         child: Container(
@@ -20,8 +32,14 @@ class CheckoutPengirimanWidget extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              Text('$title', style: PadiMallTextTheme.sz14weight600(context),),
-              Text('$subtitle', style: PadiMallTextTheme.sz12weight500Grey(context),),
+              Text(
+                '${logistic.name}',
+                style: PadiMallTextTheme.sz14weight600(context),
+              ),
+              Text(
+                'Rpxx.xxx',
+                style: PadiMallTextTheme.sz12weight500Grey(context),
+              ),
             ],
           ),
         ),
@@ -60,8 +78,17 @@ class CheckoutPengirimanWidget extends StatelessWidget {
                     ],
                   ),
                 ),
-                _buildListTileDurasiPengiriman('Reguler (2-4 hari)', 'Rp37.000'),
-                _buildListTileDurasiPengiriman('Reguler (4-5 hari)', 'Rp30.000'),
+                ListView.builder(
+                  itemCount: _providerCart.checkoutDetail.logistics.length,
+                  shrinkWrap: true,
+                  physics: NeverScrollableScrollPhysics(),
+                  itemBuilder: (ctx, index) {
+                    var logistic = _providerCart.checkoutDetail.logistics[index];
+
+                    return _buildListTileDurasiPengiriman(logistic);
+                    // return _buildListTileDurasiPengiriman(logistic.name, 'Rpxx.xxx');
+                  },
+                ),
               ],
             ),
           ),
@@ -88,26 +115,28 @@ class CheckoutPengirimanWidget extends StatelessWidget {
               ),
             ],
           ),
-          Container(
-            height: 30,
-            child: RaisedButton(
-              onPressed: () {
-//                PadiMallShowModalBottom.showDurasiPengiriman(context);
-                showDurasiPengiriman();
-              },
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.all(
-                  Radius.circular(4),
-                ),
-              ),
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              color: Theme.of(context).primaryColor,
-              child: Text(
-                'Pilih',
-                style: PadiMallTextTheme.sz11weight700White(context),
-              ),
-            ),
-          )
+          checkoutPerAgent.logistic == null
+              ? Container(
+                  height: 30,
+                  child: RaisedButton(
+                    onPressed: () {
+                      // PadiMallShowModalBottom.showDurasiPengiriman(context);
+                      showDurasiPengiriman();
+                    },
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(4),
+                      ),
+                    ),
+                    padding: const EdgeInsets.symmetric(horizontal: 16),
+                    color: Theme.of(context).primaryColor,
+                    child: Text(
+                      'Pilih',
+                      style: PadiMallTextTheme.sz11weight700White(context),
+                    ),
+                  ),
+                )
+              : Text('${checkoutPerAgent.logistic.name}'),
         ],
       ),
     );

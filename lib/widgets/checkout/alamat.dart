@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:padimall_app/models/post_show_user_profile.dart';
 import 'package:padimall_app/utils/custom_text_theme.dart';
 
 class CheckoutAlamatWidget extends StatelessWidget {
+  UserProfileDetail userProfileDetail;
+
+  CheckoutAlamatWidget({this.userProfileDetail});
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -18,10 +23,10 @@ class CheckoutAlamatWidget extends StatelessWidget {
                 'Alamat Pengiriman',
                 style: PadiMallTextTheme.sz13weight600(context),
               ),
-              Text(
-                'Pilih alamat lain',
-                style: PadiMallTextTheme.sz13weight600Green(context),
-              ),
+              // Text(
+              //   'Pilih alamat lain',
+              //   style: PadiMallTextTheme.sz13weight600Green(context),
+              // ),
             ],
           ),
           Divider(
@@ -30,12 +35,12 @@ class CheckoutAlamatWidget extends StatelessWidget {
           Container(
             margin: const EdgeInsets.only(bottom: 4),
             child: Text(
-              'Jl. Kemana Saja, Gang Sempurna No.10',
+              '${userProfileDetail.address}',
               style: PadiMallTextTheme.sz12weight600(context),
             ),
           ),
           Text(
-            'Budi Yanto (628123456789)',
+            '${userProfileDetail.name} (${userProfileDetail.phone})',
             style: PadiMallTextTheme.sz11weight500Grey(context),
           ),
         ],

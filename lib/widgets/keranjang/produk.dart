@@ -92,8 +92,8 @@ class _KeranjangProdukWidgetState extends State<KeranjangProdukWidget> {
                   margin: const EdgeInsets.only(right: 12),
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(6),
-                    child: Image.asset(
-                      'assets/images/bawang.jpg',
+                    child: Image.network(
+                      '${widget.order.urlPicture}',
                       height: 50,
                       width: 50,
                       fit: BoxFit.cover,

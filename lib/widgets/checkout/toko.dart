@@ -1,9 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:padimall_app/models/post_show_checkout_info.dart';
+import 'package:padimall_app/models/post_show_user_cart.dart';
 import 'package:padimall_app/utils/custom_text_theme.dart';
 import 'package:padimall_app/widgets/checkout/pengiriman.dart';
 import 'package:padimall_app/widgets/checkout/produk.dart';
 
 class CheckoutTokoWidget extends StatelessWidget {
+  CheckoutPerAgent checkoutPerAgent;
+
+  CheckoutTokoWidget({this.checkoutPerAgent});
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -14,23 +20,29 @@ class CheckoutTokoWidget extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Text(
-            'Toko Subur Selalu',
+            '${checkoutPerAgent.agent.name}',
             style: PadiMallTextTheme.sz13weight600(context),
           ),
           Text(
-            'Medan, Sumatera utara',
+            '${checkoutPerAgent.agent.address == null ? '' : checkoutPerAgent.agent.address}',
             style: PadiMallTextTheme.sz10weight500Grey(context),
           ),
           ListView.builder(
-            itemCount: 1,
+            itemCount: checkoutPerAgent.orders.length,
             shrinkWrap: true,
             physics: NeverScrollableScrollPhysics(),
             itemBuilder: (ctx, index) {
-              return CheckoutProdukWidget();
+              var order = checkoutPerAgent.orders[index];
+
+              return CheckoutProdukWidget(
+                order: order,
+              );
             },
           ),
           Divider(),
-          CheckoutPengirimanWidget(),
+          CheckoutPengirimanWidget(
+            checkoutPerAgent: checkoutPerAgent,
+          ),
           Divider(),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
