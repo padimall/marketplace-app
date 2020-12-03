@@ -35,7 +35,7 @@ class InfoTokoScreen extends StatelessWidget {
         child: Column(
           children: <Widget>[
             _buildTokoInfo(context),
-            if (_providerToko.agentOfSupplier != null) _buildAgenInfo(context),
+            _buildAgenInfo(context),
           ],
         ),
       ),

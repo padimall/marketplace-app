@@ -1,8 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:padimall_app/models/post_show_user_invoice_list.dart';
 import 'package:padimall_app/screens/detail_pembelian.dart';
 import 'package:padimall_app/utils/custom_text_theme.dart';
+import 'package:intl/intl.dart';
+import 'package:padimall_app/utils/invoice_status_message.dart';
+import 'package:padimall_app/utils/text_number_formatter.dart';
 
 class InvoiceSummaryWidget extends StatelessWidget {
+  InvoiceSummary invoiceSummary;
+  
+  InvoiceSummaryWidget({this.invoiceSummary});
+  
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -32,14 +40,15 @@ class InvoiceSummaryWidget extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
                       Text(
-                        'INV/20200825/XX/VIII/123456',
+                        'INV-${invoiceSummary.id.substring(0,12).toUpperCase()}',
                         style: TextStyle(
                           fontWeight: FontWeight.w600,
                           fontSize: 12,
                         ),
                       ),
                       Text(
-                        '09 Sep 2020',
+                        '${DateFormat("dd MMM yyy").format(invoiceSummary.createdAt)}',
+                        // '09 Sep 2020',
                         style:
                             TextStyle(fontWeight: FontWeight.w400, fontSize: 12),
                       ),
@@ -100,7 +109,7 @@ class InvoiceSummaryWidget extends StatelessWidget {
                           style: PadiMallTextTheme.sz12weight600Soft(context),
                         ),
                         Text(
-                          'Rp2.100.000',
+                          'Rp${textNumberFormatter(invoiceSummary.amount.toDouble())}',
                           style: PadiMallTextTheme.sz12weight600Red(context),
                         ),
                       ],
@@ -111,7 +120,7 @@ class InvoiceSummaryWidget extends StatelessWidget {
                   child: Padding(
                     padding: const EdgeInsets.symmetric(vertical: 8.0),
                     child: Text(
-                      'Pesanan Selesai',
+                      '${getInvoiceStatusMessage(context, int.parse(invoiceSummary.status))}',
                       textAlign: TextAlign.center,
                       style: PadiMallTextTheme.sz11weight700White(context),
                     ),

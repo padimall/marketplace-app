@@ -107,7 +107,9 @@ class CheckoutScreen extends StatelessWidget {
                         ],
                       ),
                       RaisedButton(
-                        onPressed: !CustomLogic.isAbleToCreateInvoice(_providerCart) ? null : () {},
+                        onPressed: !CustomLogic.isAbleToCreateInvoice(_providerCart) ? null : () {
+                          _providerCart.createInvoice(context);
+                        },
                         color: Theme.of(context).primaryColor,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.all(

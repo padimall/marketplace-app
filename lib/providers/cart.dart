@@ -8,6 +8,7 @@ import 'package:padimall_app/models/post_show_checkout_info.dart';
 import 'package:padimall_app/models/post_show_products.dart';
 import 'package:padimall_app/models/post_show_user_cart.dart';
 import 'package:http/http.dart' as http;
+import 'package:padimall_app/screens/first_screen.dart';
 import 'package:padimall_app/screens/keranjang_screen.dart';
 import 'package:padimall_app/utils/custom_alert_dialog.dart';
 import 'package:padimall_app/utils/custom_text_theme.dart';
@@ -332,5 +333,62 @@ class ProviderCart with ChangeNotifier {
 
   void resetSelectionInCheckout() {
     _selectedPayment = null;
+  }
+
+  String getCheckoutPerAgentLogistic() {
+
+    // _checkoutDetail.checkouts.forEach((checkoutPerAgent) {
+    //   if (checkoutPerAgent.agent.id == agentId) {
+    //     checkoutPerAgent.logistic = selectedLogistic;
+    //     return;
+    //   }
+    // });
+
+    Map<String, String> _jsonArrayLogisticPerAgent = {};
+
+    _checkoutDetail.checkouts.forEach((element) {
+      _jsonArrayLogisticPerAgent["${element.agent.id}"] = element.logistic.id;
+    });
+
+    print(jsonEncode(_jsonArrayLogisticPerAgent));
+    return jsonEncode(_jsonArrayLogisticPerAgent);
+  }
+
+  Future<void> createInvoice(BuildContext context) async {
+    try {
+      CustomAlertDialog.loading(context);
+      var url = '${global.API_URL_PREFIX}/api/v1/invoice/store';
+      print(url);
+
+      var requestBody = {
+        'carts': getSelectedCartJsonArray(),
+        'payment_id': selectedPayment.id,
+        'logistics': getCheckoutPerAgentLogistic(),
+      };
+
+      http.Response response = await http.post(
+        url,
+        headers: {
+          'X-Requested-With': 'XMLHttpRequest',
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + await FlutterSecureStorageServices.getUserToken(),
+        },
+        body: json.encode(requestBody),
+      );
+      print(response.body);
+      print(response.statusCode);
+
+      Navigator.pop(context);
+      if (response.statusCode == 201) {
+        Navigator.pushNamedAndRemoveUntil(context, FirstScreen.routeName, (route) => false);
+        Fluttertoast.showToast(msg: "Pesanan anda telah kami terima", backgroundColor: Theme.of(context).primaryColor);
+      } else {
+        Fluttertoast.showToast(msg: "Terjadi kesalahan. Error code: ${response.statusCode}", backgroundColor: Theme.of(context).accentColor);
+      }
+    } catch (e) {
+      print(e.toString());
+    } finally {
+      notifyListeners();
+    }
   }
 }
