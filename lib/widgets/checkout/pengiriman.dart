@@ -70,7 +70,7 @@ class CheckoutPengirimanWidget extends StatelessWidget {
                         ),
                       ),
                       Text(
-                        'Pilih Durasi Pengiriman',
+                        'Pilih Opsi Pengiriman',
                         style: PadiMallTextTheme.sz14weight600(context),
                       ),
                     ],
@@ -84,7 +84,6 @@ class CheckoutPengirimanWidget extends StatelessWidget {
                     var logistic = _providerCart.checkoutDetail.logistics[index];
 
                     return _buildListTileDurasiPengiriman(logistic);
-                    // return _buildListTileDurasiPengiriman(logistic.name, 'Rpxx.xxx');
                   },
                 ),
               ],
@@ -103,14 +102,15 @@ class CheckoutPengirimanWidget extends StatelessWidget {
               Container(
                 margin: const EdgeInsets.only(right: 4),
                 child: Text(
-                  'Durasi pengiriman',
+                  'Opsi pengiriman',
                   style: PadiMallTextTheme.sz11weight600(context),
                 ),
               ),
-              SvgPicture.asset(
-                'assets/images/alert.svg',
-                height: 12,
-              ),
+              if (checkoutPerAgent.logistic == null)
+                SvgPicture.asset(
+                  'assets/images/alert.svg',
+                  height: 12,
+                ),
             ],
           ),
           checkoutPerAgent.logistic == null
@@ -118,7 +118,6 @@ class CheckoutPengirimanWidget extends StatelessWidget {
                   height: 30,
                   child: RaisedButton(
                     onPressed: () {
-                      // PadiMallShowModalBottom.showDurasiPengiriman(context);
                       showDurasiPengiriman();
                     },
                     shape: RoundedRectangleBorder(
@@ -134,7 +133,29 @@ class CheckoutPengirimanWidget extends StatelessWidget {
                     ),
                   ),
                 )
-              : Text('${checkoutPerAgent.logistic.name}'),
+              : GestureDetector(
+                  onTap: () {
+                    showDurasiPengiriman();
+                  },
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(vertical: 4),
+                    child: Row(
+                      children: [
+                        Text(
+                          '${checkoutPerAgent.logistic.name}',
+                          style: PadiMallTextTheme.sz12weight600(context),
+                        ),
+                        Container(
+                          margin: const EdgeInsets.only(left: 4),
+                          child: Icon(
+                            Icons.arrow_forward_ios_rounded,
+                            size: 15,
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+                ),
         ],
       ),
     );

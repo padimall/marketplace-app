@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:padimall_app/providers/cart.dart';
 import 'package:padimall_app/providers/toko.dart';
 import 'package:padimall_app/providers/user.dart';
 import 'package:padimall_app/utils/flutter_secure_storage_services.dart';
@@ -28,10 +29,28 @@ class CustomLogic {
           result = true;
         }
       }
-
     } catch (e) {
       print(e);
     }
+    return result;
+  }
+
+  static bool isAbleToCreateInvoice(ProviderCart providerCart) {
+    bool result = true;
+
+    // if there's exist checkoutPerAgent that doesn't has logistic, make the result = false
+    providerCart.checkoutDetail.checkouts.forEach((checkoutPerAgent) {
+      if (checkoutPerAgent.logistic == null) {
+        result = false;
+        return;
+      }
+    });
+
+    // check if payment method is selected
+    if (providerCart.selectedPayment == null) {
+      result = false;
+    }
+
     return result;
   }
 }

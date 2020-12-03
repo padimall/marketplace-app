@@ -312,16 +312,25 @@ class ProviderCart with ChangeNotifier {
   }
 
   void setLogisticSelection(String agentId, Logistic selectedLogistic) {
-    print('a: ${agentId}');
-
     _checkoutDetail.checkouts.forEach((checkoutPerAgent) {
-      print('azz: ${checkoutPerAgent.agent.id}');
       if (checkoutPerAgent.agent.id == agentId) {
         checkoutPerAgent.logistic = selectedLogistic;
         return;
       }
     });
-
     notifyListeners();
+  }
+
+  Payment _selectedPayment;
+
+  Payment get selectedPayment => _selectedPayment;
+
+  void setSelectedPayment(Payment payment) {
+    _selectedPayment = payment;
+    notifyListeners();
+  }
+
+  void resetSelectionInCheckout() {
+    _selectedPayment = null;
   }
 }

@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:padimall_app/providers/cart.dart';
 import 'package:padimall_app/utils/build_future_builder.dart';
+import 'package:padimall_app/utils/custom_logic.dart';
 import 'package:padimall_app/utils/custom_text_theme.dart';
 import 'package:padimall_app/utils/show_modal_bottom.dart';
 import 'package:padimall_app/utils/text_number_formatter.dart';
 import 'package:padimall_app/widgets/checkout/alamat.dart';
+import 'package:padimall_app/widgets/checkout/pembayaran.dart';
 import 'package:padimall_app/widgets/checkout/toko.dart';
 import 'package:provider/provider.dart';
 
@@ -16,6 +18,8 @@ class CheckoutScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     _providerCart = Provider.of(context, listen: false);
+
+    _providerCart.resetSelectionInCheckout();
 
     return Scaffold(
       appBar: AppBar(
@@ -38,13 +42,13 @@ class CheckoutScreen extends StatelessWidget {
         Consumer<ProviderCart>(
           builder: (ctx, provider, _) {
             var _grandTotal = 0;
-            
-            _providerCart.checkoutDetail.checkouts.forEach((checkoutPerAgent) { 
-              checkoutPerAgent.orders.forEach((order) { 
+
+            _providerCart.checkoutDetail.checkouts.forEach((checkoutPerAgent) {
+              checkoutPerAgent.orders.forEach((order) {
                 _grandTotal += order.quantity * order.price;
               });
             });
-            
+
             return Column(
               children: <Widget>[
                 Expanded(
@@ -65,6 +69,9 @@ class CheckoutScreen extends StatelessWidget {
                               checkoutPerAgent: checkoutPerAgent,
                             );
                           },
+                        ),
+                        CheckoutPembayaranWidget(
+                          checkoutDetail: _providerCart.checkoutDetail,
                         ),
                       ],
                     ),
@@ -100,7 +107,7 @@ class CheckoutScreen extends StatelessWidget {
                         ],
                       ),
                       RaisedButton(
-                        onPressed: () {},
+                        onPressed: !CustomLogic.isAbleToCreateInvoice(_providerCart) ? null : () {},
                         color: Theme.of(context).primaryColor,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.all(
@@ -108,7 +115,7 @@ class CheckoutScreen extends StatelessWidget {
                           ),
                         ),
                         child: Text(
-                          'Pilih Pembayaran',
+                          'Buat Pesanan',
                           style: PadiMallTextTheme.sz14weight700White(context),
                         ),
                       )

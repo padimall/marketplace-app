@@ -35,7 +35,7 @@ class CheckoutAlamatWidget extends StatelessWidget {
           Container(
             margin: const EdgeInsets.only(bottom: 4),
             child: Text(
-              '${userProfileDetail.address}',
+              '${userProfileDetail.address == null ? '' : userProfileDetail.address}',
               style: PadiMallTextTheme.sz12weight600(context),
             ),
           ),
