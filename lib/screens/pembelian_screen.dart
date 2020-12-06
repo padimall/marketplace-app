@@ -36,29 +36,29 @@ class PembelianScreen extends StatelessWidget {
         _providerHistories.getUserInvoiceHistories(context),
         Consumer<ProviderHistories>(
           builder: (ctx, provider, _) {
-            String _statusInvoice = null;
+            int _statusInvoiceGroup;
             switch (_providerHistories.selectedStagePembelianIndex) {
               case 0:
-                _statusInvoice = null;
+                _statusInvoiceGroup = null;
                 break;
               case 1:
-                _statusInvoice = "0";
+                _statusInvoiceGroup = 0;
                 break;
               case 2:
-                _statusInvoice = "1";
+                _statusInvoiceGroup = 1;
                 break;
               case 3:
-                _statusInvoice = "2";
+                _statusInvoiceGroup = 2;
                 break;
               case 4:
-                _statusInvoice = "3";
+                _statusInvoiceGroup = 3;
                 break;
             }
-            List<InvoiceSummary> _listInvoice = [];
-            if (_statusInvoice != null) {
-              _listInvoice = _providerHistories.listInvoiceSummaries.where((element) => element.status == _statusInvoice).toList();
+            List<InvoiceGroup> _listInvoiceGroup = [];
+            if (_statusInvoiceGroup != null) {
+              _listInvoiceGroup = _providerHistories.listInvoiceSummaries.where((element) => element.status == _statusInvoiceGroup).toList();
             } else {
-              _listInvoice.addAll(_providerHistories.listInvoiceSummaries);
+              _listInvoiceGroup.addAll(_providerHistories.listInvoiceSummaries);
             }
 
             return Container(
@@ -126,9 +126,9 @@ class PembelianScreen extends StatelessWidget {
                   ),
                   Expanded(
                     child: SingleChildScrollView(
-                      child: _listInvoice.length > 0
+                      child: _listInvoiceGroup.length > 0
                           ? ListView.builder(
-                              itemCount: _listInvoice.length,
+                              itemCount: _listInvoiceGroup.length,
                               shrinkWrap: true,
                               physics: NeverScrollableScrollPhysics(),
                               itemBuilder: (ctx, index) {
@@ -137,7 +137,7 @@ class PembelianScreen extends StatelessWidget {
                                     Navigator.pushNamed(context, DetailPembelianScreen.routeName);
                                   },
                                   child: InvoiceSummaryWidget(
-                                    invoiceSummary: _listInvoice[index],
+                                    invoiceGroup: _listInvoiceGroup[index],
                                   ),
                                 );
                               },

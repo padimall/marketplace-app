@@ -29,8 +29,6 @@ class ProviderCart with ChangeNotifier {
       var url = '${global.API_URL_PREFIX}/api/v1/cart/user';
       print(url);
 
-      print('tes ya: ${await FlutterSecureStorageServices.getUserToken()}');
-
       http.Response response = await http.post(
         url,
         headers: {

@@ -30,7 +30,7 @@ class _KeranjangProdukWidgetState extends State<KeranjangProdukWidget> {
   void initState() {
     super.initState();
     quantityController.text = widget.order.quantity.toString();
-    var quantityItem = int.parse(quantityController.text);
+    var quantityItem = int.parse(quantityController.text.replaceAll('.', ''));
     focusNode = new FocusNode();
 
     // focusNode listener

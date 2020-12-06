@@ -160,7 +160,6 @@ class ProductDetailScreen extends StatelessWidget {
                 onPressed: () async {
                   if (await CustomLogic.isUserTokenExist()) {
                     _providerCart.addProductWithMinOrderToCart(context, _providerProduct.productDetail);
-//                              Navigator.pushNamed(context, KeranjangScreen.routeName);
                   } else {
                     showAlertDialogOk(
                       context,

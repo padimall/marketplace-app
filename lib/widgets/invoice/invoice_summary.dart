@@ -5,12 +5,13 @@ import 'package:padimall_app/utils/custom_text_theme.dart';
 import 'package:intl/intl.dart';
 import 'package:padimall_app/utils/invoice_status_message.dart';
 import 'package:padimall_app/utils/text_number_formatter.dart';
+import 'package:padimall_app/widgets/invoice/invoice_summary_each_toko.dart';
 
 class InvoiceSummaryWidget extends StatelessWidget {
-  InvoiceSummary invoiceSummary;
-  
-  InvoiceSummaryWidget({this.invoiceSummary});
-  
+  InvoiceGroup invoiceGroup;
+
+  InvoiceSummaryWidget({this.invoiceGroup});
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -34,23 +35,21 @@ class InvoiceSummaryWidget extends StatelessWidget {
             child: Column(
               children: <Widget>[
                 Container(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
                       Text(
-                        'INV-${invoiceSummary.id.substring(0,12).toUpperCase()}',
+                        'INV-${invoiceGroup.id.substring(0, 12).toUpperCase()}',
                         style: TextStyle(
                           fontWeight: FontWeight.w600,
                           fontSize: 12,
                         ),
                       ),
                       Text(
-                        '${DateFormat("dd MMM yyy").format(invoiceSummary.createdAt)}',
+                        '${DateFormat("dd MMM yyy").format(invoiceGroup.createdAt)}',
                         // '09 Sep 2020',
-                        style:
-                            TextStyle(fontWeight: FontWeight.w400, fontSize: 12),
+                        style: TextStyle(fontWeight: FontWeight.w400, fontSize: 12),
                       ),
                     ],
                   ),
@@ -58,50 +57,14 @@ class InvoiceSummaryWidget extends StatelessWidget {
                 Divider(
                   height: 0,
                 ),
-                Padding(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 16.0, vertical: 16),
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Container(
-                        margin: const EdgeInsets.only(right: 12),
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(6),
-                          child: Image.asset(
-                            'assets/images/bawang.jpg',
-                            height: 65,
-                            width: 65,
-                            fit: BoxFit.cover,
-                          ),
-                        ),
-                      ),
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: <Widget>[
-                            Text(
-                              'Bawang Putih',
-                              overflow: TextOverflow.ellipsis,
-                              style: PadiMallTextTheme.sz13weight600(context),
-                            ),
-                            Text(
-                              '200 Kg',
-                              overflow: TextOverflow.ellipsis,
-                              style: PadiMallTextTheme.sz11weight500Grey(context),
-                            ),
-                          ],
-                        ),
-                      )
-                    ],
-                  ),
+                InvoiceSummaryEachToko(
+                  listInvoiceSummary: invoiceGroup.invoices,
                 ),
                 Divider(
                   height: 0,
                 ),
                 Padding(
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
                     child: Row(
                       children: <Widget>[
                         Text(
@@ -109,7 +72,7 @@ class InvoiceSummaryWidget extends StatelessWidget {
                           style: PadiMallTextTheme.sz12weight600Soft(context),
                         ),
                         Text(
-                          'Rp${textNumberFormatter(invoiceSummary.amount.toDouble())}',
+                          'Rp${textNumberFormatter(invoiceGroup.amount.toDouble())}',
                           style: PadiMallTextTheme.sz12weight600Red(context),
                         ),
                       ],
@@ -120,7 +83,7 @@ class InvoiceSummaryWidget extends StatelessWidget {
                   child: Padding(
                     padding: const EdgeInsets.symmetric(vertical: 8.0),
                     child: Text(
-                      '${getInvoiceStatusMessage(context, int.parse(invoiceSummary.status))}',
+                      '${getInvoiceStatusMessage(context, invoiceGroup.status)}',
                       textAlign: TextAlign.center,
                       style: PadiMallTextTheme.sz11weight700White(context),
                     ),

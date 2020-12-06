@@ -27,17 +27,15 @@ class ProviderHistories with ChangeNotifier {
     notifyListeners();
   }
 
-  List<InvoiceSummary> _listInvoiceSummaries = [];
+  List<InvoiceGroup> _listInvoiceSummaries = [];
 
-  List<InvoiceSummary> get listInvoiceSummaries => _listInvoiceSummaries;
+  List<InvoiceGroup> get listInvoiceSummaries => _listInvoiceSummaries;
 
   Future<void> getUserInvoiceHistories(BuildContext context) async {
     try {
 
       var url = '${global.API_URL_PREFIX}/api/v1/invoice/list';
       print(url);
-
-      print('tes ya: ${await FlutterSecureStorageServices.getUserToken()}');
 
       http.Response response = await http.post(
         url,
@@ -55,7 +53,7 @@ class ProviderHistories with ChangeNotifier {
       if (response.statusCode == 200) {
         _listInvoiceSummaries.clear();
         if (jsonObject.status == 1) {
-          _listInvoiceSummaries.addAll(jsonObject.data);
+          _listInvoiceSummaries.addAll(jsonObject.invoiceGroups);
         }
       } else if (response.statusCode == 401) {
         CustomAlertDialog.endOfSession(context);
