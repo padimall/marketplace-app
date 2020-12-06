@@ -34,30 +34,41 @@ class PembelianScreen extends StatelessWidget {
         backgroundColor: Colors.white,
       ),
       body: buildFutureBuilder(
-        _providerHistories.getUserInvoiceHistories(context),
+        _providerHistories.getBuyerInvoiceHistories(context),
         Consumer<ProviderHistories>(
           builder: (ctx, provider, _) {
             int _statusInvoiceGroup;
             switch (_providerHistories.selectedStagePembelianIndex) {
               case 0:
+                // Semua Pesanan
                 _statusInvoiceGroup = null;
                 break;
               case 1:
+                // Belum Dibayar
                 _statusInvoiceGroup = 0;
                 break;
               case 2:
+                // Dikemas
                 _statusInvoiceGroup = 1;
                 break;
               case 3:
+                // Dikirim
                 _statusInvoiceGroup = 2;
                 break;
               case 4:
+                // Pesanan Selesai
                 _statusInvoiceGroup = 3;
                 break;
               case 5:
+                // Pesanan Dibatalkan
                 _statusInvoiceGroup = 4;
                 break;
+              default:
+                // Pesanan Dibatalkan
+                _statusInvoiceGroup = null;
+                break;
             }
+
             List<InvoiceGroup> _listInvoiceGroup = [];
             if (_statusInvoiceGroup != null) {
               _listInvoiceGroup = _providerHistories.listInvoiceSummaries.where((element) => element.status == _statusInvoiceGroup).toList();

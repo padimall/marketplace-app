@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:padimall_app/models/post_show_agent_invoice_list.dart';
 import 'package:padimall_app/models/post_show_user_invoice_list.dart';
 import 'package:padimall_app/utils/custom_alert_dialog.dart';
 import 'package:padimall_app/utils/flutter_secure_storage_services.dart';
@@ -31,9 +32,8 @@ class ProviderHistories with ChangeNotifier {
 
   List<InvoiceGroup> get listInvoiceSummaries => _listInvoiceSummaries;
 
-  Future<void> getUserInvoiceHistories(BuildContext context) async {
+  Future<void> getBuyerInvoiceHistories(BuildContext context) async {
     try {
-
       var url = '${global.API_URL_PREFIX}/api/v1/invoice/list';
       print(url);
 
@@ -54,6 +54,45 @@ class ProviderHistories with ChangeNotifier {
         _listInvoiceSummaries.clear();
         if (jsonObject.status == 1) {
           _listInvoiceSummaries.addAll(jsonObject.invoiceGroups);
+        }
+      } else if (response.statusCode == 401) {
+        CustomAlertDialog.endOfSession(context);
+      } else {
+        Fluttertoast.showToast(msg: "Terjadi kesalahan. Error code: ${response.statusCode}", backgroundColor: Theme.of(context).accentColor);
+      }
+    } catch (e) {
+      print(e.toString());
+    } finally {
+      notifyListeners();
+    }
+  }
+  
+  List<InvoiceSummary> _listInvoiceSeller = [];
+
+  List<InvoiceSummary> get listInvoiceSeller => _listInvoiceSeller;
+
+  Future<void> getAgentInvoiceHistories(BuildContext context) async {
+    try {
+      var url = '${global.API_URL_PREFIX}/api/v1/invoice/agent';
+      print(url);
+
+      http.Response response = await http.post(
+        url,
+        headers: {
+          'X-Requested-With': 'XMLHttpRequest',
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + await FlutterSecureStorageServices.getUserToken(),
+        },
+      );
+      print(response.body);
+      print(response.statusCode);
+
+      var jsonObject = PostResAgentInvoiceList.fromJson(jsonDecode(response.body));
+
+      if (response.statusCode == 200) {
+        _listInvoiceSeller.clear();
+        if (jsonObject.status == 1) {
+          _listInvoiceSeller.addAll(jsonObject.data);
         }
       } else if (response.statusCode == 401) {
         CustomAlertDialog.endOfSession(context);

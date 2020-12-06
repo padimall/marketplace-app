@@ -47,7 +47,7 @@ class InvoiceSummaryByInvoiceWidget extends StatelessWidget {
                         ),
                       ),
                       Text(
-                        '${DateFormat("dd MMM yyy").format(invoiceSummary.createdAt)}',
+                        '${DateFormat("dd MMM yyy, HH:mm").format(invoiceSummary.createdAt)}',
                         // '09 Sep 2020',
                         style: TextStyle(fontWeight: FontWeight.w400, fontSize: 12),
                       ),
@@ -62,16 +62,17 @@ class InvoiceSummaryByInvoiceWidget extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Container(
-                        margin: const EdgeInsets.only(bottom: 8),
-                        child: Text(
-                          '${invoiceSummary.agentName}',
-                          textAlign: TextAlign.start,
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                          style: PadiMallTextTheme.sz11weight500(context),
+                      if (invoiceSummary.agentName != null)
+                        Container(
+                          margin: const EdgeInsets.only(bottom: 8),
+                          child: Text(
+                            '${invoiceSummary.agentName}',
+                            textAlign: TextAlign.start,
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            style: PadiMallTextTheme.sz11weight500(context),
+                          ),
                         ),
-                      ),
                       Row(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[

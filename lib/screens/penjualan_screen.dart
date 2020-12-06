@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:padimall_app/models/post_show_user_invoice_list.dart';
 import 'package:padimall_app/providers/histories.dart';
 import 'package:padimall_app/screens/detail_penjualan.dart';
+import 'package:padimall_app/utils/build_future_builder.dart';
 import 'package:padimall_app/utils/custom_text_theme.dart';
 import 'package:padimall_app/widgets/invoice/invoice_summary_by_group.dart';
+import 'package:padimall_app/widgets/invoice/invoice_summary_by_invoice.dart';
 import 'package:provider/provider.dart';
 
 class PenjualanScreen extends StatelessWidget {
@@ -29,87 +33,154 @@ class PenjualanScreen extends StatelessWidget {
         ),
         backgroundColor: Colors.white,
       ),
-      body: Consumer<ProviderHistories>(
-        builder: (ctx, provider, _) => Container(
-          color: Colors.white,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              Container(
-                alignment: Alignment.topLeft,
-                decoration: BoxDecoration(
-                  color: Colors.grey[100],
-                  borderRadius: BorderRadius.all(
-                    Radius.circular(10),
-                  ),
-                ),
-                margin: const EdgeInsets.fromLTRB(16, 12, 16, 12),
-                padding: const EdgeInsets.symmetric(horizontal: 16),
-                child: Row(
-                  children: <Widget>[
-                    Container(
-                      margin: const EdgeInsets.only(right: 8),
-                      child: Icon(
-                        Icons.search,
-                        size: 15,
+      body: buildFutureBuilder(
+        _providerHistories.getAgentInvoiceHistories(context),
+        Consumer<ProviderHistories>(
+          builder: (ctx, provider, _) {
+            int _statusInvoiceSummary;
+            switch (_providerHistories.selectedStagePenjualanIndex) {
+              case 0:
+                // Semua Pesanan
+                _statusInvoiceSummary = null;
+                break;
+              case 1:
+                // Pesanan Baru
+                _statusInvoiceSummary = 1;
+                break;
+              case 2:
+                // Dalam Pengiriman
+                _statusInvoiceSummary = 2;
+                break;
+              case 3:
+                // Pesanan Selesai
+                _statusInvoiceSummary = 2;
+                break;
+              case 4:
+                // Pesanan Dibatalkan
+                _statusInvoiceSummary = 3;
+                break;
+              default:
+                // Pesanan Dibatalkan
+                _statusInvoiceSummary = null;
+                break;
+            }
+
+            List<InvoiceSummary> _listInvoices = [];
+            if (_statusInvoiceSummary != null) {
+              _listInvoices = _providerHistories.listInvoiceSeller.where((element) => element.status == _statusInvoiceSummary.toString()).toList();
+            } else {
+              _listInvoices.addAll(_providerHistories.listInvoiceSeller);
+            }
+
+            return Container(
+              color: Colors.white,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Container(
+                    alignment: Alignment.topLeft,
+                    decoration: BoxDecoration(
+                      color: Colors.grey[100],
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(10),
                       ),
                     ),
-                    Expanded(
-                      child: TextFormField(
-                        decoration: InputDecoration(
-                          suffix: Icon(
-                            Icons.clear,
+                    margin: const EdgeInsets.fromLTRB(16, 12, 16, 12),
+                    padding: const EdgeInsets.symmetric(horizontal: 16),
+                    child: Row(
+                      children: <Widget>[
+                        Container(
+                          margin: const EdgeInsets.only(right: 8),
+                          child: Icon(
+                            Icons.search,
                             size: 15,
                           ),
-                          hintText: 'Cari nama produk anda',
-                          hintStyle:
-                              PadiMallTextTheme.sz14weight500Grey(context),
-                          border: InputBorder.none,
-                          focusedBorder: InputBorder.none,
-                          enabledBorder: InputBorder.none,
-                          errorBorder: InputBorder.none,
-                          disabledBorder: InputBorder.none,
                         ),
-                      ),
+                        Expanded(
+                          child: TextFormField(
+                            decoration: InputDecoration(
+                              suffix: Icon(
+                                Icons.clear,
+                                size: 15,
+                              ),
+                              hintText: 'Cari nama produk anda',
+                              hintStyle: PadiMallTextTheme.sz14weight500Grey(context),
+                              border: InputBorder.none,
+                              focusedBorder: InputBorder.none,
+                              enabledBorder: InputBorder.none,
+                              errorBorder: InputBorder.none,
+                              disabledBorder: InputBorder.none,
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
-                  ],
-                ),
-              ),
-              SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-                child: Row(
-                  children: <Widget>[
-                    SizedBox(
-                      width: 16,
-                    ),
-                    _buildStagingChip(context, 'Semua Pesananan', 0),
-                    _buildStagingChip(context, 'Pesanan Baru', 1),
-                    _buildStagingChip(context, 'Siap Dikirim', 2),
-                    _buildStagingChip(context, 'Dalam Pengiriman', 3),
-                    _buildStagingChip(context, 'Pesanan Selesai', 4),
-                    _buildStagingChip(context, 'Pesanan Dibatalkan', 5),
-                  ],
-                ),
-              ),
-              Expanded(
-                child: SingleChildScrollView(
-                  child: ListView.builder(
-                    itemCount: 2,
-                    shrinkWrap: true,
-                    physics: NeverScrollableScrollPhysics(),
-                    itemBuilder: (ctx, index) {
-                      return GestureDetector(
-                        onTap: () {
-                          Navigator.pushNamed(context, DetailPenjualanScreen.routeName);
-                        },
-                        child: InvoiceSummaryByGroupWidget(),
-                      );
-                    },
                   ),
-                ),
-              )
-            ],
-          ),
+                  SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: Row(
+                      children: <Widget>[
+                        SizedBox(
+                          width: 16,
+                        ),
+                        _buildStagingChip(context, 'Semua Pesananan', 0),
+                        _buildStagingChip(context, 'Pesanan Baru', 1), // Dikemas
+                        _buildStagingChip(context, 'Dalam Pengiriman', 2), // Dikirim
+                        _buildStagingChip(context, 'Pesanan Selesai', 3),
+                        _buildStagingChip(context, 'Pesanan Dibatalkan', 4),
+                      ],
+                    ),
+                  ),
+                  Expanded(
+                    child: SingleChildScrollView(
+                      child: _listInvoices.length > 0
+                          ? ListView.builder(
+                              itemCount: _listInvoices.length,
+                              shrinkWrap: true,
+                              physics: NeverScrollableScrollPhysics(),
+                              itemBuilder: (ctx, index) {
+                                var invoice = _listInvoices[index];
+
+                                return GestureDetector(
+                                  onTap: () {
+                                    Navigator.pushNamed(context, DetailPenjualanScreen.routeName);
+                                  },
+                                  child: InvoiceSummaryByInvoiceWidget(
+                                    invoiceSummary: invoice,
+                                  ),
+                                );
+                              },
+                            )
+                          : Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                mainAxisSize: MainAxisSize.max,
+                                children: [
+                                  Container(
+                                    margin: const EdgeInsets.only(top: 40),
+                                    child: SvgPicture.asset(
+                                      'assets/images/empty.svg',
+                                      height: 150,
+                                    ),
+                                  ),
+                                  Container(
+                                    margin: const EdgeInsets.only(top: 20, bottom: 20),
+                                    child: Text(
+                                      'Oopsie, belum ada nih transaksi dengan status demikian',
+                                      textAlign: TextAlign.center,
+                                      style: PadiMallTextTheme.sz14weight500(context),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                    ),
+                  )
+                ],
+              ),
+            );
+          },
         ),
       ),
     );
@@ -148,8 +219,7 @@ class PenjualanScreen extends StatelessWidget {
         color: buttonColor,
         child: Text(
           '$buttonText',
-          style: PadiMallTextTheme.sz12weight500(context)
-              .copyWith(color: textColor),
+          style: PadiMallTextTheme.sz12weight500(context).copyWith(color: textColor),
         ),
       ),
     );

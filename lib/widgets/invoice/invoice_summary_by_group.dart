@@ -47,7 +47,7 @@ class InvoiceSummaryByGroupWidget extends StatelessWidget {
                         ),
                       ),
                       Text(
-                        '${DateFormat("dd MMM yyy").format(invoiceGroup.createdAt)}',
+                        '${DateFormat("dd MMM yyy, HH:mm").format(invoiceGroup.createdAt)}',
                         // '09 Sep 2020',
                         style: TextStyle(fontWeight: FontWeight.w400, fontSize: 12),
                       ),
