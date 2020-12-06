@@ -5,7 +5,8 @@ import 'package:padimall_app/providers/histories.dart';
 import 'package:padimall_app/screens/detail_pembelian.dart';
 import 'package:padimall_app/utils/build_future_builder.dart';
 import 'package:padimall_app/utils/custom_text_theme.dart';
-import 'package:padimall_app/widgets/invoice/invoice_summary.dart';
+import 'package:padimall_app/widgets/invoice/invoice_summary_by_group.dart';
+import 'package:padimall_app/widgets/invoice/invoice_summary_by_invoice.dart';
 import 'package:provider/provider.dart';
 
 class PembelianScreen extends StatelessWidget {
@@ -52,6 +53,9 @@ class PembelianScreen extends StatelessWidget {
                 break;
               case 4:
                 _statusInvoiceGroup = 3;
+                break;
+              case 5:
+                _statusInvoiceGroup = 4;
                 break;
             }
             List<InvoiceGroup> _listInvoiceGroup = [];
@@ -136,15 +140,28 @@ class PembelianScreen extends StatelessWidget {
                                   onTap: () {
                                     Navigator.pushNamed(context, DetailPembelianScreen.routeName);
                                   },
-                                  child: InvoiceSummaryWidget(
-                                    invoiceGroup: _listInvoiceGroup[index],
-                                  ),
+                                  child: _listInvoiceGroup[index].status == 0
+                                      ? InvoiceSummaryByGroupWidget(
+                                          invoiceGroup: _listInvoiceGroup[index],
+                                        )
+                                      : ListView.builder(
+                                          itemCount: _listInvoiceGroup[index].invoices.length,
+                                          shrinkWrap: true,
+                                          physics: NeverScrollableScrollPhysics(),
+                                          itemBuilder: (ctx, indexInvoice) {
+                                            var invoice = _listInvoiceGroup[index].invoices[indexInvoice];
+
+                                            return InvoiceSummaryByInvoiceWidget(
+                                              invoiceSummary: invoice,
+                                            );
+                                          },
+                                        ),
                                 );
                               },
                             )
                           : Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                            child: Column(
+                              padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                              child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 mainAxisSize: MainAxisSize.max,
                                 children: [
@@ -165,7 +182,7 @@ class PembelianScreen extends StatelessWidget {
                                   ),
                                 ],
                               ),
-                          ),
+                            ),
                     ),
                   )
                 ],

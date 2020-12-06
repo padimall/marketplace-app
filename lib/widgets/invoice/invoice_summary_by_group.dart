@@ -7,10 +7,10 @@ import 'package:padimall_app/utils/invoice_status_message.dart';
 import 'package:padimall_app/utils/text_number_formatter.dart';
 import 'package:padimall_app/widgets/invoice/invoice_summary_each_toko.dart';
 
-class InvoiceSummaryWidget extends StatelessWidget {
+class InvoiceSummaryByGroupWidget extends StatelessWidget {
   InvoiceGroup invoiceGroup;
 
-  InvoiceSummaryWidget({this.invoiceGroup});
+  InvoiceSummaryByGroupWidget({this.invoiceGroup});
 
   @override
   Widget build(BuildContext context) {

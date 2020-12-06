@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:padimall_app/providers/histories.dart';
 import 'package:padimall_app/screens/detail_penjualan.dart';
 import 'package:padimall_app/utils/custom_text_theme.dart';
-import 'package:padimall_app/widgets/invoice/invoice_summary.dart';
+import 'package:padimall_app/widgets/invoice/invoice_summary_by_group.dart';
 import 'package:provider/provider.dart';
 
 class PenjualanScreen extends StatelessWidget {
@@ -102,7 +102,7 @@ class PenjualanScreen extends StatelessWidget {
                         onTap: () {
                           Navigator.pushNamed(context, DetailPenjualanScreen.routeName);
                         },
-                        child: InvoiceSummaryWidget(),
+                        child: InvoiceSummaryByGroupWidget(),
                       );
                     },
                   ),
