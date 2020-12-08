@@ -147,27 +147,38 @@ class PembelianScreen extends StatelessWidget {
                               shrinkWrap: true,
                               physics: NeverScrollableScrollPhysics(),
                               itemBuilder: (ctx, index) {
-                                return GestureDetector(
-                                  onTap: () {
-                                    Navigator.pushNamed(context, DetailPembelianScreen.routeName);
-                                  },
-                                  child: _listInvoiceGroup[index].status == 0
-                                      ? InvoiceSummaryByGroupWidget(
+                                return _listInvoiceGroup[index].status == 0
+                                    ? GestureDetector(
+                                        onTap: () {
+                                          // Go to invoice detail by invoiceGroupId
+                                          Navigator.pushNamed(context, DetailPembelianScreen.routeName,
+                                              arguments: {'is_invoice_group': true, 'invoice_id': _listInvoiceGroup[index].id});
+                                        },
+                                        child: InvoiceSummaryByGroupWidget(
                                           invoiceGroup: _listInvoiceGroup[index],
-                                        )
-                                      : ListView.builder(
-                                          itemCount: _listInvoiceGroup[index].invoices.length,
-                                          shrinkWrap: true,
-                                          physics: NeverScrollableScrollPhysics(),
-                                          itemBuilder: (ctx, indexInvoice) {
-                                            var invoice = _listInvoiceGroup[index].invoices[indexInvoice];
-
-                                            return InvoiceSummaryByInvoiceWidget(
-                                              invoiceSummary: invoice,
-                                            );
-                                          },
+                                          role: "buyer",
                                         ),
-                                );
+                                      )
+                                    : ListView.builder(
+                                        itemCount: _listInvoiceGroup[index].invoices.length,
+                                        shrinkWrap: true,
+                                        physics: NeverScrollableScrollPhysics(),
+                                        itemBuilder: (ctx, indexInvoice) {
+                                          var invoice = _listInvoiceGroup[index].invoices[indexInvoice];
+
+                                          return GestureDetector(
+                                            onTap: () {
+                                              // Go to invoice detail by invoiceId
+                                              Navigator.pushNamed(context, DetailPembelianScreen.routeName,
+                                                  arguments: {'is_invoice_group': false, 'invoice_id': invoice.id});
+                                            },
+                                            child: InvoiceSummaryByInvoiceWidget(
+                                              invoiceSummary: invoice,
+                                              role: "buyer",
+                                            ),
+                                          );
+                                        },
+                                      );
                               },
                             )
                           : Padding(

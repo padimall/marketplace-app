@@ -9,8 +9,9 @@ import 'package:padimall_app/widgets/invoice/invoice_summary_each_toko.dart';
 
 class InvoiceSummaryByInvoiceWidget extends StatelessWidget {
   InvoiceSummary invoiceSummary;
+  String role;
 
-  InvoiceSummaryByInvoiceWidget({this.invoiceSummary});
+  InvoiceSummaryByInvoiceWidget({this.invoiceSummary, this.role});
 
   @override
   Widget build(BuildContext context) {
@@ -80,7 +81,7 @@ class InvoiceSummaryByInvoiceWidget extends StatelessWidget {
                             margin: const EdgeInsets.only(right: 12),
                             child: ClipRRect(
                               borderRadius: BorderRadius.circular(6),
-                              child: invoiceSummary.image == null
+                              child: invoiceSummary.products[0].image == null
                                   ? Image.asset(
                                       'assets/images/no_image.png',
                                       height: 65,
@@ -88,8 +89,8 @@ class InvoiceSummaryByInvoiceWidget extends StatelessWidget {
                                       fit: BoxFit.cover,
                                     )
                                   : FadeInImage.assetNetwork(
-                                      image: '${invoiceSummary.image}',
-                                      placeholder: 'assets/images/placeholder.png',
+                                      image: '${invoiceSummary.products[0].image}',
+                                      placeholder: 'assets/images/placeholder.jpg',
                                       height: 65,
                                       width: 65,
                                       fit: BoxFit.cover,
@@ -142,7 +143,7 @@ class InvoiceSummaryByInvoiceWidget extends StatelessWidget {
                   child: Padding(
                     padding: const EdgeInsets.symmetric(vertical: 8.0),
                     child: Text(
-                      '${getInvoiceStatusMessage(context, int.parse(invoiceSummary.status))}',
+                      '${getInvoiceStatusMessage(context, int.parse(invoiceSummary.status), role)}',
                       textAlign: TextAlign.center,
                       style: PadiMallTextTheme.sz11weight700White(context),
                     ),

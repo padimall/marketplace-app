@@ -1,7 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:padimall_app/models/post_show_invoice_detail.dart';
 import 'package:padimall_app/utils/custom_text_theme.dart';
+import 'package:padimall_app/utils/text_number_formatter.dart';
 
 class InvoiceDetailPembayaran extends StatelessWidget {
+  InvoiceDetail invoiceDetail;
+
+  InvoiceDetailPembayaran({this.invoiceDetail});
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -18,11 +24,11 @@ class InvoiceDetailPembayaran extends StatelessWidget {
               style: PadiMallTextTheme.sz13weight600Soft(context),
             ),
           ),
-          _buildPembayaranRow(context, 'Metode Pembayaran', 'BCA'),
-          _buildPembayaranRow(context, 'Harga barang', 'Rp2.000.000'),
-          _buildPembayaranRow(context, 'Ongkos Kirim', 'Rp100.000'),
+          _buildPembayaranRow(context, 'Metode Pembayaran', '${invoiceDetail.payment.methodCode}'),
+          _buildPembayaranRow(context, 'Harga barang', 'Rp${textNumberFormatter(invoiceDetail.amount.toDouble())}'),
+          // _buildPembayaranRow(context, 'Ongkos Kirim', 'Rp100.000'),
           Container(
-            margin: const EdgeInsets.only(bottom: 2),
+            margin: const EdgeInsets.only(top: 2,bottom: 2),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
@@ -31,7 +37,7 @@ class InvoiceDetailPembayaran extends StatelessWidget {
                   style: PadiMallTextTheme.sz12weight600Soft(context),
                 ),
                 Text(
-                  'Rp2.100.000',
+                  'Rp${textNumberFormatter(invoiceDetail.amount.toDouble())}',
                   style: PadiMallTextTheme.sz12weight600Red(context),
                 ),
               ],

@@ -6,6 +6,7 @@ import 'package:http/http.dart' as http;
 import 'package:padimall_app/models/post_login_dev.dart';
 import 'package:padimall_app/models/post_show_supplier_detail.dart';
 import 'package:padimall_app/models/post_show_user_profile.dart';
+import 'package:padimall_app/providers/toko.dart';
 import 'package:padimall_app/screens/first_screen.dart';
 import 'package:padimall_app/screens/forgot_pass_sent_screen.dart';
 import 'package:padimall_app/utils/custom_alert_dialog.dart';
@@ -13,6 +14,7 @@ import 'package:padimall_app/utils/custom_logic.dart';
 import 'package:padimall_app/utils/firebase_messaging_services.dart';
 import 'package:padimall_app/utils/flutter_secure_storage_services.dart';
 import 'package:package_info/package_info.dart';
+import 'package:provider/provider.dart';
 import '../utils/global.dart' as global;
 
 class ProviderUser with ChangeNotifier {
@@ -141,6 +143,9 @@ class ProviderUser with ChangeNotifier {
 
       if (response.statusCode == 200) {
         FlutterSecureStorageServices.setUserToken(jsonObject.accessToken);
+        ProviderToko providerToko = Provider.of(context, listen: false);
+        providerToko.getAgentDetail(context);
+        providerToko.getSupplierDetail(context);
         if (Navigator.canPop(context)) {
           Navigator.pop(context);
         } else {

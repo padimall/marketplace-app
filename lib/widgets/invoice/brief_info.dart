@@ -1,7 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:padimall_app/models/post_show_invoice_detail.dart';
 import 'package:padimall_app/utils/custom_text_theme.dart';
+import 'package:intl/intl.dart';
+import 'package:padimall_app/utils/invoice_status_message.dart';
 
 class InvoiceBriefInfo extends StatelessWidget {
+  InvoiceDetail invoiceDetail;
+
+  InvoiceBriefInfo({this.invoiceDetail});
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -24,7 +31,7 @@ class InvoiceBriefInfo extends StatelessWidget {
                   ),
                 ),
                 Text(
-                  'INV/20200825/XX/VIII/123456',
+                  'INV-${invoiceDetail.id.substring(0, 12).toUpperCase()}',
                   style: PadiMallTextTheme.sz12weight600Soft(context),
                 ),
               ],
@@ -43,7 +50,7 @@ class InvoiceBriefInfo extends StatelessWidget {
                   ),
                 ),
                 Text(
-                  '5 September 2020 15:00',
+                  '${DateFormat("dd MMM yyy, HH:mm").format(invoiceDetail.createdAt)}',
                   style: PadiMallTextTheme.sz12weight600Soft(context),
                 ),
               ],
@@ -62,7 +69,7 @@ class InvoiceBriefInfo extends StatelessWidget {
                   ),
                 ),
                 Text(
-                  'Pesanan Selesai',
+                  '${getInvoiceStatusMessage(context, int.parse(invoiceDetail.status), 'buyer')}',
                   style: PadiMallTextTheme.sz12weight600Green(context),
                 ),
               ],

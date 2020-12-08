@@ -1,7 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:padimall_app/models/post_show_user_invoice_list.dart';
 import 'package:padimall_app/utils/custom_text_theme.dart';
+import 'package:padimall_app/utils/text_number_formatter.dart';
 
 class InvoiceProdukWidget extends StatelessWidget {
+  ProductInvoice productInvoice;
+
+  InvoiceProdukWidget({this.productInvoice});
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -14,12 +20,20 @@ class InvoiceProdukWidget extends StatelessWidget {
             margin: const EdgeInsets.only(right: 12),
             child: ClipRRect(
               borderRadius: BorderRadius.circular(6),
-              child: Image.asset(
-                'assets/images/bawang.jpg',
-                height: 50,
-                width: 50,
-                fit: BoxFit.cover,
-              ),
+              child: productInvoice.image == null
+                  ? Image.asset(
+                      'assets/images/no_image.png',
+                      height: 50,
+                      width: 50,
+                      fit: BoxFit.cover,
+                    )
+                  : FadeInImage.assetNetwork(
+                      image: '${productInvoice.image}',
+                      fit: BoxFit.cover,
+                      height: 50,
+                      width: 50,
+                      placeholder: 'assets/images/logo.png',
+                    ),
             ),
           ),
           Expanded(
@@ -34,7 +48,7 @@ class InvoiceProdukWidget extends StatelessWidget {
                       child: Container(
                         margin: const EdgeInsets.only(bottom: 2),
                         child: Text(
-                          'Bawang Putih',
+                          '${productInvoice.name}',
                           maxLines: 2,
                           overflow: TextOverflow.ellipsis,
                           style: PadiMallTextTheme.sz12weight600(context),
@@ -44,7 +58,7 @@ class InvoiceProdukWidget extends StatelessWidget {
                     Container(
                       margin: const EdgeInsets.only(bottom: 2),
                       child: Text(
-                        'Rp2.000.000',
+                        'Rp${textNumberFormatter(productInvoice.price.toDouble())}',
                         style: PadiMallTextTheme.sz12weight600Red(context),
                       ),
                     ),
@@ -53,7 +67,7 @@ class InvoiceProdukWidget extends StatelessWidget {
                 Row(
                   children: <Widget>[
                     Text(
-                      'Jumlah: 200 Kg',
+                      'Jumlah: ${textNumberFormatter(productInvoice.quantity.toDouble())}',
                       style: PadiMallTextTheme.sz11weight500Grey(context),
                     ),
                   ],

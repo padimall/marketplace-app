@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:padimall_app/models/post_show_invoice_detail.dart';
 import 'package:padimall_app/utils/custom_text_theme.dart';
 
 class InvoiceDetailPengiriman extends StatelessWidget {
+  InvoiceDetail invoiceDetail;
+
+  InvoiceDetailPengiriman({this.invoiceDetail});
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -18,44 +23,44 @@ class InvoiceDetailPengiriman extends StatelessWidget {
               style: PadiMallTextTheme.sz13weight600Soft(context),
             ),
           ),
-          Container(
-            margin: const EdgeInsets.only(bottom: 8),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Container(
-                  margin: const EdgeInsets.only(bottom: 2),
-                  child: Text(
-                    'Nomor Resi',
-                    style: PadiMallTextTheme.sz11weight500(context),
-                  ),
-                ),
-                Text(
-                  'RESI-987654321',
-                  style: PadiMallTextTheme.sz12weight600Soft(context),
-                ),
-              ],
-            ),
-          ),
-          Container(
-            margin: const EdgeInsets.only(bottom: 8),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Container(
-                  margin: const EdgeInsets.only(bottom: 2),
-                  child: Text(
-                    'Tanggal Pembelian',
-                    style: PadiMallTextTheme.sz11weight500(context),
-                  ),
-                ),
-                Text(
-                  '5 September 2020 15:00',
-                  style: PadiMallTextTheme.sz12weight600Soft(context),
-                ),
-              ],
-            ),
-          ),
+          // Container(
+          //   margin: const EdgeInsets.only(bottom: 8),
+          //   child: Column(
+          //     crossAxisAlignment: CrossAxisAlignment.start,
+          //     children: <Widget>[
+          //       Container(
+          //         margin: const EdgeInsets.only(bottom: 2),
+          //         child: Text(
+          //           'Nomor Resi',
+          //           style: PadiMallTextTheme.sz11weight500(context),
+          //         ),
+          //       ),
+          //       Text(
+          //         'RESI-987654321',
+          //         style: PadiMallTextTheme.sz12weight600Soft(context),
+          //       ),
+          //     ],
+          //   ),
+          // ),
+          // Container(
+          //   margin: const EdgeInsets.only(bottom: 8),
+          //   child: Column(
+          //     crossAxisAlignment: CrossAxisAlignment.start,
+          //     children: <Widget>[
+          //       Container(
+          //         margin: const EdgeInsets.only(bottom: 2),
+          //         child: Text(
+          //           'Tanggal Pembelian',
+          //           style: PadiMallTextTheme.sz11weight500(context),
+          //         ),
+          //       ),
+          //       Text(
+          //         '5 September 2020 15:00',
+          //         style: PadiMallTextTheme.sz12weight600Soft(context),
+          //       ),
+          //     ],
+          //   ),
+          // ),
           Container(
             margin: const EdgeInsets.only(bottom: 8),
             child: Column(
@@ -71,7 +76,7 @@ class InvoiceDetailPengiriman extends StatelessWidget {
                 Container(
                   margin: const EdgeInsets.only(bottom: 4),
                   child: Text(
-                    'Jl. Kemana Saja, Gang Sempurna No.10',
+                    '${invoiceDetail.user.address}',
                     style: PadiMallTextTheme.sz12weight600(context),
                   ),
                 ),

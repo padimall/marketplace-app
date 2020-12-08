@@ -21,7 +21,7 @@ class InvoiceSummaryEachToko extends StatelessWidget {
         double padBottom = 0.0, padTop = 16.0;
         if (index == listInvoiceSummary.length - 1) {
           padBottom = 16.0;
-          padTop = 0.0;
+          padTop = 8.0;
         }
 
         return Padding(
@@ -46,7 +46,7 @@ class InvoiceSummaryEachToko extends StatelessWidget {
                     margin: const EdgeInsets.only(right: 12),
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(6),
-                      child: invoice.image == null
+                      child: invoice.products[0].image == null
                           ? Image.asset(
                               'assets/images/no_image.png',
                               height: 65,
@@ -54,8 +54,8 @@ class InvoiceSummaryEachToko extends StatelessWidget {
                               fit: BoxFit.cover,
                             )
                           : FadeInImage.assetNetwork(
-                              image: '${invoice.image}',
-                              placeholder: 'assets/images/placeholder.png',
+                              image: '${invoice.products[0].image}',
+                              placeholder: 'assets/images/placeholder.jpg',
                               height: 65,
                               width: 65,
                               fit: BoxFit.cover,

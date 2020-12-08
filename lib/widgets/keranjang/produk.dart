@@ -40,7 +40,7 @@ class _KeranjangProdukWidgetState extends State<KeranjangProdukWidget> {
           if (quantityController.text == "") {
             quantityItem = 0;
           } else {
-            quantityItem = int.parse(quantityController.text);
+            quantityItem = int.parse(quantityController.text.replaceAll('.', ''));
           }
           print('berapa: ${quantityItem}');
           if (quantityItem <= widget.order.stock) {

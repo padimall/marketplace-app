@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-String getInvoiceStatusMessage(BuildContext context, int status) {
+String getInvoiceStatusMessage(BuildContext context, int status, String role) {
   String _statusMessage;
 
   switch (status) {
@@ -8,7 +8,11 @@ String getInvoiceStatusMessage(BuildContext context, int status) {
       _statusMessage = "Menunggu Pembayaran";
       break;
     case 1:
-      _statusMessage = "Sedang dikemas";
+      if (role == "seller") {
+        _statusMessage = "Pesanan baru";
+      } else {
+        _statusMessage = "Sedang dikemas";
+      }
       break;
     case 2:
       _statusMessage = "Sedang dikirim";

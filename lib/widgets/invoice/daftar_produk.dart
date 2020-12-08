@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:padimall_app/models/post_show_invoice_detail.dart';
 import 'package:padimall_app/utils/custom_text_theme.dart';
 import 'package:padimall_app/widgets/checkout/produk.dart';
 import 'package:padimall_app/widgets/invoice/produk.dart';
 
 class InvoiceDaftarProduk extends StatelessWidget {
+  InvoiceDetail invoiceDetail;
+
+  InvoiceDaftarProduk({this.invoiceDetail});
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -18,11 +23,13 @@ class InvoiceDaftarProduk extends StatelessWidget {
             style: PadiMallTextTheme.sz13weight600Soft(context),
           ),
           ListView.builder(
-            itemCount: 1,
+            itemCount: invoiceDetail.products.length,
             shrinkWrap: true,
             physics: NeverScrollableScrollPhysics(),
             itemBuilder: (ctx, index) {
-              return InvoiceProdukWidget();
+              var product = invoiceDetail.products[index];
+
+              return InvoiceProdukWidget(productInvoice: product);
             },
           ),
         ],

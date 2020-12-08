@@ -147,6 +147,7 @@ class PenjualanScreen extends StatelessWidget {
                                   },
                                   child: InvoiceSummaryByInvoiceWidget(
                                     invoiceSummary: invoice,
+                                    role: "seller",
                                   ),
                                 );
                               },

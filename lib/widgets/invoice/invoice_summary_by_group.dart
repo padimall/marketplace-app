@@ -9,8 +9,9 @@ import 'package:padimall_app/widgets/invoice/invoice_summary_each_toko.dart';
 
 class InvoiceSummaryByGroupWidget extends StatelessWidget {
   InvoiceGroup invoiceGroup;
+  String role;
 
-  InvoiceSummaryByGroupWidget({this.invoiceGroup});
+  InvoiceSummaryByGroupWidget({this.invoiceGroup, this.role});
 
   @override
   Widget build(BuildContext context) {
@@ -83,7 +84,7 @@ class InvoiceSummaryByGroupWidget extends StatelessWidget {
                   child: Padding(
                     padding: const EdgeInsets.symmetric(vertical: 8.0),
                     child: Text(
-                      '${getInvoiceStatusMessage(context, invoiceGroup.status)}',
+                      '${getInvoiceStatusMessage(context, invoiceGroup.status, role)}',
                       textAlign: TextAlign.center,
                       style: PadiMallTextTheme.sz11weight700White(context),
                     ),

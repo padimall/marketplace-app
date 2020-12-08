@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:padimall_app/models/post_show_agent_invoice_list.dart';
+import 'package:padimall_app/models/post_show_invoice_detail.dart';
 import 'package:padimall_app/models/post_show_user_invoice_list.dart';
 import 'package:padimall_app/utils/custom_alert_dialog.dart';
 import 'package:padimall_app/utils/flutter_secure_storage_services.dart';
@@ -66,14 +67,14 @@ class ProviderHistories with ChangeNotifier {
       notifyListeners();
     }
   }
-  
+
   List<InvoiceSummary> _listInvoiceSeller = [];
 
   List<InvoiceSummary> get listInvoiceSeller => _listInvoiceSeller;
 
   Future<void> getAgentInvoiceHistories(BuildContext context) async {
     try {
-      var url = '${global.API_URL_PREFIX}/api/v1/invoice/agent';
+      var url = '${global.API_URL_PREFIX}/api/v1/invoice/seller';
       print(url);
 
       http.Response response = await http.post(
@@ -93,6 +94,88 @@ class ProviderHistories with ChangeNotifier {
         _listInvoiceSeller.clear();
         if (jsonObject.status == 1) {
           _listInvoiceSeller.addAll(jsonObject.data);
+        }
+      } else if (response.statusCode == 401) {
+        CustomAlertDialog.endOfSession(context);
+      } else {
+        Fluttertoast.showToast(msg: "Terjadi kesalahan. Error code: ${response.statusCode}", backgroundColor: Theme.of(context).accentColor);
+      }
+    } catch (e) {
+      print(e.toString());
+    } finally {
+      notifyListeners();
+    }
+  }
+
+  InvoiceDetail _invoiceDetail;
+
+  InvoiceDetail get invoiceDetail => _invoiceDetail;
+
+  Future<void> getInvoiceDetail(BuildContext context, String invoiceId) async {
+    try {
+      var url = '${global.API_URL_PREFIX}/api/v1/invoice/detail';
+      print(url);
+
+      var requestBody = {
+        'target_id': invoiceId,
+      };
+
+      http.Response response = await http.post(
+        url,
+        body: json.encode(requestBody),
+        headers: {
+          'X-Requested-With': 'XMLHttpRequest',
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + await FlutterSecureStorageServices.getUserToken(),
+        },
+      );
+      print(response.body);
+      print(response.statusCode);
+
+      var jsonObject = PostResShowInvoiceDetail.fromJson(jsonDecode(response.body));
+
+      if (response.statusCode == 200) {
+        if (jsonObject.status == 1) {
+          _invoiceDetail = jsonObject.data;
+        }
+      } else if (response.statusCode == 401) {
+        CustomAlertDialog.endOfSession(context);
+      } else {
+        Fluttertoast.showToast(msg: "Terjadi kesalahan. Error code: ${response.statusCode}", backgroundColor: Theme.of(context).accentColor);
+      }
+    } catch (e) {
+      print(e.toString());
+    } finally {
+      notifyListeners();
+    }
+  }
+
+  Future<void> getInvoiceGroupDetail(BuildContext context, String invoiceGroupId) async {
+    try {
+      var url = '${global.API_URL_PREFIX}/api/v1/invoice/group-detail';
+      print(url);
+
+      var requestBody = {
+        'target_id': invoiceGroupId,
+      };
+
+      http.Response response = await http.post(
+        url,
+        body: json.encode(requestBody),
+        headers: {
+          'X-Requested-With': 'XMLHttpRequest',
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + await FlutterSecureStorageServices.getUserToken(),
+        },
+      );
+      print(response.body);
+      print(response.statusCode);
+
+      var jsonObject = PostResShowInvoiceDetail.fromJson(jsonDecode(response.body));
+
+      if (response.statusCode == 200) {
+        if (jsonObject.status == 1) {
+          _invoiceDetail = jsonObject.data;
         }
       } else if (response.statusCode == 401) {
         CustomAlertDialog.endOfSession(context);
