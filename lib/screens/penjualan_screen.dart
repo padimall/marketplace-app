@@ -69,7 +69,7 @@ class PenjualanScreen extends StatelessWidget {
             if (_statusInvoiceSummary != null) {
               _listInvoices = _providerHistories.listInvoiceSeller.where((element) => element.status == _statusInvoiceSummary.toString()).toList();
             } else {
-              _listInvoices.addAll(_providerHistories.listInvoiceSeller);
+              _listInvoices.addAll(_providerHistories.listInvoiceSeller.where((element) => element.status != "0"));
             }
 
             return Container(
@@ -143,7 +143,7 @@ class PenjualanScreen extends StatelessWidget {
 
                                 return GestureDetector(
                                   onTap: () {
-                                    Navigator.pushNamed(context, DetailPenjualanScreen.routeName);
+                                    Navigator.pushNamed(context, DetailPenjualanScreen.routeName, arguments: invoice.id);
                                   },
                                   child: InvoiceSummaryByInvoiceWidget(
                                     invoiceSummary: invoice,

@@ -65,7 +65,7 @@ class ProductInRow extends StatelessWidget {
                 Container(
                   margin: const EdgeInsets.only(bottom: 4),
                   child: Text(
-                    'Stok ${textNumberFormatter(product.stock.toDouble())} Kg',
+                    'Stok ${textNumberFormatter(product.stock.toDouble())}',
                     style: PadiMallTextTheme.sz12weight500Grey(context),
                   ),
                 ),

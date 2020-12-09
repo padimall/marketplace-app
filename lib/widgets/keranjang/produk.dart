@@ -19,6 +19,7 @@ class KeranjangProdukWidget extends StatefulWidget {
 
 class _KeranjangProdukWidgetState extends State<KeranjangProdukWidget> {
   bool _isOverStock = false;
+  bool _isLowerThanMinOrder = false;
 
   MoneyMaskedTextController quantityController = MoneyMaskedTextController(thousandSeparator: '.', precision: 0, decimalSeparator: '');
 
@@ -36,31 +37,41 @@ class _KeranjangProdukWidgetState extends State<KeranjangProdukWidget> {
     // focusNode listener
     focusNode.addListener(() {
       if (!focusNode.hasFocus) {
-        setState(() {
-          if (quantityController.text == "") {
-            quantityItem = 0;
-          } else {
-            quantityItem = int.parse(quantityController.text.replaceAll('.', ''));
-          }
-          print('berapa: ${quantityItem}');
-          if (quantityItem <= widget.order.stock) {
-            _isOverStock = false;
-            if (quantityItem > 0) {
-              if (quantityItem != widget.order.quantity) {
-                _providerCart.updateCartQty(context, widget.order.cartId, quantityItem);
+        setState(
+          () {
+            if (quantityController.text == "") {
+              quantityItem = 0;
+            } else {
+              quantityItem = int.parse(quantityController.text.replaceAll('.', ''));
+            }
+            print('berapa: ${quantityItem}');
+
+            // Checking qty with stock and minum order
+            print('is ${quantityItem >= widget.order.minOrder}');
+            if (quantityItem >= widget.order.minOrder) {
+              _isLowerThanMinOrder = false;
+              if (quantityItem <= widget.order.stock) {
+                _isOverStock = false;
+                if (quantityItem > 0) {
+                  if (quantityItem != widget.order.quantity) {
+                    _providerCart.updateCartQty(context, widget.order.cartId, quantityItem);
+                  }
+                } else {
+                  CustomAlertDialog.dialogOfTwo(context, true, 'Hapus barang?', 'Yakin hapus?', 'Hapus', 'Batal', () {
+                    _providerCart.deleteProductFromCart(context, widget.order.cartId);
+                    Navigator.pop(context);
+                  }, () {
+                    Navigator.pop(context);
+                  });
+                }
+              } else {
+                _isOverStock = true;
               }
             } else {
-              CustomAlertDialog.dialogOfTwo(context, true, 'Hapus barang?', 'Yakin hapus?', 'Hapus', 'Batal', () {
-                _providerCart.deleteProductFromCart(context, widget.order.cartId);
-                Navigator.pop(context);
-              }, () {
-                Navigator.pop(context);
-              });
+              _isLowerThanMinOrder = true;
             }
-          } else {
-            _isOverStock = true;
-          }
-        });
+          },
+        );
       }
     });
   }
@@ -72,6 +83,12 @@ class _KeranjangProdukWidgetState extends State<KeranjangProdukWidget> {
     if (_isOverStock) {
       quantityController.text = widget.order.stock.toString();
       _providerCart.updateCartQty(context, widget.order.cartId, int.parse(quantityController.text.replaceAll('.', '')));
+      _isOverStock = false;
+    }
+    if (_isLowerThanMinOrder) {
+      quantityController.text = widget.order.minOrder.toString();
+      _providerCart.updateCartQty(context, widget.order.cartId, int.parse(quantityController.text.replaceAll('.', '')));
+      _isLowerThanMinOrder = false;
     }
 
     return Container(
@@ -170,29 +187,6 @@ class _KeranjangProdukWidgetState extends State<KeranjangProdukWidget> {
                                   quantityController.text = "0";
                                 }
                               },
-                              // onFieldSubmitted: (value) {
-                              //   value = value.replaceAll('.', ''); // remove delimiter
-                              //   if (int.parse(value) <= widget.order.stock) {
-                              //     print('false');
-                              //     _isOverStock = false;
-                              //
-                              //     try {
-                              //       // Update itemQty in cart if Qty > 0
-                              //       if (int.parse(value) > 0) {
-                              //         _providerCart.updateCartQty(context, widget.order.cartId, int.parse(value));
-                              //       } else {
-                              //
-                              //       }
-                              //     } catch (e) {
-                              //       Fluttertoast.showToast(msg: "Invalid quantity", backgroundColor: Theme.of(context).accentColor);
-                              //     }
-                              //
-                              //   } else {
-                              //     print('true');
-                              //     _isOverStock = true;
-                              //   }
-                              //   setState(() {});
-                              // },
                             ),
                           ),
                           // Text(
@@ -202,6 +196,12 @@ class _KeranjangProdukWidgetState extends State<KeranjangProdukWidget> {
                           _isOverStock
                               ? Text(
                                   ' (max. order: ${textNumberFormatter(widget.order.stock.toDouble())})',
+                                  style: PadiMallTextTheme.sz12weight600Red(context),
+                                )
+                              : Container(),
+                          _isLowerThanMinOrder
+                              ? Text(
+                                  ' (min. order: ${textNumberFormatter(widget.order.minOrder.toDouble())})',
                                   style: PadiMallTextTheme.sz12weight600Red(context),
                                 )
                               : Container(),

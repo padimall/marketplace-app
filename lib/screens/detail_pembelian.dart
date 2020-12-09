@@ -58,6 +58,7 @@ class DetailPembelianScreen extends StatelessWidget {
                       InvoiceBriefInfo(
                         invoiceDetail: isInvoiceGroup ? null : _providerHistories.invoiceDetail,
                         invoiceGroupDetail: isInvoiceGroup ? _providerHistories.invoiceGroupDetail : null,
+                        role: 'buyer',
                       ),
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 16.0),

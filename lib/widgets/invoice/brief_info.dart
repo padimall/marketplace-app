@@ -8,8 +8,9 @@ import 'package:padimall_app/utils/invoice_status_message.dart';
 class InvoiceBriefInfo extends StatelessWidget {
   InvoiceDetail invoiceDetail;
   InvoiceGroupDetail invoiceGroupDetail;
+  String role; // buyer or seller
 
-  InvoiceBriefInfo({this.invoiceDetail, this.invoiceGroupDetail});
+  InvoiceBriefInfo({this.invoiceDetail, this.invoiceGroupDetail, this.role});
 
   @override
   Widget build(BuildContext context) {
@@ -82,11 +83,11 @@ class InvoiceBriefInfo extends StatelessWidget {
                 ),
                 invoiceGroupDetail != null
                     ? Text(
-                        '${getInvoiceStatusMessage(context, invoiceGroupDetail.status, 'buyer')}',
+                        '${getInvoiceStatusMessage(context, invoiceGroupDetail.status, role)}',
                         style: PadiMallTextTheme.sz12weight600Green(context),
                       )
                     : Text(
-                        '${getInvoiceStatusMessage(context, int.parse(invoiceDetail.status), 'buyer')}',
+                        '${getInvoiceStatusMessage(context, int.parse(invoiceDetail.status), role)}',
                         style: PadiMallTextTheme.sz12weight600Green(context),
                       ),
               ],

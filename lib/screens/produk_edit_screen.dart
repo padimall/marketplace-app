@@ -248,7 +248,7 @@ class ProdukEditScreen extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
                           Text(
-                            'Stok (Kg)',
+                            'Stok',
                             style: PadiMallTextTheme.sz12weight600DarkGrey(context),
                           ),
                           TextFormField(
