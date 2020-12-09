@@ -47,54 +47,61 @@ class DetailPembelianScreen extends StatelessWidget {
         backgroundColor: Colors.white,
       ),
       body: buildFutureBuilder(
-        isInvoiceGroup ? _providerHistories.getInvoiceGroupDetail(context, invoiceId) : _providerHistories.getInvoiceDetail(context, invoiceId),
-        Column(
-          children: <Widget>[
-            Expanded(
-              child: SingleChildScrollView(
-                child: Column(
-                  children: <Widget>[
-                    InvoiceBriefInfo(
-                      invoiceDetail: _providerHistories.invoiceDetail,
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                      child: Divider(
-                        height: 0,
-                        thickness: 1,
+        isInvoiceGroup ? _providerHistories.getInvoiceGroupDetail(context, invoiceGroupId) : _providerHistories.getInvoiceDetail(context, invoiceId),
+        Consumer<ProviderHistories>(
+          builder: (ctx, provider, _) => Column(
+            children: <Widget>[
+              Expanded(
+                child: SingleChildScrollView(
+                  child: Column(
+                    children: <Widget>[
+                      InvoiceBriefInfo(
+                        invoiceDetail: isInvoiceGroup ? null : _providerHistories.invoiceDetail,
+                        invoiceGroupDetail: isInvoiceGroup ? _providerHistories.invoiceGroupDetail : null,
                       ),
-                    ),
-                    InvoiceDaftarProduk(
-                      invoiceDetail: _providerHistories.invoiceDetail,
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                      child: Divider(
-                        height: 0,
-                        thickness: 1,
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                        child: Divider(
+                          height: 0,
+                          thickness: 1,
+                        ),
                       ),
-                    ),
-                    InvoiceDetailPengiriman(
-                      invoiceDetail: _providerHistories.invoiceDetail,
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                      child: Divider(
-                        height: 0,
-                        thickness: 1,
+                      InvoiceDaftarProduk(
+                        invoiceDetail: isInvoiceGroup ? null : _providerHistories.invoiceDetail,
+                        invoiceGroupDetail: isInvoiceGroup ? _providerHistories.invoiceGroupDetail : null,
                       ),
-                    ),
-                    InvoiceDetailPembayaran(
-                      invoiceDetail: _providerHistories.invoiceDetail,
-                    ),
-                  ],
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                        child: Divider(
+                          height: 0,
+                          thickness: 1,
+                        ),
+                      ),
+                      if (!isInvoiceGroup)
+                        InvoiceDetailPengiriman(
+                          invoiceDetail: _providerHistories.invoiceDetail,
+                        ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                        child: Divider(
+                          height: 0,
+                          thickness: 1,
+                        ),
+                      ),
+                      InvoiceDetailPembayaran(
+                        invoiceDetail: isInvoiceGroup ? null : _providerHistories.invoiceDetail,
+                        invoiceGroupDetail: isInvoiceGroup ? _providerHistories.invoiceGroupDetail : null,
+                      ),
+                    ],
+                  ),
                 ),
               ),
-            ),
-            InvoiceActionSection(
-              invoiceDetail: _providerHistories.invoiceDetail,
-            ),
-          ],
+              InvoiceActionSection(
+                invoiceDetail: isInvoiceGroup ? null : _providerHistories.invoiceDetail,
+                invoiceGroupDetail: isInvoiceGroup ? _providerHistories.invoiceGroupDetail : null,
+              ),
+            ],
+          ),
         ),
       ),
     );

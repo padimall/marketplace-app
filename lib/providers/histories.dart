@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:padimall_app/models/post_show_agent_invoice_list.dart';
 import 'package:padimall_app/models/post_show_invoice_detail.dart';
+import 'package:padimall_app/models/post_show_invoice_group_detail.dart';
 import 'package:padimall_app/models/post_show_user_invoice_list.dart';
 import 'package:padimall_app/utils/custom_alert_dialog.dart';
 import 'package:padimall_app/utils/flutter_secure_storage_services.dart';
@@ -150,11 +151,16 @@ class ProviderHistories with ChangeNotifier {
     }
   }
 
+  InvoiceGroupDetail _invoiceGroupDetail;
+
+  InvoiceGroupDetail get invoiceGroupDetail => _invoiceGroupDetail;
+
   Future<void> getInvoiceGroupDetail(BuildContext context, String invoiceGroupId) async {
     try {
       var url = '${global.API_URL_PREFIX}/api/v1/invoice/group-detail';
       print(url);
 
+      print(invoiceGroupId);
       var requestBody = {
         'target_id': invoiceGroupId,
       };
@@ -171,11 +177,11 @@ class ProviderHistories with ChangeNotifier {
       print(response.body);
       print(response.statusCode);
 
-      var jsonObject = PostResShowInvoiceDetail.fromJson(jsonDecode(response.body));
+      var jsonObject = PostResInvoiceGroupDetail.fromJson(jsonDecode(response.body));
 
       if (response.statusCode == 200) {
         if (jsonObject.status == 1) {
-          _invoiceDetail = jsonObject.data;
+          _invoiceGroupDetail = jsonObject.data;
         }
       } else if (response.statusCode == 401) {
         CustomAlertDialog.endOfSession(context);

@@ -36,6 +36,7 @@ class InvoiceDetail {
     this.createdAt,
     this.updatedAt,
     this.agentId,
+    this.agentName,
     this.invoicesGroupId,
     this.image,
     this.user,
@@ -52,6 +53,7 @@ class InvoiceDetail {
   DateTime createdAt;
   DateTime updatedAt;
   String agentId;
+  String agentName;
   String invoicesGroupId;
   dynamic image;
   UserProfileDetail user;
@@ -68,6 +70,7 @@ class InvoiceDetail {
     createdAt: json["created_at"] == null ? null : DateTime.parse(json["created_at"]),
     updatedAt: json["updated_at"] == null ? null : DateTime.parse(json["updated_at"]),
     agentId: json["agent_id"] == null ? null : json["agent_id"],
+    agentName: json["agent_name"] == null ? null : json["agent_name"],
     invoicesGroupId: json["invoices_group_id"] == null ? null : json["invoices_group_id"],
     image: json["image"] == null ? null : json["image"],
     user: json["user"] == null ? null : UserProfileDetail.fromJson(json["user"]),

@@ -11,7 +11,7 @@ class InvoiceProdukWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.only(top: 16),
+      margin: const EdgeInsets.only(bottom: 16),
       color: Colors.white,
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -23,15 +23,15 @@ class InvoiceProdukWidget extends StatelessWidget {
               child: productInvoice.image == null
                   ? Image.asset(
                       'assets/images/no_image.png',
-                      height: 50,
-                      width: 50,
+                      height: 75,
+                      width: 75,
                       fit: BoxFit.cover,
                     )
                   : FadeInImage.assetNetwork(
                       image: '${productInvoice.image}',
                       fit: BoxFit.cover,
-                      height: 50,
-                      width: 50,
+                      height: 75,
+                      width: 75,
                       placeholder: 'assets/images/logo.png',
                     ),
             ),
@@ -55,23 +55,19 @@ class InvoiceProdukWidget extends StatelessWidget {
                         ),
                       ),
                     ),
-                    Container(
-                      margin: const EdgeInsets.only(bottom: 2),
-                      child: Text(
-                        'Rp${textNumberFormatter(productInvoice.price.toDouble())}',
-                        style: PadiMallTextTheme.sz12weight600Red(context),
-                      ),
-                    ),
                   ],
                 ),
-                Row(
-                  children: <Widget>[
-                    Text(
-                      'Jumlah: ${textNumberFormatter(productInvoice.quantity.toDouble())}',
-                      style: PadiMallTextTheme.sz11weight500Grey(context),
-                    ),
-                  ],
-                )
+                Container(
+                  margin: const EdgeInsets.only(bottom: 2),
+                  child: Text(
+                    'Jumlah: ${textNumberFormatter(productInvoice.quantity.toDouble())}',
+                    style: PadiMallTextTheme.sz11weight500Grey(context),
+                  ),
+                ),
+                Text(
+                  'Rp${textNumberFormatter(productInvoice.price.toDouble())}',
+                  style: PadiMallTextTheme.sz11weight500(context),
+                ),
               ],
             ),
           ),

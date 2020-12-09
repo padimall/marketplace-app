@@ -19,9 +19,9 @@ class InvoiceSummaryEachToko extends StatelessWidget {
         var invoice = listInvoiceSummary[index];
 
         double padBottom = 0.0, padTop = 16.0;
-        if (index == listInvoiceSummary.length - 1) {
+        if (index > 0) {
           padBottom = 16.0;
-          padTop = 8.0;
+          padTop = 0;
         }
 
         return Padding(

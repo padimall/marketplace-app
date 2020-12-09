@@ -1,18 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:padimall_app/models/post_show_invoice_detail.dart';
+import 'package:padimall_app/models/post_show_invoice_group_detail.dart';
 import 'package:padimall_app/utils/custom_text_theme.dart';
 
 class InvoiceActionSection extends StatelessWidget {
   InvoiceDetail invoiceDetail;
+  InvoiceGroupDetail invoiceGroupDetail;
 
-  InvoiceActionSection({this.invoiceDetail});
+  InvoiceActionSection({this.invoiceDetail, this.invoiceGroupDetail});
 
   @override
   Widget build(BuildContext context) {
     var buttonText;
+    String checkStatus;
 
-    switch (invoiceDetail.status) {
+    if (invoiceGroupDetail != null) {
+      checkStatus = invoiceGroupDetail.status.toString();
+    } else {
+      checkStatus = invoiceDetail.status;
+    }
+
+    switch (checkStatus) {
       case "0":
         buttonText = 'Bayar Sekarang';
         break;

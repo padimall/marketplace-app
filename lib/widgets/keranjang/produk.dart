@@ -71,6 +71,7 @@ class _KeranjangProdukWidgetState extends State<KeranjangProdukWidget> {
 
     if (_isOverStock) {
       quantityController.text = widget.order.stock.toString();
+      _providerCart.updateCartQty(context, widget.order.cartId, int.parse(quantityController.text.replaceAll('.', '')));
     }
 
     return Container(
