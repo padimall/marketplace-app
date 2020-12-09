@@ -1,3 +1,4 @@
+import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_masked_text/flutter_masked_text.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -5,6 +6,7 @@ import 'package:padimall_app/models/order.dart';
 import 'package:padimall_app/providers/cart.dart';
 import 'package:padimall_app/utils/custom_alert_dialog.dart';
 import 'package:padimall_app/utils/custom_text_theme.dart';
+import 'package:padimall_app/utils/flush_bar_warning.dart';
 import 'package:padimall_app/utils/text_number_formatter.dart';
 import 'package:provider/provider.dart';
 
@@ -82,14 +84,21 @@ class _KeranjangProdukWidgetState extends State<KeranjangProdukWidget> {
 
     if (_isOverStock) {
       quantityController.text = widget.order.stock.toString();
+      widget.order.quantity = widget.order.stock;
       _providerCart.updateCartQty(context, widget.order.cartId, int.parse(quantityController.text.replaceAll('.', '')));
       _isOverStock = false;
+      Fluttertoast.showToast(msg: 'Stock tersisa ${widget.order.stock} unit', toastLength: Toast.LENGTH_LONG, backgroundColor: Theme.of(context).accentColor);
     }
     if (_isLowerThanMinOrder) {
       quantityController.text = widget.order.minOrder.toString();
+      widget.order.quantity = widget.order.minOrder;
       _providerCart.updateCartQty(context, widget.order.cartId, int.parse(quantityController.text.replaceAll('.', '')));
       _isLowerThanMinOrder = false;
+      Fluttertoast.showToast(
+          msg: 'Minimal pemesanan adalalah ${widget.order.minOrder}', toastLength: Toast.LENGTH_LONG, backgroundColor: Theme.of(context).accentColor);
     }
+
+    _providerCart.countApproximatePrice();
 
     return Container(
       margin: const EdgeInsets.only(top: 16),
@@ -141,7 +150,7 @@ class _KeranjangProdukWidgetState extends State<KeranjangProdukWidget> {
                               ),
                             ),
                             Text(
-                              '(stock: ${textNumberFormatter(widget.order.stock.toDouble())})',
+                              '(stock: ${textNumberFormatter(widget.order.stock.toDouble())}, min: ${textNumberFormatter(widget.order.minOrder.toDouble())})',
                               style: PadiMallTextTheme.sz12weight500Grey(context),
                             ),
                           ],
@@ -183,16 +192,15 @@ class _KeranjangProdukWidgetState extends State<KeranjangProdukWidget> {
                               controller: quantityController,
                               focusNode: focusNode,
                               onChanged: (value) {
+                                widget.order.quantity = int.parse(quantityController.text.replaceAll('.', ''));
+                                print('hitung');
+                                _providerCart.countApproximatePrice();
                                 if (value == "") {
                                   quantityController.text = "0";
                                 }
                               },
                             ),
                           ),
-                          // Text(
-                          //   'kilo',
-                          //   style: PadiMallTextTheme.sz12weight500Grey(context),
-                          // ),
                           _isOverStock
                               ? Text(
                                   ' (max. order: ${textNumberFormatter(widget.order.stock.toDouble())})',

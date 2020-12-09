@@ -3,6 +3,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:padimall_app/providers/cart.dart';
 import 'package:padimall_app/screens/checkout_screen.dart';
 import 'package:padimall_app/utils/custom_text_theme.dart';
+import 'package:padimall_app/utils/flush_bar_warning.dart';
 import 'package:padimall_app/utils/text_number_formatter.dart';
 import 'package:provider/provider.dart';
 
@@ -37,7 +38,11 @@ class KeranjangBottomBarWidget extends StatelessWidget {
             onPressed: _providerCart.totalQuantityItemChecked < 1
                 ? null
                 : () {
-                    Navigator.pushNamed(context, CheckoutScreen.routeName);
+                    if (_providerCart.isCartPurchasable()) {
+                      Navigator.pushNamed(context, CheckoutScreen.routeName);
+                    } else {
+                      FlushBarWarning.show(context, null, 'Kuantitas barang tidak sesuai dengan stok dan minimal pembelian');
+                    }
                   },
             color: Theme.of(context).primaryColor,
             shape: RoundedRectangleBorder(

@@ -256,6 +256,7 @@ class ProviderCart with ChangeNotifier {
         }
       });
     });
+    notifyListeners();
   }
 
   String getSelectedCartJsonArray() {
@@ -388,5 +389,19 @@ class ProviderCart with ChangeNotifier {
     } finally {
       notifyListeners();
     }
+  }
+
+  bool isCartPurchasable() {
+    bool result = true;
+    _listUserCart.forEach((cart) {
+      cart.orders.forEach((order) {
+        if (order.isSelected) {
+          if ((order.quantity > order.stock) || (order.quantity < order.minOrder)) {
+            result = false;
+          }
+        }
+      });
+    });
+    return result;
   }
 }
