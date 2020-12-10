@@ -174,7 +174,7 @@ class ProdukViewOnlyScreen extends StatelessWidget {
                           Container(
                             margin: const EdgeInsets.only(bottom: 4),
                             child: Text(
-                              'Pemesanan minimum (kilogram)',
+                              'Pemesanan minimum',
                               style: PadiMallTextTheme.sz12weight500(context),
                             ),
                           ),
@@ -193,7 +193,7 @@ class ProdukViewOnlyScreen extends StatelessWidget {
                           Container(
                             margin: const EdgeInsets.only(bottom: 4),
                             child: Text(
-                              'Stok (kilogram)',
+                              'Stok',
                               style: PadiMallTextTheme.sz12weight500(context),
                             ),
                           ),

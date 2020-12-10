@@ -226,7 +226,7 @@ class ProdukEditScreen extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
                           Text(
-                            'Pemesanan minimum (kilogram)',
+                            'Pemesanan minimum',
                             style: PadiMallTextTheme.sz12weight600DarkGrey(context),
                           ),
                           TextFormField(

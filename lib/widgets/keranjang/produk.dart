@@ -107,9 +107,11 @@ class _KeranjangProdukWidgetState extends State<KeranjangProdukWidget> {
         children: <Widget>[
           Checkbox(
             value: widget.order.isSelected == null ? false : widget.order.isSelected,
-            onChanged: (value) {
-              _providerCart.updateSelectionCartByCartId(widget.order.cartId, value);
-            },
+            onChanged: widget.order.stock < widget.order.minOrder
+                ? null
+                : (value) {
+                    _providerCart.updateSelectionCartByCartId(widget.order.cartId, value);
+                  },
           ),
           Expanded(
             child: Row(

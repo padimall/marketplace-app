@@ -206,7 +206,9 @@ class ProviderCart with ChangeNotifier {
       if (cart.agent.id == agentId) {
         cart.isSelected = isChecked;
         cart.orders.forEach((order) {
-          order.isSelected = isChecked;
+          if (order.stock >= order.minOrder) {
+            order.isSelected = isChecked;
+          }
         });
       }
     });
@@ -220,7 +222,9 @@ class ProviderCart with ChangeNotifier {
     _listUserCart.forEach((cart) {
       cart.isSelected = isChecked;
       cart.orders.forEach((order) {
-        order.isSelected = isChecked;
+        if (order.stock >= order.minOrder) {
+          order.isSelected = isChecked;
+        }
       });
     });
     countApproximatePrice();
@@ -335,7 +339,6 @@ class ProviderCart with ChangeNotifier {
   }
 
   String getCheckoutPerAgentLogistic() {
-
     // _checkoutDetail.checkouts.forEach((checkoutPerAgent) {
     //   if (checkoutPerAgent.agent.id == agentId) {
     //     checkoutPerAgent.logistic = selectedLogistic;
