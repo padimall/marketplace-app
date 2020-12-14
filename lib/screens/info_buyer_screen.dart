@@ -31,30 +31,27 @@ class InfoBuyerScreen extends StatelessWidget {
         backgroundColor: Colors.white,
       ),
       body: buildFutureBuilder(
-        _providerUser.getUserProfile(context),
-        _providerUser.userProfileDetail != null
-            ? Consumer<ProviderUser>(
-                builder: (ctx, provider, _) => Container(
-                  padding: const EdgeInsets.all(16.0),
-                  color: Colors.white,
-                  width: double.infinity,
-                  height: double.infinity,
-                  child: SingleChildScrollView(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        _buildInfoRow(context, 'Nama', '${_providerUser.userProfileDetail.name}', 0),
-                        _buildInfoRow(context, 'No. Handphone', '${_providerUser.userProfileDetail.phone}', 1),
-                        _buildInfoRow(context, 'Email', '${_providerUser.userProfileDetail.email}', 2),
-                        _buildInfoRow(context, 'Alamat Lengkap', '${_providerUser.userProfileDetail.address}', 3),
-                        _buildInfoRow(context, 'Password', '********', 4),
-                      ],
-                    ),
-                  ),
+          _providerUser.getUserProfile(context),
+          Consumer<ProviderUser>(
+            builder: (ctx, provider, _) => Container(
+              padding: const EdgeInsets.all(16.0),
+              color: Colors.white,
+              width: double.infinity,
+              height: double.infinity,
+              child: SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    _buildInfoRow(context, 'Nama', '${_providerUser.userProfileDetail.name}', 0),
+                    _buildInfoRow(context, 'No. Handphone', '${_providerUser.userProfileDetail.phone}', 1),
+                    _buildInfoRow(context, 'Email', '${_providerUser.userProfileDetail.email}', 2),
+                    _buildInfoRow(context, 'Alamat Lengkap', '${_providerUser.userProfileDetail.address}', 3),
+                    _buildInfoRow(context, 'Password', '********', 4),
+                  ],
                 ),
-              )
-            : Container(),
-      ),
+              ),
+            ),
+          )),
     );
   }
 
