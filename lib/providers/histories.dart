@@ -5,6 +5,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:padimall_app/models/post_show_agent_invoice_list.dart';
 import 'package:padimall_app/models/post_show_invoice_detail.dart';
 import 'package:padimall_app/models/post_show_invoice_group_detail.dart';
+import 'package:padimall_app/models/post_show_invoice_pay.dart';
 import 'package:padimall_app/models/post_show_user_invoice_list.dart';
 import 'package:padimall_app/utils/custom_alert_dialog.dart';
 import 'package:padimall_app/utils/flutter_secure_storage_services.dart';
@@ -183,6 +184,48 @@ class ProviderHistories with ChangeNotifier {
         if (jsonObject.status == 1) {
           _invoiceGroupDetail = jsonObject.data;
         }
+      } else if (response.statusCode == 401) {
+        CustomAlertDialog.endOfSession(context);
+      } else {
+        Fluttertoast.showToast(msg: "Terjadi kesalahan. Error code: ${response.statusCode}", backgroundColor: Theme.of(context).accentColor);
+      }
+    } catch (e) {
+      print(e.toString());
+    } finally {
+      notifyListeners();
+    }
+  }
+
+  InvoicePayment _invoicePayment;
+
+  InvoicePayment get invoicePayment => _invoicePayment;
+
+  Future<void> getInvoicePaymentDetail(BuildContext context, String invoiceGroupId) async {
+    try {
+      var url = '${global.API_URL_PREFIX}/api/v1/invoice/pay';
+      print(url);
+
+      print(invoiceGroupId);
+      var requestBody = {
+        'target_id': invoiceGroupId,
+      };
+
+      http.Response response = await http.post(
+        url,
+        body: json.encode(requestBody),
+        headers: {
+          'X-Requested-With': 'XMLHttpRequest',
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + await FlutterSecureStorageServices.getUserToken(),
+        },
+      );
+      print(response.body);
+      print(response.statusCode);
+
+      var jsonObject = PostResInvoicePay.fromJson(jsonDecode(response.body));
+
+      if (response.statusCode == 200) {
+        _invoicePayment = jsonObject.data;
       } else if (response.statusCode == 401) {
         CustomAlertDialog.endOfSession(context);
       } else {

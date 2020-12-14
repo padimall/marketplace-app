@@ -142,14 +142,18 @@ class ProductDetailScreen extends StatelessWidget {
   Widget _buildBottomActionWidget(BuildContext context) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-      decoration: BoxDecoration(color: Colors.white, boxShadow: [
-        BoxShadow(
-          color: Colors.grey[300],
-          blurRadius: 1.0,
-          spreadRadius: 1.0,
-        )
-      ]),
-      child: Row(
+      decoration: BoxDecoration(
+        color: Colors.white,
+        boxShadow: [
+          BoxShadow(
+            color: Colors.grey[300],
+            blurRadius: 1.0,
+            spreadRadius: 1.0,
+          )
+        ],
+      ),
+      child: _providerProduct.productDetail.stock < _providerProduct.productDetail.minOrder
+          ? Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: <Widget>[
           Flexible(
@@ -157,72 +161,91 @@ class ProductDetailScreen extends StatelessWidget {
             child: Container(
               width: double.infinity,
               child: RaisedButton(
-                onPressed: () async {
-                  if (await CustomLogic.isUserTokenExist()) {
-                    _providerCart.addProductWithMinOrderToCart(context, _providerProduct.productDetail);
-                  } else {
-                    showAlertDialogOk(
-                      context,
-                      false,
-                      'Yuk Sign In',
-                      'Silahkan Sign In terlebih dahulu untuk menggunakan fitur ini',
-                      'Sign In',
-                      () {
-                        Navigator.pop(context);
-                        Navigator.pushNamed(context, LoginScreen.routeName);
-                      },
-                    );
-                  }
-                },
-                color: Theme.of(context).accentColor,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.all(
-                    Radius.circular(4),
-                  ),
-                ),
-                child: Text(
-                  '+ Keranjang',
-                  style: PadiMallTextTheme.sz16weight700White(context),
-                ),
-              ),
-            ),
-          ),
-          SizedBox(
-            width: 16,
-          ),
-          Flexible(
-            flex: 1,
-            child: Container(
-              width: double.infinity,
-              child: RaisedButton(
-                onPressed: () async {
-                  if (await CustomLogic.isUserTokenExist()) {
-                    // Navigator.pushNamed(context, CheckoutScreen.routeName);
-                    Fluttertoast.showToast(msg: "Still Development (Checkout)", backgroundColor: Theme.of(context).accentColor);
-                  } else {
-                    showAlertDialogOk(
-                      context,
-                      false,
-                      'Yuk Sign In',
-                      'Silahkan Sign In terlebih dahulu untuk menggunakan fitur ini',
-                      'Sign In',
-                      () {
-                        Navigator.pop(context);
-                        Navigator.pushNamed(context, LoginScreen.routeName);
-                      },
-                    );
-                  }
-                },
+                onPressed: null,
                 color: Theme.of(context).primaryColor,
                 child: Text(
-                  'Beli Sekarang',
+                  'Barang Habis',
                   style: PadiMallTextTheme.sz16weight700White(context),
                 ),
               ),
             ),
           ),
         ],
-      ),
+      )
+          : Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: <Widget>[
+                Flexible(
+                  flex: 1,
+                  child: Container(
+                    width: double.infinity,
+                    child: RaisedButton(
+                      onPressed: () async {
+                        if (await CustomLogic.isUserTokenExist()) {
+                          _providerCart.addProductWithMinOrderToCart(context, _providerProduct.productDetail);
+                        } else {
+                          showAlertDialogOk(
+                            context,
+                            false,
+                            'Yuk Sign In',
+                            'Silahkan Sign In terlebih dahulu untuk menggunakan fitur ini',
+                            'Sign In',
+                            () {
+                              Navigator.pop(context);
+                              Navigator.pushNamed(context, LoginScreen.routeName);
+                            },
+                          );
+                        }
+                      },
+                      color: Theme.of(context).accentColor,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(4),
+                        ),
+                      ),
+                      child: Text(
+                        '+ Keranjang',
+                        style: PadiMallTextTheme.sz16weight700White(context),
+                      ),
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  width: 16,
+                ),
+                Flexible(
+                  flex: 1,
+                  child: Container(
+                    width: double.infinity,
+                    child: RaisedButton(
+                      onPressed: () async {
+                        if (await CustomLogic.isUserTokenExist()) {
+                          // Navigator.pushNamed(context, CheckoutScreen.routeName);
+                          Fluttertoast.showToast(msg: "Still Development (Checkout)", backgroundColor: Theme.of(context).accentColor);
+                        } else {
+                          showAlertDialogOk(
+                            context,
+                            false,
+                            'Yuk Sign In',
+                            'Silahkan Sign In terlebih dahulu untuk menggunakan fitur ini',
+                            'Sign In',
+                            () {
+                              Navigator.pop(context);
+                              Navigator.pushNamed(context, LoginScreen.routeName);
+                            },
+                          );
+                        }
+                      },
+                      color: Theme.of(context).primaryColor,
+                      child: Text(
+                        'Beli Sekarang',
+                        style: PadiMallTextTheme.sz16weight700White(context),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
     );
   }
 }

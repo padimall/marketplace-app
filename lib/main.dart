@@ -18,6 +18,7 @@ import 'package:padimall_app/screens/info_agent_screen.dart';
 import 'package:padimall_app/screens/info_buyer_screen.dart';
 import 'package:padimall_app/screens/info_toko_edit_screen.dart';
 import 'package:padimall_app/screens/info_toko_screen.dart';
+import 'package:padimall_app/screens/invoice_payment_screen.dart';
 import 'package:padimall_app/screens/keranjang_screen.dart';
 import 'package:padimall_app/screens/list_suppliers_product_screen.dart';
 import 'package:padimall_app/screens/login_screen.dart';
@@ -112,6 +113,7 @@ class MyApp extends StatelessWidget {
           ForgotPassSentScreen.routeName: (ctx) => ForgotPassSentScreen(),
           ProductSearchScreen.routeName: (ctx) => ProductSearchScreen(),
           ProductByMainCategoryScreen.routeName: (ctx) => ProductByMainCategoryScreen(),
+          InvoicePaymentScreen.routeName: (ctx) => InvoicePaymentScreen(),
         },
       ),
     );

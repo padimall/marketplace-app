@@ -98,7 +98,7 @@ class _KeranjangProdukWidgetState extends State<KeranjangProdukWidget> {
           msg: 'Minimal pemesanan adalalah ${widget.order.minOrder}', toastLength: Toast.LENGTH_LONG, backgroundColor: Theme.of(context).accentColor);
     }
 
-    _providerCart.countApproximatePrice();
+    // _providerCart.countApproximatePrice();
 
     return Container(
       margin: const EdgeInsets.only(top: 16),
@@ -151,10 +151,22 @@ class _KeranjangProdukWidgetState extends State<KeranjangProdukWidget> {
                                 style: PadiMallTextTheme.sz12weight600Red(context),
                               ),
                             ),
-                            Text(
-                              '(stock: ${textNumberFormatter(widget.order.stock.toDouble())}, min: ${textNumberFormatter(widget.order.minOrder.toDouble())})',
-                              style: PadiMallTextTheme.sz12weight500Grey(context),
-                            ),
+                            widget.order.stock < widget.order.minOrder
+                                ? Container(
+                                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                                    decoration: BoxDecoration(
+                                      color: Theme.of(context).accentColor,
+                                      borderRadius: BorderRadius.circular(4),
+                                    ),
+                                    child: Text(
+                                      'HABIS',
+                                      style: PadiMallTextTheme.sz13weight600White(context),
+                                    ),
+                                  )
+                                : Text(
+                                    '(stock: ${textNumberFormatter(widget.order.stock.toDouble())}, min: ${textNumberFormatter(widget.order.minOrder.toDouble())})',
+                                    style: PadiMallTextTheme.sz12weight500Grey(context),
+                                  ),
                           ],
                         ),
                       ),
