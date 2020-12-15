@@ -95,7 +95,7 @@ class _KeranjangProdukWidgetState extends State<KeranjangProdukWidget> {
       _providerCart.updateCartQty(context, widget.order.cartId, int.parse(quantityController.text.replaceAll('.', '')));
       _isLowerThanMinOrder = false;
       Fluttertoast.showToast(
-          msg: 'Minimal pemesanan adalalah ${widget.order.minOrder}', toastLength: Toast.LENGTH_LONG, backgroundColor: Theme.of(context).accentColor);
+          msg: 'Minimal pemesanan adalah ${widget.order.minOrder}', toastLength: Toast.LENGTH_LONG, backgroundColor: Theme.of(context).accentColor);
     }
 
     // _providerCart.countApproximatePrice();
