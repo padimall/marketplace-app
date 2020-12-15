@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "625479255407",
+    "firebase_url": "https://padimall-marketplace.firebaseio.com",
+    "project_id": "padimall-marketplace",
+    "storage_bucket": "padimall-marketplace.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:625479255407:android:5b1175c2189f6dd7bb549a",
+        "android_client_info": {
+          "package_name": "com.padimallindonesia.padimall_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "625479255407-tobegtepcrg8od2tb78tgdcajd1k6fg2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDBn6qBL7t_13xMWx_hbSMiMLd9xO8G_UA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "625479255407-tobegtepcrg8od2tb78tgdcajd1k6fg2.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
