@@ -53,12 +53,18 @@ class InvoicePaymentScreen extends StatelessWidget {
             return Column(
               children: [
                 Container(
-                  color: Colors.white,
+                  color: Colors.yellow[100],
                   padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
                   margin: const EdgeInsets.only(bottom: 8),
                   child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
+                      Container(
+                        margin: const EdgeInsets.only(right: 12),
+                        child: Icon(
+                          Icons.report_outlined,
+                        ),
+                      ),
                       Expanded(
                         child: RichText(
                           textAlign: TextAlign.start,
@@ -66,11 +72,11 @@ class InvoicePaymentScreen extends StatelessWidget {
                             children: [
                               TextSpan(
                                 text: 'Mohon selesaikan pembayaran sebelum ',
-                                style: PadiMallTextTheme.sz14weight500(context),
+                                style: PadiMallTextTheme.sz13weight500(context),
                               ),
                               TextSpan(
-                                text: '${DateFormat("dd-MM-yy, HH:mm").format(_invoicePayment.expiryDate)}',
-                                style: PadiMallTextTheme.sz14weight600(context),
+                                text: '${DateFormat("dd-MM-yyyy, HH:mm").format(_invoicePayment.expiryDate)}',
+                                style: PadiMallTextTheme.sz13weight600(context),
                               ),
                             ],
                           ),
