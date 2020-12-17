@@ -30,27 +30,6 @@ class ProductDetailScreen extends StatelessWidget {
     _providerCart = Provider.of(context, listen: false);
     _providerProduct = Provider.of(context, listen: false);
 
-    Widget _carouselImages = new AspectRatio(
-      aspectRatio: 1,
-      child: _providerProduct.productDetail.images.isNotEmpty
-          ? Carousel(
-              boxFit: BoxFit.cover,
-              images: _providerProduct.productDetail.images
-                  .map((productImages) => CachedNetworkImage(
-                        imageUrl: productImages.url,
-                        fit: BoxFit.cover,
-                      ))
-                  .toList(),
-              autoplay: true,
-              autoplayDuration: Duration(seconds: 4),
-//        showIndicator: false,
-              dotSize: 4,
-              indicatorBgPadding: 4,
-              dotBgColor: Theme.of(context).accentColor.withOpacity(0.5),
-            )
-          : Container(),
-    );
-
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
@@ -88,7 +67,6 @@ class ProductDetailScreen extends StatelessWidget {
                               shrinkWrap: true,
                               physics: NeverScrollableScrollPhysics(),
                               children: <Widget>[
-//                            _carouselImages,
                                 AspectRatio(
                                   aspectRatio: 1,
                                   child: _providerProduct.productDetail.images.isNotEmpty
@@ -113,14 +91,11 @@ class ProductDetailScreen extends StatelessWidget {
                       NamaHargaProduk(
                         product: _providerProduct.productDetail,
                       ),
-                      SizedBox(
-                        height: 8,
-                      ),
                       InfoProduk(
                         product: _providerProduct.productDetail,
                       ),
-                      SizedBox(
-                        height: 8,
+                      DeskripsiProduk(
+                        product: _providerProduct.productDetail,
                       ),
                       InfoToko(
                         product: _providerProduct.productDetail,
@@ -261,6 +236,7 @@ class NamaHargaProduk extends StatelessWidget {
       width: double.infinity,
       color: Colors.white,
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+      margin: const EdgeInsets.only(bottom: 8),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
@@ -293,6 +269,7 @@ class InfoProduk extends StatelessWidget {
       width: double.infinity,
       color: Colors.white,
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+      margin: const EdgeInsets.only(bottom: 8),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
@@ -348,6 +325,38 @@ class InfoProduk extends StatelessWidget {
   }
 }
 
+class DeskripsiProduk extends StatelessWidget {
+  Product product;
+
+  DeskripsiProduk({this.product});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: double.infinity,
+      color: Colors.white,
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+      margin: const EdgeInsets.only(bottom: 8),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Container(
+            margin: const EdgeInsets.only(bottom: 8),
+            child: Text(
+              'Deskripsi Produk',
+              style: PadiMallTextTheme.sz16weight700(context),
+            ),
+          ),
+          Text(
+            '${product.description}',
+            style: PadiMallTextTheme.sz14weight500(context),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
 class InfoToko extends StatelessWidget {
   Product product;
 
@@ -363,6 +372,7 @@ class InfoToko extends StatelessWidget {
         color: Colors.white,
         width: double.infinity,
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+        margin: const EdgeInsets.only(bottom: 8),
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
