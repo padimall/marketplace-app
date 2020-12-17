@@ -9,7 +9,9 @@ import 'package:padimall_app/models/post_show_products.dart';
 import 'package:padimall_app/models/post_show_user_cart.dart';
 import 'package:http/http.dart' as http;
 import 'package:padimall_app/screens/first_screen.dart';
+import 'package:padimall_app/screens/invoice_payment_screen.dart';
 import 'package:padimall_app/screens/keranjang_screen.dart';
+import 'package:padimall_app/screens/pembelian_screen.dart';
 import 'package:padimall_app/utils/custom_alert_dialog.dart';
 import 'package:padimall_app/utils/custom_text_theme.dart';
 import 'package:padimall_app/utils/flutter_secure_storage_services.dart';
@@ -382,7 +384,10 @@ class ProviderCart with ChangeNotifier {
 
       Navigator.pop(context);
       if (response.statusCode == 201) {
+        String groupId = jsonDecode(response.body)["group_id"];
         Navigator.pushNamedAndRemoveUntil(context, FirstScreen.routeName, (route) => false);
+        Navigator.pushNamed(context, PembelianScreen.routeName);
+        Navigator.pushNamed(context, InvoicePaymentScreen.routeName, arguments: groupId);
         Fluttertoast.showToast(msg: "Pesanan anda telah kami terima", backgroundColor: Theme.of(context).primaryColor);
       } else {
         Fluttertoast.showToast(msg: "Terjadi kesalahan. Error code: ${response.statusCode}", backgroundColor: Theme.of(context).accentColor);
