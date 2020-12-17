@@ -592,4 +592,46 @@ class ProviderProduct with ChangeNotifier {
       notifyListeners();
     }
   }
+
+  List<Product> _listProductAgent = [];
+
+  List<Product> get listProductAgent => _listProductAgent;
+
+  Future<void> getCertainTokoProduct(BuildContext context, String agentId) async {
+    try {
+      var url = '${global.API_URL_PREFIX}/api/v1/product/agent-id';
+
+      print(agentId);
+
+      var requestBody = {
+        'target_id': agentId,
+      };
+
+      http.Response response = await http.post(
+        url,
+        headers: {
+          'X-Requested-With': 'XMLHttpRequest',
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + await FlutterSecureStorageServices.getDevToken(),
+        },
+        body: json.encode(requestBody),
+      );
+      print(url);
+      print(response.body);
+
+      var jsonObject = PostResShowProducts.fromJson(json.decode(response.body));
+
+      if (response.statusCode == 200) {
+        _listProductAgent.clear();
+        if (jsonObject.status == 1) {
+          _listProductAgent.addAll(jsonObject.data);
+        }
+        print('items: ${_listProductAgent.length}');
+      }
+    } catch (e) {
+      print(e.toString());
+    } finally {
+      notifyListeners();
+    }
+  }
 }

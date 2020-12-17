@@ -10,6 +10,7 @@ import 'package:padimall_app/screens/checkout_screen.dart';
 import 'package:padimall_app/screens/first_screen.dart';
 import 'package:padimall_app/screens/keranjang_screen.dart';
 import 'package:padimall_app/screens/login_screen.dart';
+import 'package:padimall_app/screens/toko_screen.dart';
 import 'package:padimall_app/utils/build_future_builder.dart';
 import 'package:padimall_app/utils/custom_image_url.dart';
 import 'package:padimall_app/utils/custom_logic.dart';
@@ -129,24 +130,24 @@ class ProductDetailScreen extends StatelessWidget {
       ),
       child: _providerProduct.productDetail.stock < _providerProduct.productDetail.minOrder
           ? Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: <Widget>[
-          Flexible(
-            flex: 1,
-            child: Container(
-              width: double.infinity,
-              child: RaisedButton(
-                onPressed: null,
-                color: Theme.of(context).primaryColor,
-                child: Text(
-                  'Barang Habis',
-                  style: PadiMallTextTheme.sz16weight700White(context),
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: <Widget>[
+                Flexible(
+                  flex: 1,
+                  child: Container(
+                    width: double.infinity,
+                    child: RaisedButton(
+                      onPressed: null,
+                      color: Theme.of(context).primaryColor,
+                      child: Text(
+                        'Barang Habis',
+                        style: PadiMallTextTheme.sz16weight700White(context),
+                      ),
+                    ),
+                  ),
                 ),
-              ),
-            ),
-          ),
-        ],
-      )
+              ],
+            )
           : Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: <Widget>[
@@ -366,7 +367,7 @@ class InfoToko extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        //
+        Navigator.pushNamed(context, TokoProductScreen.routeName, arguments: product.agent);
       },
       child: Container(
         color: Colors.white,
