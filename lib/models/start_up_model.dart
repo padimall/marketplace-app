@@ -1,11 +1,14 @@
 import 'dart:async';
 
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:padimall_app/providers/toko.dart';
 import 'package:padimall_app/providers/user.dart';
 import 'package:padimall_app/screens/first_screen.dart';
+import 'package:padimall_app/utils/firebase_messaging_services.dart';
 import 'package:padimall_app/utils/flutter_secure_storage_services.dart';
+import 'package:padimall_app/utils/local_notification_services.dart';
 import 'package:provider/provider.dart';
 
 class StartUpModel with ChangeNotifier {
@@ -19,6 +22,10 @@ class StartUpModel with ChangeNotifier {
   void handleStartUpLogic() async {
     providerUser = Provider.of(context, listen: false);
     providerToko = Provider.of(context, listen: false);
+
+    FirebaseMessagingService.handleNotification();
+
+    LocalNotificationServices.initialize();
 
     try {
       if (await FlutterSecureStorageServices.getUserToken() != null) {
