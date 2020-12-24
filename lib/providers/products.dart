@@ -599,7 +599,7 @@ class ProviderProduct with ChangeNotifier {
 
   Future<void> getCertainTokoProduct(BuildContext context, String agentId) async {
     try {
-      var url = '${global.API_URL_PREFIX}/api/v1/product/agent-id';
+      var url = '${global.API_URL_PREFIX}/api/v1/product/shop';
 
       print(agentId);
 

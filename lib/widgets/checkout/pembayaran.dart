@@ -18,25 +18,21 @@ class CheckoutPembayaranWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     _providerCart = Provider.of(context, listen: false);
 
-    Widget _buildListTilePembayaran(Payment payment) {
+    Widget _buildListTilePembayaran(PaymentMethod paymentMethod) {
       return InkWell(
         onTap: () {
-          _providerCart.setSelectedPayment(payment);
+          _providerCart.setSelectedPayment(paymentMethod);
           Navigator.pop(context);
         },
         child: Container(
           width: double.infinity,
-          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+          padding: const EdgeInsets.only(left: 20,right: 16, top: 12, bottom: 12),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               Text(
-                '${payment.methodCode}',
+                '${paymentMethod.name}',
                 style: PadiMallTextTheme.sz14weight600(context),
-              ),
-              Text(
-                'Rpxx.xxx',
-                style: PadiMallTextTheme.sz12weight500Grey(context),
               ),
             ],
           ),
@@ -82,8 +78,26 @@ class CheckoutPembayaranWidget extends StatelessWidget {
                   physics: NeverScrollableScrollPhysics(),
                   itemBuilder: (ctx, index) {
                     var payment = _providerCart.checkoutDetail.payments[index];
+                    return ExpansionTile(
+                      title: Text(
+                        '${payment.type}',
+                        style: PadiMallTextTheme.sz14weight500(context),
+                      ),
+                      childrenPadding: EdgeInsets.symmetric(vertical: 0),
+                      children: [
+                        ListView.builder(
+                          itemCount: payment.methods.length,
+                          shrinkWrap: true,
+                          physics: NeverScrollableScrollPhysics(),
+                          itemBuilder: (context, index) {
+                            var paymentMethod = payment.methods[index];
 
-                    return _buildListTilePembayaran(payment);
+                            return _buildListTilePembayaran(paymentMethod);
+                          },
+                        ),
+                      ],
+                    );
+                    // return _buildListTilePembayaran(payment);
                   },
                 ),
               ],
@@ -128,7 +142,7 @@ class CheckoutPembayaranWidget extends StatelessWidget {
                         style: PadiMallTextTheme.sz12weight500Grey(context),
                       )
                     : Text(
-                        '${_providerCart.selectedPayment.methodCode}',
+                        '${_providerCart.selectedPayment.name}',
                         style: PadiMallTextTheme.sz13weight600(context),
                       ),
                 Container(

@@ -36,7 +36,7 @@ class InvoiceGroupDetail {
     this.createdAt,
     this.updatedAt,
     this.userId,
-    this.payment,
+    this.paymentMethod,
     this.user,
     this.invoices,
   });
@@ -49,7 +49,7 @@ class InvoiceGroupDetail {
   DateTime createdAt;
   DateTime updatedAt;
   String userId;
-  Payment payment;
+  PaymentMethod paymentMethod;
   UserProfileDetail user;
   List<InvoiceDetail> invoices;
 
@@ -62,7 +62,7 @@ class InvoiceGroupDetail {
     createdAt: json["created_at"] == null ? null : DateTime.parse(json["created_at"]),
     updatedAt: json["updated_at"] == null ? null : DateTime.parse(json["updated_at"]),
     userId: json["user_id"] == null ? null : json["user_id"],
-    payment: json["payment"] == null ? null : Payment.fromJson(json["payment"]),
+    paymentMethod: json["payment"] == null ? null : PaymentMethod.fromJson(json["payment"]),
     user: json["user"] == null ? null : UserProfileDetail.fromJson(json["user"]),
     invoices: json["invoices"] == null ? null : List<InvoiceDetail>.from(json["invoices"].map((x) => InvoiceDetail.fromJson(x))),
   );
@@ -76,7 +76,7 @@ class InvoiceGroupDetail {
     "created_at": createdAt == null ? null : createdAt.toIso8601String(),
     "updated_at": updatedAt == null ? null : updatedAt.toIso8601String(),
     "user_id": userId == null ? null : userId,
-    "payment": payment == null ? null : payment.toJson(),
+    "payment": paymentMethod == null ? null : paymentMethod.toJson(),
     "user": user == null ? null : user.toJson(),
     "invoices": invoices == null ? null : List<dynamic>.from(invoices.map((x) => x.toJson())),
   };

@@ -111,40 +111,80 @@ class Logistic {
 
 class Payment {
   Payment({
+    this.type,
+    this.methods,
+  });
+
+  String type;
+  List<PaymentMethod> methods;
+
+  factory Payment.fromJson(Map<String, dynamic> json) => Payment(
+    type: json["method"] == null ? null : json["method"],
+    methods: json["method_codes"] == null ? null : List<PaymentMethod>.from(json["method_codes"].map((x) => PaymentMethod.fromJson(x))),
+  );
+
+  Map<String, dynamic> toJson() => {
+    "method": type == null ? null : type,
+    "method_codes": methods == null ? null : List<dynamic>.from(methods.map((x) => x.toJson())),
+  };
+}
+
+class PaymentMethod {
+  PaymentMethod({
     this.id,
-    this.gate,
-    this.method,
-    this.methodCode,
-    this.status,
-    this.createdAt,
-    this.updatedAt,
+    this.name,
   });
 
   String id;
-  String gate;
-  String method;
-  String methodCode;
-  int status;
-  DateTime createdAt;
-  DateTime updatedAt;
+  String name;
 
-  factory Payment.fromJson(Map<String, dynamic> json) => Payment(
+  factory PaymentMethod.fromJson(Map<String, dynamic> json) => PaymentMethod(
     id: json["id"] == null ? null : json["id"],
-    gate: json["gate"] == null ? null : json["gate"],
-    method: json["method"] == null ? null : json["method"],
-    methodCode: json["method_code"] == null ? null : json["method_code"],
-    status: json["status"] == null ? null : json["status"],
-    createdAt: json["created_at"] == null ? null : DateTime.parse(json["created_at"]),
-    updatedAt: json["updated_at"] == null ? null : DateTime.parse(json["updated_at"]),
+    name: json["name"] == null ? null : json["name"],
   );
 
   Map<String, dynamic> toJson() => {
     "id": id == null ? null : id,
-    "gate": gate == null ? null : gate,
-    "method": method == null ? null : method,
-    "method_code": methodCode == null ? null : methodCode,
-    "status": status == null ? null : status,
-    "created_at": createdAt == null ? null : createdAt.toIso8601String(),
-    "updated_at": updatedAt == null ? null : updatedAt.toIso8601String(),
+    "name": name == null ? null : name,
   };
 }
+
+// class Payment {
+//   Payment({
+//     this.id,
+//     this.gate,
+//     this.method,
+//     this.methodCode,
+//     this.status,
+//     this.createdAt,
+//     this.updatedAt,
+//   });
+//
+//   String id;
+//   String gate;
+//   String method;
+//   String methodCode;
+//   int status;
+//   DateTime createdAt;
+//   DateTime updatedAt;
+//
+//   factory Payment.fromJson(Map<String, dynamic> json) => Payment(
+//     id: json["id"] == null ? null : json["id"],
+//     gate: json["gate"] == null ? null : json["gate"],
+//     method: json["method"] == null ? null : json["method"],
+//     methodCode: json["method_code"] == null ? null : json["method_code"],
+//     status: json["status"] == null ? null : json["status"],
+//     createdAt: json["created_at"] == null ? null : DateTime.parse(json["created_at"]),
+//     updatedAt: json["updated_at"] == null ? null : DateTime.parse(json["updated_at"]),
+//   );
+//
+//   Map<String, dynamic> toJson() => {
+//     "id": id == null ? null : id,
+//     "gate": gate == null ? null : gate,
+//     "method": method == null ? null : method,
+//     "method_code": methodCode == null ? null : methodCode,
+//     "status": status == null ? null : status,
+//     "created_at": createdAt == null ? null : createdAt.toIso8601String(),
+//     "updated_at": updatedAt == null ? null : updatedAt.toIso8601String(),
+//   };
+// }

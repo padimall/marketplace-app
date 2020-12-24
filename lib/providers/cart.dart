@@ -327,17 +327,17 @@ class ProviderCart with ChangeNotifier {
     notifyListeners();
   }
 
-  Payment _selectedPayment;
+  PaymentMethod _selectedPaymentMethod;
 
-  Payment get selectedPayment => _selectedPayment;
+  PaymentMethod get selectedPayment => _selectedPaymentMethod;
 
-  void setSelectedPayment(Payment payment) {
-    _selectedPayment = payment;
+  void setSelectedPayment(PaymentMethod payment) {
+    _selectedPaymentMethod = payment;
     notifyListeners();
   }
 
   void resetSelectionInCheckout() {
-    _selectedPayment = null;
+    _selectedPaymentMethod = null;
   }
 
   String getCheckoutPerAgentLogistic() {
