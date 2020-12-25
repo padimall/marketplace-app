@@ -112,20 +112,23 @@ class Logistic {
 class Payment {
   Payment({
     this.type,
+    this.method,
     this.methods,
   });
 
   String type;
+  PaymentMethod method;
   List<PaymentMethod> methods;
 
   factory Payment.fromJson(Map<String, dynamic> json) => Payment(
-    type: json["method"] == null ? null : json["method"],
-    methods: json["method_codes"] == null ? null : List<PaymentMethod>.from(json["method_codes"].map((x) => PaymentMethod.fromJson(x))),
+    type: json["type"] == null ? null : json["type"],
+    method: json["method"] == null ? null : PaymentMethod.fromJson(json["method"]),
+    methods: json["methods"] == null ? null : List<PaymentMethod>.from(json["methods"].map((x) => PaymentMethod.fromJson(x))),
   );
 
   Map<String, dynamic> toJson() => {
-    "method": type == null ? null : type,
-    "method_codes": methods == null ? null : List<dynamic>.from(methods.map((x) => x.toJson())),
+    "type": type == null ? null : type,
+    "methods": methods == null ? null : List<dynamic>.from(methods.map((x) => x.toJson())),
   };
 }
 

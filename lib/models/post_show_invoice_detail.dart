@@ -58,7 +58,7 @@ class InvoiceDetail {
   dynamic image;
   UserProfileDetail user;
   Logistic logistic;
-  PaymentMethod paymentMethod;
+  Payment paymentMethod;
   List<ProductInvoice> products;
 
   factory InvoiceDetail.fromJson(Map<String, dynamic> json) => InvoiceDetail(
@@ -75,7 +75,7 @@ class InvoiceDetail {
     image: json["image"] == null ? null : json["image"],
     user: json["user"] == null ? null : UserProfileDetail.fromJson(json["user"]),
     logistic: json["logistic"] == null ? null : Logistic.fromJson(json["logistic"]),
-    paymentMethod: json["payment"] == null ? null : PaymentMethod.fromJson(json["payment"]),
+    paymentMethod: json["payment"] == null ? null : Payment.fromJson(json["payment"]),
     products: json["products"] == null ? null : List<ProductInvoice>.from(json["products"].map((x) => ProductInvoice.fromJson(x))),
   );
 

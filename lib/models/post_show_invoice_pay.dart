@@ -24,44 +24,51 @@ class PostResInvoicePay {
 
 class InvoicePayment {
   InvoicePayment({
-    this.externalId,
-    this.invoiceUrl,
     this.status,
-    this.bankCode,
-    this.expiryDate,
-    this.bankAccountNumber,
     this.transferAmount,
-    this.bankBranch,
+    this.ewallet,
   });
 
-  String externalId;
-  String invoiceUrl;
   String status;
-  String bankCode;
-  DateTime expiryDate;
-  String bankAccountNumber;
   int transferAmount;
-  String bankBranch;
+  Ewallet ewallet;
 
   factory InvoicePayment.fromJson(Map<String, dynamic> json) => InvoicePayment(
-    externalId: json["external_id"] == null ? null : json["external_id"],
-    invoiceUrl: json["invoice_url"] == null ? null : json["invoice_url"],
     status: json["status"] == null ? null : json["status"],
-    bankCode: json["bank_code"] == null ? null : json["bank_code"],
-    expiryDate: json["expiry_date"] == null ? null : DateTime.parse(json["expiry_date"]),
-    bankAccountNumber: json["bank_account_number"] == null ? null : json["bank_account_number"],
     transferAmount: json["transfer_amount"] == null ? null : json["transfer_amount"],
-    bankBranch: json["bank_branch"] == null ? null : json["bank_branch"],
+    ewallet: json["ewallet"] == null ? null : Ewallet.fromJson(json["ewallet"]),
   );
 
   Map<String, dynamic> toJson() => {
-    "external_id": externalId == null ? null : externalId,
-    "invoice_url": invoiceUrl == null ? null : invoiceUrl,
+    "ewallet": ewallet == null ? null : ewallet.toJson(),
     "status": status == null ? null : status,
-    "bank_code": bankCode == null ? null : bankCode,
-    "expiry_date": expiryDate == null ? null : expiryDate.toIso8601String(),
-    "bank_account_number": bankAccountNumber == null ? null : bankAccountNumber,
     "transfer_amount": transferAmount == null ? null : transferAmount,
-    "bank_branch": bankBranch == null ? null : bankBranch,
+  };
+}
+
+class Ewallet {
+  Ewallet({
+    this.ewalletType,
+    this.checkoutUrl,
+    this.expiryDate,
+    this.transactionDate,
+  });
+
+  String ewalletType;
+  dynamic checkoutUrl;
+  DateTime expiryDate;
+  DateTime transactionDate;
+
+  factory Ewallet.fromJson(Map<String, dynamic> json) => Ewallet(
+    ewalletType: json["ewallet_type"] == null ? null : json["ewallet_type"],
+    checkoutUrl: json["checkout_url"] == null ? null : json["checkout_url"],
+    expiryDate: json["expiry_date"] == null ? null : DateTime.parse(json["expiry_date"]),
+    transactionDate: json["transaction_date"] == null ? null : DateTime.parse(json["transaction_date"]),
+  );
+
+  Map<String, dynamic> toJson() => {
+    "ewallet_type": ewalletType == null ? null : ewalletType,
+    "checkout_url": checkoutUrl,
+    "transaction_date": transactionDate == null ? null : transactionDate.toIso8601String(),
   };
 }

@@ -16,10 +16,10 @@ class InvoiceDetailPembayaran extends StatelessWidget {
     int amountGrandTotal;
 
     if (invoiceGroupDetail != null) {
-      paymentMethod = invoiceGroupDetail.paymentMethod.name;
+      paymentMethod = invoiceGroupDetail.paymentMethod.method.name;
       amountGrandTotal = invoiceGroupDetail.amount;
     } else {
-      paymentMethod = invoiceDetail.paymentMethod.name;
+      paymentMethod = invoiceDetail.paymentMethod.method.name;
       amountGrandTotal = invoiceDetail.amount;
     }
 

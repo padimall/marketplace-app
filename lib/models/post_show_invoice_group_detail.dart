@@ -49,7 +49,7 @@ class InvoiceGroupDetail {
   DateTime createdAt;
   DateTime updatedAt;
   String userId;
-  PaymentMethod paymentMethod;
+  Payment paymentMethod;
   UserProfileDetail user;
   List<InvoiceDetail> invoices;
 
@@ -62,7 +62,7 @@ class InvoiceGroupDetail {
     createdAt: json["created_at"] == null ? null : DateTime.parse(json["created_at"]),
     updatedAt: json["updated_at"] == null ? null : DateTime.parse(json["updated_at"]),
     userId: json["user_id"] == null ? null : json["user_id"],
-    paymentMethod: json["payment"] == null ? null : PaymentMethod.fromJson(json["payment"]),
+    paymentMethod: json["payment"] == null ? null : Payment.fromJson(json["payment"]),
     user: json["user"] == null ? null : UserProfileDetail.fromJson(json["user"]),
     invoices: json["invoices"] == null ? null : List<InvoiceDetail>.from(json["invoices"].map((x) => InvoiceDetail.fromJson(x))),
   );
