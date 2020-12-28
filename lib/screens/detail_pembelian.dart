@@ -100,6 +100,7 @@ class DetailPembelianScreen extends StatelessWidget {
               InvoiceActionSection(
                 invoiceDetail: isInvoiceGroup ? null : _providerHistories.invoiceDetail,
                 invoiceGroupDetail: isInvoiceGroup ? _providerHistories.invoiceGroupDetail : null,
+                isBuyer: true,
               ),
             ],
           ),

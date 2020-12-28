@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:padimall_app/providers/histories.dart';
 import 'package:padimall_app/utils/build_future_builder.dart';
 import 'package:padimall_app/utils/custom_text_theme.dart';
+import 'package:padimall_app/widgets/invoice/action_section.dart';
 import 'package:padimall_app/widgets/invoice/brief_info.dart';
 import 'package:padimall_app/widgets/invoice/daftar_produk.dart';
 import 'package:padimall_app/widgets/invoice/detail_pembayaran.dart';
@@ -12,11 +13,20 @@ class DetailPenjualanScreen extends StatelessWidget {
   static final routeName = 'detail-penjualan-screen';
 
   ProviderHistories _providerHistories;
+  bool isInvoiceGroup;
+  String invoiceId;
+  String invoiceGroupId;
 
   @override
   Widget build(BuildContext context) {
     _providerHistories = Provider.of(context, listen: false);
-    final String invoiceId = ModalRoute.of(context).settings.arguments;
+    final Map<String, dynamic> args = ModalRoute.of(context).settings.arguments;
+    isInvoiceGroup = args['is_invoice_group'];
+    if (isInvoiceGroup) {
+      invoiceGroupId = args['invoice_id'];
+    } else {
+      invoiceId = args['invoice_id'];
+    }
 
     return Scaffold(
       appBar: AppBar(
@@ -81,6 +91,11 @@ class DetailPenjualanScreen extends StatelessWidget {
                   ),
                 ),
               ),
+              InvoiceActionSection(
+                invoiceDetail: isInvoiceGroup ? null : _providerHistories.invoiceDetail,
+                invoiceGroupDetail: isInvoiceGroup ? _providerHistories.invoiceGroupDetail : null,
+                isBuyer: false,
+              )
             ],
           ),
         ),

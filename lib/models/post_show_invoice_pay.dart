@@ -37,6 +37,8 @@ class InvoicePayment {
     status: json["status"] == null ? null : json["status"],
     transferAmount: json["transfer_amount"] == null ? null : json["transfer_amount"],
     ewallet: json["ewallet"] == null ? null : Ewallet.fromJson(json["ewallet"]),
+    // ada object Bank, class nya Bank.fromJson
+    // object Retail, class nya Retail.fromJson
   );
 
   Map<String, dynamic> toJson() => {

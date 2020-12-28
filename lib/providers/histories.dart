@@ -237,4 +237,48 @@ class ProviderHistories with ChangeNotifier {
       notifyListeners();
     }
   }
+
+  Future<void> postAddReceiptToInvoice(BuildContext context, String invoiceId, String receiptNumber) async {
+    try {
+      CustomAlertDialog.loading(context);
+      var url = '${global.API_URL_PREFIX}/api/v1/invoice/add-resi';
+      print(url);
+
+      var requestBody = {
+        'target_id': invoiceId,
+        'resi': receiptNumber,
+      };
+
+      http.Response response = await http.post(
+        url,
+        body: json.encode(requestBody),
+        headers: {
+          'X-Requested-With': 'XMLHttpRequest',
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + await FlutterSecureStorageServices.getUserToken(),
+        },
+      );
+      print(response.body);
+      print(response.statusCode);
+
+      var jsonObject = PostResInvoicePay.fromJson(jsonDecode(response.body));
+
+      Navigator.pop(context);
+      Navigator.pop(context);
+      if (response.statusCode == 200) {
+        _invoicePayment = jsonObject.data;
+        getAgentInvoiceHistories(context);
+        getInvoiceDetail(context, invoiceId);
+        Fluttertoast.showToast(msg: "Resi berhasil dimasukkan.", backgroundColor: Theme.of(context).primaryColor);
+      } else if (response.statusCode == 401) {
+        CustomAlertDialog.endOfSession(context);
+      } else {
+        Fluttertoast.showToast(msg: "Terjadi kesalahan. Error code: ${response.statusCode}", backgroundColor: Theme.of(context).accentColor);
+      }
+    } catch (e) {
+      print(e.toString());
+    } finally {
+      notifyListeners();
+    }
+  }
 }

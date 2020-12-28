@@ -41,6 +41,7 @@ class FirebaseMessagingService {
       enableVibration: true,
       enableLights: true,
       icon: "@mipmap/ic_launcher",
+      styleInformation: BigTextStyleInformation(''),
     );
 
     NotificationDetails notificationDetails = NotificationDetails(android: androidNotificationDetails);

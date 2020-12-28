@@ -44,24 +44,12 @@ class InvoicePaymentScreen extends StatelessWidget {
         Consumer<ProviderHistories>(
           builder: (ctx, provider, _) {
             InvoicePayment _invoicePayment = _providerHistories.invoicePayment;
-            bool _isAutoChecking = false;
 
             // If invoice payment using e-wallet
-            if (_invoicePayment.ewallet != null) {
-              _isAutoChecking = true;
-            } else {}
-
-            // switch (_invoicePayment.) {
-            //   case "Virtual Account":
-            //     _isAutoChecking = true;
-            //     break;
-            // }
-
             if (_invoicePayment.ewallet != null)
               return EWalletPaymentWidget(
                 invoicePayment: _invoicePayment,
               );
-
             // Default return
             return Container();
           },

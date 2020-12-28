@@ -19,6 +19,23 @@ class CheckoutPembayaranWidget extends StatelessWidget {
     _providerCart = Provider.of(context, listen: false);
 
     Widget _buildListTilePembayaran(PaymentMethod paymentMethod) {
+      String assetFileName = 'assets/images/payments/';
+
+      switch (paymentMethod.name) {
+        case 'OVO':
+          assetFileName += 'ovo.png';
+          break;
+        case 'DANA':
+          assetFileName += 'dana.png';
+          break;
+        case 'LINKAJA':
+          assetFileName += 'linkaja.png';
+          break;
+        default:
+          assetFileName += 'no_image.png';
+          break;
+      }
+
       return InkWell(
         onTap: () {
           _providerCart.setSelectedPayment(paymentMethod);
@@ -26,10 +43,18 @@ class CheckoutPembayaranWidget extends StatelessWidget {
         },
         child: Container(
           width: double.infinity,
-          padding: const EdgeInsets.only(left: 20,right: 16, top: 12, bottom: 12),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+          padding: const EdgeInsets.only(left: 20, right: 16, top: 12, bottom: 12),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
+              Container(
+                margin: const EdgeInsets.only(right: 12),
+                child: Image.asset(
+                  '$assetFileName',
+                  width: 25,
+                  fit: BoxFit.cover,
+                ),
+              ),
               Text(
                 '${paymentMethod.name}',
                 style: PadiMallTextTheme.sz14weight600(context),
@@ -97,7 +122,6 @@ class CheckoutPembayaranWidget extends StatelessWidget {
                         ),
                       ],
                     );
-                    // return _buildListTilePembayaran(payment);
                   },
                 ),
               ],

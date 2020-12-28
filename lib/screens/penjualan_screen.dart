@@ -53,11 +53,11 @@ class PenjualanScreen extends StatelessWidget {
                 break;
               case 3:
                 // Pesanan Selesai
-                _statusInvoiceSummary = 2;
+                _statusInvoiceSummary = 3;
                 break;
               case 4:
                 // Pesanan Dibatalkan
-                _statusInvoiceSummary = 3;
+                _statusInvoiceSummary = 4;
                 break;
               default:
                 // Pesanan Dibatalkan
@@ -143,7 +143,7 @@ class PenjualanScreen extends StatelessWidget {
 
                                 return GestureDetector(
                                   onTap: () {
-                                    Navigator.pushNamed(context, DetailPenjualanScreen.routeName, arguments: invoice.id);
+                                    Navigator.pushNamed(context, DetailPenjualanScreen.routeName, arguments: {'is_invoice_group': false, 'invoice_id': invoice.id});
                                   },
                                   child: InvoiceSummaryByInvoiceWidget(
                                     invoiceSummary: invoice,

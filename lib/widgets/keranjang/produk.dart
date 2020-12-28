@@ -51,13 +51,14 @@ class _KeranjangProdukWidgetState extends State<KeranjangProdukWidget> {
             // Checking qty with stock and minum order
             print('is ${quantityItem >= widget.order.minOrder}');
             if (quantityItem >= widget.order.minOrder) {
+              print('a');
               _isLowerThanMinOrder = false;
               if (quantityItem <= widget.order.stock) {
+                print('b');
                 _isOverStock = false;
                 if (quantityItem > 0) {
-                  if (quantityItem != widget.order.quantity) {
-                    _providerCart.updateCartQty(context, widget.order.cartId, quantityItem);
-                  }
+                  print('c $quantityItem');
+                  _providerCart.updateCartQty(context, widget.order.cartId, quantityItem);
                 } else {
                   CustomAlertDialog.dialogOfTwo(context, true, 'Hapus barang?', 'Yakin hapus?', 'Hapus', 'Batal', () {
                     _providerCart.deleteProductFromCart(context, widget.order.cartId);
