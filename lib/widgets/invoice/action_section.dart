@@ -4,6 +4,7 @@ import 'package:padimall_app/models/post_show_invoice_detail.dart';
 import 'package:padimall_app/models/post_show_invoice_group_detail.dart';
 import 'package:padimall_app/models/post_show_invoice_pay.dart';
 import 'package:padimall_app/screens/invoice_payment_screen.dart';
+import 'package:padimall_app/screens/review_product_screen.dart';
 import 'package:padimall_app/utils/custom_text_theme.dart';
 import 'package:padimall_app/utils/show_modal_bottom.dart';
 import 'package:padimall_app/widgets/alert_dialog/input_resi.dart';
@@ -41,7 +42,7 @@ class InvoiceActionSection extends StatelessWidget {
         case "3":
           buttonText = 'Berikan Ulasan';
           buttonHandler = () {
-            Fluttertoast.showToast(msg: "Still Development (Review)", backgroundColor: Theme.of(context).accentColor);
+            Navigator.pushNamed(context, ReviewProductScreen.routeName, arguments: invoiceDetail.products);
           };
           break;
         default:

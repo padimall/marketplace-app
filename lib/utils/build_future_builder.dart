@@ -13,6 +13,7 @@ Widget buildFutureBuilder(Future<dynamic> _future, Widget _widget) {
       } else {
         if (dataSnapshot.error != null) {
           print(dataSnapshot.error);
+          print('is ${dataSnapshot.error == SocketException}');
           if (dataSnapshot.error == SocketException) {
             return Scaffold(
               body: Center(

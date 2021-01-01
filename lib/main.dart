@@ -36,6 +36,7 @@ import 'package:padimall_app/screens/produk_viewonly_screen.dart';
 import 'package:padimall_app/screens/regis_agent_screen.dart';
 import 'package:padimall_app/screens/regis_supplier_screen.dart';
 import 'package:padimall_app/screens/register_screen.dart';
+import 'package:padimall_app/screens/review_product_screen.dart';
 import 'package:padimall_app/screens/splash_screen.dart';
 import 'package:padimall_app/screens/toko_screen.dart';
 import 'package:provider/provider.dart';
@@ -116,6 +117,7 @@ class MyApp extends StatelessWidget {
           ProductByMainCategoryScreen.routeName: (ctx) => ProductByMainCategoryScreen(),
           InvoicePaymentScreen.routeName: (ctx) => InvoicePaymentScreen(),
           TokoProductScreen.routeName: (ctx) => TokoProductScreen(),
+          ReviewProductScreen.routeName: (ctx) => ReviewProductScreen(),
         },
       ),
     );

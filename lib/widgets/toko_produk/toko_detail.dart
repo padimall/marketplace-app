@@ -30,7 +30,7 @@ class TokoDetailWidget extends StatelessWidget {
                   margin: const EdgeInsets.only(right: 12),
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(12),
-                    child: providerToko.agentDetail.imageUrl == null
+                    child: providerToko.tokoDetail.imageUrl == null
                         ? Image.asset(
                             'assets/images/no_image.png',
                             height: 75,
@@ -38,7 +38,7 @@ class TokoDetailWidget extends StatelessWidget {
                             fit: BoxFit.cover,
                           )
                         : Image.network(
-                            '${providerToko.agentDetail.imageUrl}',
+                            '${providerToko.tokoDetail.imageUrl}',
                             fit: BoxFit.cover,
                             height: 75,
                             width: 75,
@@ -51,12 +51,12 @@ class TokoDetailWidget extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       Text(
-                        '${providerToko.agentDetail.name}',
+                        '${providerToko.tokoDetail.name}',
                         style: PadiMallTextTheme.sz14weight600(context),
                       ),
-                      if (providerToko.agentDetail.address != null)
+                      if (providerToko.tokoDetail.address != null)
                         Text(
-                          '${providerToko.agentDetail.address}',
+                          '${providerToko.tokoDetail.address}',
                           style: PadiMallTextTheme.sz12weight500(context),
                           maxLines: 2,
                           overflow: TextOverflow.ellipsis,

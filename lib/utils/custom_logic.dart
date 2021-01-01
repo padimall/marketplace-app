@@ -21,10 +21,12 @@ class CustomLogic {
       _providerToko = Provider.of(context, listen: false);
 
       if (_providerToko.agentDetail != null) {
+        print('aa: ${_providerToko.agentDetail.id} $agentId}');
         if (_providerToko.agentDetail.id == agentId) {
           result = true;
         }
       } else if (_providerToko.supplierDetail != null) {
+        print('bb: ${_providerToko.supplierDetail.id} $supplierId');
         if (_providerToko.supplierDetail.id == supplierId) {
           result = true;
         }

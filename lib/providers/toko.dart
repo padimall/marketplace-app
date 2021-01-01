@@ -312,6 +312,10 @@ class ProviderToko with ChangeNotifier {
     }
   }
 
+  Agent _tokoDetail;
+
+  Agent get tokoDetail => _tokoDetail;
+
   Future<void> getAgentDetailById(BuildContext context, String agentId) async {
     try {
       var url = '${global.API_URL_PREFIX}/api/v1/agent/detail-id';
@@ -336,9 +340,9 @@ class ProviderToko with ChangeNotifier {
       var jsonObject = PostResSuppliersAgentDetail.fromJson(jsonDecode(response.body));
 
       if (response.statusCode == 200) {
-        _agentDetail = jsonObject.data;
+        _tokoDetail = jsonObject.data;
       } else {
-        _agentDetail = null;
+        _tokoDetail = null;
         if (response.statusCode == 401) {
           CustomAlertDialog.endOfSession(context);
         }

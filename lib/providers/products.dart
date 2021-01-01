@@ -17,6 +17,7 @@ import 'package:padimall_app/models/post_show_product_categories.dart';
 import 'package:padimall_app/models/post_show_product_detail.dart';
 import 'package:padimall_app/models/post_show_products.dart';
 import 'package:padimall_app/models/product_main_category.dart';
+import 'package:padimall_app/models/rating_product.dart';
 import 'package:padimall_app/utils/custom_alert_dialog.dart';
 import 'package:padimall_app/utils/flutter_secure_storage_services.dart';
 import '../utils/global.dart' as global;
@@ -57,7 +58,6 @@ class ProviderProduct with ChangeNotifier {
       notifyListeners();
     }
   }
-
 
   Product _productDetail = Product(
     images: [],
@@ -102,6 +102,24 @@ class ProviderProduct with ChangeNotifier {
 
   List<File> get listProductImage => _listProductImage;
 
+  void filterAssetImageSize(List<Asset> listAssets, List<File> listFileToBeStored) {
+    listAssets.forEach((asset) async {
+      var path = await FlutterAbsolutePath.getAbsolutePath(asset.identifier);
+      File file = File(path);
+
+      // Check whether fileAsset is more than 2Mb
+      print('size: ${file.lengthSync()}');
+      if (file.lengthSync() < 2000000) {
+        listFileToBeStored.add(File(path));
+        String mimeStr = lookupMimeType(path);
+        var fileType = mimeStr.split('/');
+        print('fileType: $fileType');
+      } else {
+        Fluttertoast.showToast(msg: "Gambar tidak boleh melebihi 2Mb", backgroundColor: Colors.redAccent);
+      }
+    });
+  }
+
   Future<void> loadAssetsPicture(int index) async {
     try {
       List<Asset> _listAssets = List<Asset>();
@@ -110,19 +128,7 @@ class ProviderProduct with ChangeNotifier {
         enableCamera: true,
       );
 
-      _listAssets.forEach((asset) async {
-        var path = await FlutterAbsolutePath.getAbsolutePath(asset.identifier);
-        File file = File(path);
-        print('size: ${file.lengthSync()}');
-        if (file.lengthSync() < 2000000) {
-          _listProductImage.add(File(path));
-          String mimeStr = lookupMimeType(path);
-          var fileType = mimeStr.split('/');
-          print('fileType: ${fileType}');
-        } else {
-          Fluttertoast.showToast(msg: "Gambar tidak boleh melebihi 2Mb", backgroundColor: Colors.redAccent);
-        }
-      });
+      filterAssetImageSize(_listAssets, _listProductImage);
     } on PlatformException catch (e) {
       print(e.message);
     }

@@ -1,12 +1,19 @@
 import 'dart:convert';
+import 'dart:io';
 
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_absolute_path/flutter_absolute_path.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:mime/mime.dart';
+import 'package:multi_image_picker/multi_image_picker.dart';
 import 'package:padimall_app/models/post_show_agent_invoice_list.dart';
 import 'package:padimall_app/models/post_show_invoice_detail.dart';
 import 'package:padimall_app/models/post_show_invoice_group_detail.dart';
 import 'package:padimall_app/models/post_show_invoice_pay.dart';
 import 'package:padimall_app/models/post_show_user_invoice_list.dart';
+import 'package:padimall_app/models/rating_product.dart';
 import 'package:padimall_app/utils/custom_alert_dialog.dart';
 import 'package:padimall_app/utils/flutter_secure_storage_services.dart';
 import 'package:padimall_app/utils/global.dart' as global;
@@ -280,5 +287,163 @@ class ProviderHistories with ChangeNotifier {
     } finally {
       notifyListeners();
     }
+  }
+
+  List<RatingProduct> _listRatingProduct = [];
+
+  List<RatingProduct> get listRatingProduct => _listRatingProduct;
+
+  Future<void> postProductReview(BuildContext context) async {
+    try {
+      CustomAlertDialog.loading(context);
+      var url = '${global.API_URL_PREFIX}/api/v1/invoice-product-rating/store';
+      print(url);
+
+      await Future.forEach(_listRatingProduct, (RatingProduct ratingProduct) async {
+        var dio = Dio();
+        FormData formData = FormData.fromMap(
+          {
+            'invoice_product_id': ratingProduct.invoiceProductId,
+            'star': ratingProduct.star,
+            'description': ratingProduct.description,
+            'show_name': ratingProduct.showName == null ? 1 : ratingProduct.showName,
+          },
+        );
+
+        for (var file in ratingProduct.images) {
+          formData.files.addAll([
+            MapEntry(
+              "image[]",
+              MultipartFile.fromFileSync(file.path, filename: file.path.split('/').last),
+            )
+          ]);
+        }
+        Response response = await dio.post(
+          url,
+          data: formData,
+          options: Options(
+            headers: {
+              'X-Requested-With': 'XMLHttpRequest',
+              'Authorization': 'Bearer ' + await FlutterSecureStorageServices.getUserToken(),
+            },
+          ),
+        );
+        print(response.data);
+        print(response.statusCode);
+
+        if (response.statusCode == 201) {
+        } else if (response.statusCode == 401) {
+          CustomAlertDialog.endOfSession(context);
+        } else {
+          Fluttertoast.showToast(msg: "Terjadi kesalahan. Error code: ${response.statusCode}", backgroundColor: Theme.of(context).accentColor);
+        }
+      });
+      Navigator.pop(context);
+      Navigator.pop(context);
+      // getInvoiceDetail(context, invoiceId);
+    } catch (e) {
+      print(e.toString());
+    } finally {
+      notifyListeners();
+    }
+  }
+
+  void clearRatingProductList() {
+    _listRatingProduct.clear();
+  }
+
+  void addProductInvoiceToRatingProductList(ProductInvoice productInvoice) {
+    _listRatingProduct.add(RatingProduct(
+      invoiceProductId: productInvoice.id,
+      images: [],
+    ));
+    notifyListeners();
+  }
+
+  void updateStarRatingByInvoiceProductId(String invoiceProductId, int star) {
+    _listRatingProduct.forEach((ratingProduct) {
+      if (ratingProduct.invoiceProductId == invoiceProductId) {
+        ratingProduct.star = star;
+      }
+    });
+  }
+
+  void updateRatingDescriptionByInvoiceProductId(String invoiceProductId, String desc) {
+    _listRatingProduct.forEach((ratingProduct) {
+      if (ratingProduct.invoiceProductId == invoiceProductId) {
+        ratingProduct.description = desc;
+      }
+    });
+  }
+
+  void removeRatingProductImageByInvoiceProductId(String invoiceProductId, int index) {
+    _listRatingProduct.forEach((ratingProduct) {
+      if (ratingProduct.invoiceProductId == invoiceProductId) {
+        ratingProduct.images.removeAt(index);
+      }
+    });
+    notifyListeners();
+  }
+
+  void updateIsNameVisibleByInvoiceProductId(String invoiceProductId, bool isNameHidden) {
+    _listRatingProduct.forEach((ratingProduct) {
+      if (ratingProduct.invoiceProductId == invoiceProductId) {
+        ratingProduct.showName = isNameHidden ? 0 : 1;
+      }
+    });
+    notifyListeners();
+  }
+
+  bool isAllProductHaveRateAlready() {
+    bool result = true;
+    for (var ratingProduct in _listRatingProduct) {
+      if (ratingProduct.star == null) {
+        result = false;
+        break;
+      }
+    }
+    return result;
+  }
+
+  void filterAssetImageSize(List<Asset> listAssets, List<File> listFileToBeStored) {
+    listAssets.forEach((asset) async {
+      var path = await FlutterAbsolutePath.getAbsolutePath(asset.identifier);
+      File file = File(path);
+
+      // Check whether fileAsset is more than 2Mb
+      print('size: ${file.lengthSync()}');
+      if (file.lengthSync() < 2000000) {
+        listFileToBeStored.add(File(path));
+        String mimeStr = lookupMimeType(path);
+        var fileType = mimeStr.split('/');
+        print('fileType: $fileType');
+      } else {
+        Fluttertoast.showToast(msg: "Gambar tidak boleh melebihi 2Mb", backgroundColor: Colors.redAccent);
+      }
+    });
+  }
+
+  Future<void> loadAssetsPicture(int index, String invoiceProductId) async {
+    try {
+      RatingProduct _ratingProduct;
+
+      _listRatingProduct.forEach((ratingProduct) {
+        if (ratingProduct.invoiceProductId == invoiceProductId) {
+          _ratingProduct = ratingProduct;
+        }
+      });
+
+      List<Asset> _listAssets = List<Asset>();
+
+      _listAssets = await MultiImagePicker.pickImages(
+        maxImages: 4 - _ratingProduct.images.length,
+        enableCamera: true,
+      );
+
+      filterAssetImageSize(_listAssets, _ratingProduct.images);
+    } on PlatformException catch (e) {
+      print(e.message);
+    }
+    notifyListeners();
   }
 }

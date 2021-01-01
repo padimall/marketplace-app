@@ -50,66 +50,70 @@ class ProductDetailScreen extends StatelessWidget {
       body: buildFutureBuilder(
         _providerProduct.getProductDetail(context, _product.id),
         Consumer<ProviderProduct>(
-          builder: (ctx, provider, _) => Column(
-            children: <Widget>[
-              Expanded(
-                child: SingleChildScrollView(
-                  child: Column(
-                    children: <Widget>[
-                      _providerProduct.productDetail.images.isEmpty
-                          ? AspectRatio(
+          builder: (ctx, provider, _) {
+            print('hey: ${CustomLogic.isThisProductBelongToThisUser(context, _providerProduct.productDetail.supplierId, _providerProduct.productDetail.agent.id)}');
+
+            return Column(
+              children: <Widget>[
+                Expanded(
+                  child: SingleChildScrollView(
+                    child: Column(
+                      children: <Widget>[
+                        _providerProduct.productDetail.images.isEmpty
+                            ? AspectRatio(
+                          aspectRatio: 1,
+                          child: Image.asset(
+                            'assets/images/no_image.png',
+                            fit: BoxFit.cover,
+                          ),
+                        )
+                            : ListView(
+                          shrinkWrap: true,
+                          physics: NeverScrollableScrollPhysics(),
+                          children: <Widget>[
+                            AspectRatio(
                               aspectRatio: 1,
-                              child: Image.asset(
-                                'assets/images/no_image.png',
-                                fit: BoxFit.cover,
-                              ),
-                            )
-                          : ListView(
-                              shrinkWrap: true,
-                              physics: NeverScrollableScrollPhysics(),
-                              children: <Widget>[
-                                AspectRatio(
-                                  aspectRatio: 1,
-                                  child: _providerProduct.productDetail.images.isNotEmpty
-                                      ? Carousel(
-                                          boxFit: BoxFit.cover,
-                                          images: _providerProduct.productDetail.images
-                                              .map((productImages) => CachedNetworkImage(
-                                                    imageUrl: productImages.url,
-                                                    fit: BoxFit.cover,
-                                                  ))
-                                              .toList(),
-                                          autoplay: true,
-                                          autoplayDuration: Duration(seconds: 4),
-                                          dotSize: 4,
-                                          indicatorBgPadding: 4,
-                                          dotBgColor: Theme.of(context).accentColor.withOpacity(0.5),
-                                        )
-                                      : Container(),
-                                ),
-                              ],
+                              child: _providerProduct.productDetail.images.isNotEmpty
+                                  ? Carousel(
+                                boxFit: BoxFit.cover,
+                                images: _providerProduct.productDetail.images
+                                    .map((productImages) => CachedNetworkImage(
+                                  imageUrl: productImages.url,
+                                  fit: BoxFit.cover,
+                                ))
+                                    .toList(),
+                                autoplay: true,
+                                autoplayDuration: Duration(seconds: 4),
+                                dotSize: 4,
+                                indicatorBgPadding: 4,
+                                dotBgColor: Theme.of(context).accentColor.withOpacity(0.5),
+                              )
+                                  : Container(),
                             ),
-                      NamaHargaProduk(
-                        product: _providerProduct.productDetail,
-                      ),
-                      InfoProduk(
-                        product: _providerProduct.productDetail,
-                      ),
-                      DeskripsiProduk(
-                        product: _providerProduct.productDetail,
-                      ),
-                      InfoToko(
-                        product: _providerProduct.productDetail,
-                      ),
-                    ],
+                          ],
+                        ),
+                        NamaHargaProduk(
+                          product: _providerProduct.productDetail,
+                        ),
+                        InfoProduk(
+                          product: _providerProduct.productDetail,
+                        ),
+                        DeskripsiProduk(
+                          product: _providerProduct.productDetail,
+                        ),
+                        InfoToko(
+                          product: _providerProduct.productDetail,
+                        ),
+                      ],
+                    ),
                   ),
                 ),
-              ),
-              CustomLogic.isThisProductBelongToThisUser(context, _providerProduct.productDetail.supplierId, _providerProduct.productDetail.agent.id)
-                  ? Container()
-                  : _buildBottomActionWidget(context),
-            ],
-          ),
+                CustomLogic.isThisProductBelongToThisUser(context, _providerProduct.productDetail.supplierId, _providerProduct.productDetail.agent.id)
+                    ? Container()
+                    : _buildBottomActionWidget(context),
+              ],
+            );
+          },
         ),
       ),
     );

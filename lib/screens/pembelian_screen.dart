@@ -13,6 +13,8 @@ class PembelianScreen extends StatelessWidget {
   static final routeName = 'pembelian-screen';
   ProviderHistories _providerHistories;
 
+  int _invoiceCounter = 0;
+
   @override
   Widget build(BuildContext context) {
     _providerHistories = Provider.of(context, listen: false);
@@ -37,42 +39,59 @@ class PembelianScreen extends StatelessWidget {
         _providerHistories.getBuyerInvoiceHistories(context),
         Consumer<ProviderHistories>(
           builder: (ctx, provider, _) {
-            int _statusInvoiceGroup;
+            _invoiceCounter = 0; // count how many invoices matched the filter
+
+            int _statusInvoice;
             switch (_providerHistories.selectedStagePembelianIndex) {
               case 0:
                 // Semua Pesanan
-                _statusInvoiceGroup = null;
+                _statusInvoice = null;
                 break;
               case 1:
                 // Belum Dibayar
-                _statusInvoiceGroup = 0;
+                _statusInvoice = 0;
                 break;
               case 2:
                 // Dikemas
-                _statusInvoiceGroup = 1;
+                _statusInvoice = 1;
                 break;
               case 3:
                 // Dikirim
-                _statusInvoiceGroup = 2;
+                _statusInvoice = 2;
                 break;
               case 4:
                 // Pesanan Selesai
-                _statusInvoiceGroup = 3;
+                _statusInvoice = 3;
                 break;
               case 5:
                 // Pesanan Dibatalkan
-                _statusInvoiceGroup = 4;
+                _statusInvoice = 4;
                 break;
               default:
                 // Pesanan Dibatalkan
-                _statusInvoiceGroup = null;
+                _statusInvoice = null;
                 break;
             }
 
             List<InvoiceGroup> _listInvoiceGroup = [];
-            if (_statusInvoiceGroup != null) {
-              _listInvoiceGroup = _providerHistories.listInvoiceSummaries.where((element) => element.status == _statusInvoiceGroup).toList();
+            if (_statusInvoice != null) {
+              // If view certain status
+              if (_statusInvoice == 0) {
+                // If view at status 0, view invoice group that Waiting for Payment
+                _listInvoiceGroup = _providerHistories.listInvoiceSummaries.where((element) => element.status == 0).toList();
+              } else {
+                // View invoice group that has invoice with certain status as filtered
+                for (final invoiceGroup in _providerHistories.listInvoiceSummaries) {
+                  for (final invoice in invoiceGroup.invoices) {
+                    if (invoice.status == _statusInvoice.toString()) {
+                      _listInvoiceGroup.add(invoiceGroup);
+                      break;
+                    }
+                  }
+                }
+              }
             } else {
+              // If no filter, Take all invoices
               _listInvoiceGroup.addAll(_providerHistories.listInvoiceSummaries);
             }
 
@@ -147,6 +166,18 @@ class PembelianScreen extends StatelessWidget {
                               shrinkWrap: true,
                               physics: NeverScrollableScrollPhysics(),
                               itemBuilder: (ctx, index) {
+                                List<InvoiceSummary> _listInvoice = [];
+
+                                if (_statusInvoice == null) {
+                                  // If there is view all invoices
+                                  _listInvoice = _listInvoiceGroup[index].invoices;
+                                } else {
+                                  // If view to certain status
+                                  _listInvoice = _listInvoiceGroup[index].invoices.where((element) => element.status == _statusInvoice.toString()).toList();
+                                }
+
+                                if (_listInvoiceGroup[index].status == 0) _invoiceCounter++;
+
                                 return _listInvoiceGroup[index].status == 0
                                     ? GestureDetector(
                                         onTap: () {
@@ -160,11 +191,14 @@ class PembelianScreen extends StatelessWidget {
                                         ),
                                       )
                                     : ListView.builder(
-                                        itemCount: _listInvoiceGroup[index].invoices.length,
+                                        itemCount: _listInvoice.length,
+                                        // itemCount: _listInvoiceGroup[index].invoices.length,
                                         shrinkWrap: true,
                                         physics: NeverScrollableScrollPhysics(),
                                         itemBuilder: (ctx, indexInvoice) {
-                                          var invoice = _listInvoiceGroup[index].invoices[indexInvoice];
+                                          _invoiceCounter++;
+                                          var invoice = _listInvoice[indexInvoice];
+                                          // var invoice = _listInvoiceGroup[index].invoices[indexInvoice];
 
                                           return GestureDetector(
                                             onTap: () {
@@ -206,7 +240,7 @@ class PembelianScreen extends StatelessWidget {
                               ),
                             ),
                     ),
-                  )
+                  ),
                 ],
               ),
             );
