@@ -28,6 +28,7 @@ class InvoicePayment {
     this.transferAmount,
     this.ewallet,
     this.debitBank,
+    this.retail,
     this.expiryDate,
   });
 
@@ -35,6 +36,7 @@ class InvoicePayment {
   int transferAmount;
   Ewallet ewallet;
   DebitBank debitBank;
+  Retail retail;
   DateTime expiryDate;
 
   factory InvoicePayment.fromJson(Map<String, dynamic> json) => InvoicePayment(
@@ -42,7 +44,7 @@ class InvoicePayment {
     transferAmount: json["transfer_amount"] == null ? null : json["transfer_amount"],
     ewallet: json["ewallet"] == null ? null : Ewallet.fromJson(json["ewallet"]),
     debitBank: json["debit_bank"] == null ? null : DebitBank.fromJson(json["debit_bank"]),
-    // object Retail, class nya Retail.fromJson
+    retail: json["retail"] == null ? null : Retail.fromJson(json["retail"]),
     expiryDate: json["expiry_date"] == null ? null : DateTime.parse(json["expiry_date"]),
   );
 
@@ -105,5 +107,29 @@ class Ewallet {
     "ewallet_type": ewalletType == null ? null : ewalletType,
     "checkout_url": checkoutUrl,
     "transaction_date": transactionDate == null ? null : transactionDate.toIso8601String(),
+  };
+}
+
+class Retail {
+  Retail({
+    this.retailOutletName,
+    this.expiryDate,
+    this.paymentCode,
+  });
+
+  String retailOutletName;
+  DateTime expiryDate;
+  String paymentCode;
+
+  factory Retail.fromJson(Map<String, dynamic> json) => Retail(
+    retailOutletName: json["retail_outlet_name"] == null ? null : json["retail_outlet_name"],
+    expiryDate: json["expiry_date"] == null ? null : DateTime.parse(json["expiry_date"]),
+    paymentCode: json["payment_code"] == null ? null : json["payment_code"],
+  );
+
+  Map<String, dynamic> toJson() => {
+    "retail_outlet_name": retailOutletName == null ? null : retailOutletName,
+    "expiry_date": expiryDate == null ? null : expiryDate.toIso8601String(),
+    "payment_code": paymentCode == null ? null : paymentCode,
   };
 }

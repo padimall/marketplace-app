@@ -13,7 +13,6 @@ class DebitBankPaymentWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // TODO: Debit Widget
     return Column(
       children: [
         Container(

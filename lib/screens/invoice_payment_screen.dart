@@ -8,6 +8,7 @@ import 'package:padimall_app/utils/custom_text_theme.dart';
 import 'package:padimall_app/utils/text_number_formatter.dart';
 import 'package:padimall_app/widgets/payment/debit_bank.dart';
 import 'package:padimall_app/widgets/payment/e_wallet.dart';
+import 'package:padimall_app/widgets/payment/retail.dart';
 import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
 
@@ -53,6 +54,10 @@ class InvoicePaymentScreen extends StatelessWidget {
               );
             else if (_invoicePayment.debitBank != null)
               return DebitBankPaymentWidget(
+                invoicePayment: _invoicePayment,
+              );
+            else if (_invoicePayment.retail != null)
+              return RetailPaymentWidget(
                 invoicePayment: _invoicePayment,
               );
 
