@@ -18,7 +18,7 @@ class CheckoutPembayaranWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     _providerCart = Provider.of(context, listen: false);
 
-    Widget _buildListTilePembayaran(PaymentMethod paymentMethod) {
+    Widget _buildListTilePembayaran(Payment payment, PaymentMethod paymentMethod) {
       String assetFileName = 'assets/images/payments/';
 
       switch (paymentMethod.name) {
@@ -30,6 +30,24 @@ class CheckoutPembayaranWidget extends StatelessWidget {
           break;
         case 'LINKAJA':
           assetFileName += 'linkaja.png';
+          break;
+        case 'MANDIRI':
+          assetFileName += 'mandiri.png';
+          break;
+        case 'BRI':
+          assetFileName += 'bri.png';
+          break;
+        case 'BNI':
+          assetFileName += 'bni.png';
+          break;
+        case 'PERMATA':
+          assetFileName += 'permata.png';
+          break;
+        case 'BCA':
+          assetFileName += 'bca.png';
+          break;
+        case 'ALFAMART':
+          assetFileName += 'alfamart.png';
           break;
         default:
           assetFileName += 'no_image.png';
@@ -51,7 +69,7 @@ class CheckoutPembayaranWidget extends StatelessWidget {
                 margin: const EdgeInsets.only(right: 12),
                 child: Image.asset(
                   '$assetFileName',
-                  width: 25,
+                  width: payment.type == "EWALLET" ? 25 : 35,
                   fit: BoxFit.cover,
                 ),
               ),
@@ -117,7 +135,7 @@ class CheckoutPembayaranWidget extends StatelessWidget {
                           itemBuilder: (context, index) {
                             var paymentMethod = payment.methods[index];
 
-                            return _buildListTilePembayaran(paymentMethod);
+                            return _buildListTilePembayaran(payment, paymentMethod);
                           },
                         ),
                       ],

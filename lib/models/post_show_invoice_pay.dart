@@ -27,24 +27,57 @@ class InvoicePayment {
     this.status,
     this.transferAmount,
     this.ewallet,
+    this.debitBank,
+    this.expiryDate,
   });
 
   String status;
   int transferAmount;
   Ewallet ewallet;
+  DebitBank debitBank;
+  DateTime expiryDate;
 
   factory InvoicePayment.fromJson(Map<String, dynamic> json) => InvoicePayment(
     status: json["status"] == null ? null : json["status"],
     transferAmount: json["transfer_amount"] == null ? null : json["transfer_amount"],
     ewallet: json["ewallet"] == null ? null : Ewallet.fromJson(json["ewallet"]),
-    // ada object Bank, class nya Bank.fromJson
+    debitBank: json["debit_bank"] == null ? null : DebitBank.fromJson(json["debit_bank"]),
     // object Retail, class nya Retail.fromJson
+    expiryDate: json["expiry_date"] == null ? null : DateTime.parse(json["expiry_date"]),
   );
 
   Map<String, dynamic> toJson() => {
     "ewallet": ewallet == null ? null : ewallet.toJson(),
     "status": status == null ? null : status,
     "transfer_amount": transferAmount == null ? null : transferAmount,
+  };
+}
+
+class DebitBank {
+  DebitBank({
+    this.invoiceUrl,
+    this.bankCode,
+    this.bankAccountNumber,
+    this.bankBranch,
+  });
+
+  String invoiceUrl;
+  String bankCode;
+  String bankAccountNumber;
+  String bankBranch;
+
+  factory DebitBank.fromJson(Map<String, dynamic> json) => DebitBank(
+    invoiceUrl: json["invoice_url"] == null ? null : json["invoice_url"],
+    bankCode: json["bank_code"] == null ? null : json["bank_code"],
+    bankAccountNumber: json["bank_account_number"] == null ? null : json["bank_account_number"],
+    bankBranch: json["bank_branch"] == null ? null : json["bank_branch"],
+  );
+
+  Map<String, dynamic> toJson() => {
+    "invoice_url": invoiceUrl == null ? null : invoiceUrl,
+    "bank_code": bankCode == null ? null : bankCode,
+    "bank_account_number": bankAccountNumber == null ? null : bankAccountNumber,
+    "bank_branch": bankBranch == null ? null : bankBranch,
   };
 }
 

@@ -24,7 +24,6 @@ class _FirstScreenState extends State<FirstScreen> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     checkAppVersion(context);
   }

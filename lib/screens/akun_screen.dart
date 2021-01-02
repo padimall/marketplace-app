@@ -23,7 +23,6 @@ class _AkunScreenState extends State<AkunScreen> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     Future.delayed(Duration(seconds: 0), () {
       _providerToko.getAgentDetail(context);

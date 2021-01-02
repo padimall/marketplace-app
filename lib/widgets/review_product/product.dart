@@ -26,7 +26,6 @@ class _ProductForReviewWidgetState extends State<ProductForReviewWidget> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
   }
 
