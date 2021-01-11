@@ -23,7 +23,7 @@ class BuildNotFoundWithCTAWidget extends StatelessWidget {
             ),
           ),
           Container(
-            margin: const EdgeInsets.only(top: 20, bottom: 20),
+            margin: const EdgeInsets.only(top: 20, bottom: 20, left: 16, right: 16),
             child: RichText(
               textAlign: TextAlign.center,
               text: TextSpan(
