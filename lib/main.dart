@@ -24,6 +24,7 @@ import 'package:padimall_app/screens/list_suppliers_product_screen.dart';
 import 'package:padimall_app/screens/login_screen.dart';
 import 'package:padimall_app/screens/pembelian_screen.dart';
 import 'package:padimall_app/screens/penjualan_screen.dart';
+import 'package:padimall_app/screens/product_all_reviews_screen.dart';
 import 'package:padimall_app/screens/product_by_category_screen.dart';
 import 'package:padimall_app/screens/product_by_maincategory_screen.dart';
 import 'package:padimall_app/screens/product_detail_screen.dart';
@@ -118,6 +119,7 @@ class MyApp extends StatelessWidget {
           InvoicePaymentScreen.routeName: (ctx) => InvoicePaymentScreen(),
           TokoProductScreen.routeName: (ctx) => TokoProductScreen(),
           ReviewProductScreen.routeName: (ctx) => ReviewProductScreen(),
+          ProductAllReviewsScreen.routeName: (ctx) => ProductAllReviewsScreen(),
         },
       ),
     );

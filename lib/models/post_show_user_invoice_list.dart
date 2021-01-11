@@ -139,6 +139,7 @@ class ProductInvoice {
     this.quantity,
     this.createdAt,
     this.updatedAt,
+    this.reviewed,
     this.image,
   });
 
@@ -150,6 +151,7 @@ class ProductInvoice {
   int quantity;
   DateTime createdAt;
   DateTime updatedAt;
+  bool reviewed;
   String image;
 
   factory ProductInvoice.fromJson(Map<String, dynamic> json) => ProductInvoice(
@@ -161,6 +163,7 @@ class ProductInvoice {
     quantity: json["quantity"] == null ? null : json["quantity"],
     createdAt: json["created_at"] == null ? null : DateTime.parse(json["created_at"]),
     updatedAt: json["updated_at"] == null ? null : DateTime.parse(json["updated_at"]),
+    reviewed: json["reviewed"] == null ? null : json["reviewed"],
     image: json["image"] == null ? null : json["image"],
   );
 

@@ -293,7 +293,7 @@ class ProviderHistories with ChangeNotifier {
 
   List<RatingProductObject> get listRatingProduct => _listRatingProduct;
 
-  Future<void> postProductReview(BuildContext context) async {
+  Future<void> postProductReview(BuildContext context, String invoiceId) async {
     try {
       CustomAlertDialog.loading(context);
       var url = '${global.API_URL_PREFIX}/api/v1/invoice-product-rating/store';
@@ -340,7 +340,7 @@ class ProviderHistories with ChangeNotifier {
       });
       Navigator.pop(context);
       Navigator.pop(context);
-      // getInvoiceDetail(context, invoiceId);
+      getInvoiceDetail(context, invoiceId);
     } catch (e) {
       print(e.toString());
     } finally {

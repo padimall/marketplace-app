@@ -40,10 +40,13 @@ class InvoiceActionSection extends StatelessWidget {
           };
           break;
         case "3":
-          buttonText = 'Berikan Ulasan';
-          buttonHandler = () {
-            Navigator.pushNamed(context, ReviewProductScreen.routeName, arguments: invoiceDetail.products);
-          };
+          var reviewedInvoiceProductList = invoiceDetail.products.where((element) => element.reviewed).toList();
+          if (reviewedInvoiceProductList.length != invoiceDetail.products.length) {
+            buttonText = 'Berikan Ulasan';
+            buttonHandler = () {
+              Navigator.pushNamed(context, ReviewProductScreen.routeName, arguments: {'invoice_id': invoiceDetail.id , 'products' : invoiceDetail.products});
+            };
+          }
           break;
         default:
           buttonText = null;
@@ -73,16 +76,6 @@ class InvoiceActionSection extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
             child: RaisedButton(
               onPressed: buttonHandler,
-              // onPressed: () {
-              //   switch (checkStatus) {
-              //     case "0":
-              //       Navigator.pushNamed(context, InvoicePaymentScreen.routeName, arguments: invoiceGroupDetail.id);
-              //       break;
-              //     case "3":
-              //       Fluttertoast.showToast(msg: "Still Development (Review)", backgroundColor: Theme.of(context).accentColor);
-              //       break;
-              //   }
-              // },
               child: Text(
                 '$buttonText',
                 style: PadiMallTextTheme.sz16weight700White(context),

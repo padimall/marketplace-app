@@ -11,12 +11,16 @@ class ReviewProductScreen extends StatelessWidget {
   static final routeName = 'review-product-screen';
 
   ProviderHistories _providerHistories;
+  String invoiceId;
   List<ProductInvoice> _listProductInvoice = [];
   var _formRating = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
-    _listProductInvoice = ModalRoute.of(context).settings.arguments;
+    Map<String, dynamic> argument = ModalRoute.of(context).settings.arguments;
+
+    invoiceId = argument['invoice_id'];
+    _listProductInvoice = argument['products'];
     _providerHistories = Provider.of(context, listen: false);
     _providerHistories.clearRatingProductList();
 
@@ -40,7 +44,7 @@ class ReviewProductScreen extends StatelessWidget {
             onPressed: () {
               if (_providerHistories.isAllProductHaveRateAlready()) {
                 if (_formRating.currentState.validate()) {
-                  _providerHistories.postProductReview(context);
+                  _providerHistories.postProductReview(context, invoiceId);
                 } else {
                   Fluttertoast.showToast(msg: "Mohon lengkapi deskripsi ulasan.", backgroundColor: Theme.of(context).accentColor);
                 }
