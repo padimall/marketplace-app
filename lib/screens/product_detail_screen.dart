@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_pro/carousel_pro.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:padimall_app/models/post_show_products.dart';
 import 'package:padimall_app/providers/cart.dart';
@@ -10,6 +11,7 @@ import 'package:padimall_app/screens/checkout_screen.dart';
 import 'package:padimall_app/screens/first_screen.dart';
 import 'package:padimall_app/screens/keranjang_screen.dart';
 import 'package:padimall_app/screens/login_screen.dart';
+import 'package:padimall_app/screens/product_all_reviews_screen.dart';
 import 'package:padimall_app/screens/toko_screen.dart';
 import 'package:padimall_app/utils/build_future_builder.dart';
 import 'package:padimall_app/utils/custom_image_url.dart';
@@ -17,6 +19,7 @@ import 'package:padimall_app/utils/custom_logic.dart';
 import 'package:padimall_app/utils/custom_text_theme.dart';
 import 'package:padimall_app/utils/text_number_formatter.dart';
 import 'package:padimall_app/widgets/alert_dialog/ok.dart';
+import 'package:padimall_app/widgets/review_product/user_review.dart';
 import 'package:provider/provider.dart';
 
 class ProductDetailScreen extends StatelessWidget {
@@ -51,7 +54,8 @@ class ProductDetailScreen extends StatelessWidget {
         _providerProduct.getProductDetail(context, _product.id),
         Consumer<ProviderProduct>(
           builder: (ctx, provider, _) {
-            print('hey: ${CustomLogic.isThisProductBelongToThisUser(context, _providerProduct.productDetail.supplierId, _providerProduct.productDetail.agent.id)}');
+            print(
+                'hey: ${CustomLogic.isThisProductBelongToThisUser(context, _providerProduct.productDetail.supplierId, _providerProduct.productDetail.agent.id)}');
 
             return Column(
               children: <Widget>[
@@ -61,37 +65,37 @@ class ProductDetailScreen extends StatelessWidget {
                       children: <Widget>[
                         _providerProduct.productDetail.images.isEmpty
                             ? AspectRatio(
-                          aspectRatio: 1,
-                          child: Image.asset(
-                            'assets/images/no_image.png',
-                            fit: BoxFit.cover,
-                          ),
-                        )
-                            : ListView(
-                          shrinkWrap: true,
-                          physics: NeverScrollableScrollPhysics(),
-                          children: <Widget>[
-                            AspectRatio(
-                              aspectRatio: 1,
-                              child: _providerProduct.productDetail.images.isNotEmpty
-                                  ? Carousel(
-                                boxFit: BoxFit.cover,
-                                images: _providerProduct.productDetail.images
-                                    .map((productImages) => CachedNetworkImage(
-                                  imageUrl: productImages.url,
+                                aspectRatio: 1,
+                                child: Image.asset(
+                                  'assets/images/no_image.png',
                                   fit: BoxFit.cover,
-                                ))
-                                    .toList(),
-                                autoplay: true,
-                                autoplayDuration: Duration(seconds: 4),
-                                dotSize: 4,
-                                indicatorBgPadding: 4,
-                                dotBgColor: Theme.of(context).accentColor.withOpacity(0.5),
+                                ),
                               )
-                                  : Container(),
-                            ),
-                          ],
-                        ),
+                            : ListView(
+                                shrinkWrap: true,
+                                physics: NeverScrollableScrollPhysics(),
+                                children: <Widget>[
+                                  AspectRatio(
+                                    aspectRatio: 1,
+                                    child: _providerProduct.productDetail.images.isNotEmpty
+                                        ? Carousel(
+                                            boxFit: BoxFit.cover,
+                                            images: _providerProduct.productDetail.images
+                                                .map((productImages) => CachedNetworkImage(
+                                                      imageUrl: productImages.url,
+                                                      fit: BoxFit.cover,
+                                                    ))
+                                                .toList(),
+                                            autoplay: true,
+                                            autoplayDuration: Duration(seconds: 4),
+                                            dotSize: 4,
+                                            indicatorBgPadding: 4,
+                                            dotBgColor: Theme.of(context).accentColor.withOpacity(0.5),
+                                          )
+                                        : Container(),
+                                  ),
+                                ],
+                              ),
                         NamaHargaProduk(
                           product: _providerProduct.productDetail,
                         ),
@@ -99,6 +103,9 @@ class ProductDetailScreen extends StatelessWidget {
                           product: _providerProduct.productDetail,
                         ),
                         DeskripsiProduk(
+                          product: _providerProduct.productDetail,
+                        ),
+                        ReviewProductWidget(
                           product: _providerProduct.productDetail,
                         ),
                         InfoToko(
@@ -257,6 +264,46 @@ class NamaHargaProduk extends StatelessWidget {
             maxLines: 2,
             style: PadiMallTextTheme.sz14weight600Red(context),
           ),
+          Row(
+            children: [
+              RatingBar(
+                initialRating: product.ratingSummary.averageStar,
+                direction: Axis.horizontal,
+                allowHalfRating: true,
+                itemCount: 5,
+                itemSize: 20,
+                itemPadding: EdgeInsets.symmetric(horizontal: 0.0),
+                ratingWidget: RatingWidget(
+                  empty: Icon(
+                    Icons.star_border,
+                    color: Colors.grey,
+                  ),
+                  half: Icon(
+                    Icons.star_half,
+                    color: Colors.amber,
+                  ),
+                  full: Icon(
+                    Icons.star,
+                    color: Colors.amber,
+                  ),
+                ),
+              ),
+              Container(
+                margin: const EdgeInsets.only(left: 4),
+                child: Text(
+                  '${product.ratingSummary.averageStar.toStringAsPrecision(2)}/5.0',
+                  style: PadiMallTextTheme.sz14weight500Grey(context),
+                ),
+              ),
+              Container(
+                margin: const EdgeInsets.only(left: 4),
+                child: Text(
+                  '(${product.ratingSummary.totalRatings} ulasan)',
+                  style: PadiMallTextTheme.sz14weight500Grey(context),
+                ),
+              ),
+            ],
+          ),
         ],
       ),
     );
@@ -282,7 +329,7 @@ class InfoProduk extends StatelessWidget {
             margin: const EdgeInsets.only(bottom: 8),
             child: Text(
               'Informasi Produk',
-              style: PadiMallTextTheme.sz16weight700(context),
+              style: PadiMallTextTheme.sz14weight700(context),
             ),
           ),
           Row(
@@ -349,13 +396,62 @@ class DeskripsiProduk extends StatelessWidget {
             margin: const EdgeInsets.only(bottom: 8),
             child: Text(
               'Deskripsi Produk',
-              style: PadiMallTextTheme.sz16weight700(context),
+              style: PadiMallTextTheme.sz14weight700(context),
             ),
           ),
           Text(
             '${product.description}',
             style: PadiMallTextTheme.sz14weight500(context),
           ),
+        ],
+      ),
+    );
+  }
+}
+
+class ReviewProductWidget extends StatelessWidget {
+  Product product;
+
+  ReviewProductWidget({this.product});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: double.infinity,
+      color: Colors.white,
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+      margin: const EdgeInsets.only(bottom: 8),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Container(
+            margin: const EdgeInsets.only(bottom: 8),
+            child: Text(
+              'Ulasan produk',
+              style: PadiMallTextTheme.sz14weight700(context),
+            ),
+          ),
+          Column(
+            children: [
+              UserReview(
+                reviewProduct: product.ratingSummary.sample,
+              ),
+            ],
+          ),
+          GestureDetector(
+            onTap: () {
+              Navigator.pushNamed(context, ProductAllReviewsScreen.routeName, arguments: product);
+            },
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  'Lihat lainnya (${textNumberFormatter(product.ratingSummary.totalRatings.toDouble())})  >>',
+                  style: PadiMallTextTheme.sz14weight600Red(context),
+                ),
+              ],
+            ),
+          )
         ],
       ),
     );

@@ -289,9 +289,9 @@ class ProviderHistories with ChangeNotifier {
     }
   }
 
-  List<RatingProduct> _listRatingProduct = [];
+  List<RatingProductObject> _listRatingProduct = [];
 
-  List<RatingProduct> get listRatingProduct => _listRatingProduct;
+  List<RatingProductObject> get listRatingProduct => _listRatingProduct;
 
   Future<void> postProductReview(BuildContext context) async {
     try {
@@ -299,7 +299,7 @@ class ProviderHistories with ChangeNotifier {
       var url = '${global.API_URL_PREFIX}/api/v1/invoice-product-rating/store';
       print(url);
 
-      await Future.forEach(_listRatingProduct, (RatingProduct ratingProduct) async {
+      await Future.forEach(_listRatingProduct, (RatingProductObject ratingProduct) async {
         var dio = Dio();
         FormData formData = FormData.fromMap(
           {
@@ -353,7 +353,7 @@ class ProviderHistories with ChangeNotifier {
   }
 
   void addProductInvoiceToRatingProductList(ProductInvoice productInvoice) {
-    _listRatingProduct.add(RatingProduct(
+    _listRatingProduct.add(RatingProductObject(
       invoiceProductId: productInvoice.id,
       images: [],
     ));
@@ -425,7 +425,7 @@ class ProviderHistories with ChangeNotifier {
 
   Future<void> loadAssetsPicture(int index, String invoiceProductId) async {
     try {
-      RatingProduct _ratingProduct;
+      RatingProductObject _ratingProduct;
 
       _listRatingProduct.forEach((ratingProduct) {
         if (ratingProduct.invoiceProductId == invoiceProductId) {

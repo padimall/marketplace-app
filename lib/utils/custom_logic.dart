@@ -55,4 +55,11 @@ class CustomLogic {
 
     return result;
   }
+
+  static String censoredNameFormatter(String name) {
+    String result;
+    result = name.substring(0,1) + '*****' + name.substring(name.length, 1);
+    return result;
+  }
+
 }

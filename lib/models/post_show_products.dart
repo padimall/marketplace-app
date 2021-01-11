@@ -40,6 +40,7 @@ class Product {
     this.updatedAt,
     this.agent,
     this.images,
+    this.ratingSummary,
   });
 
   String id;
@@ -56,6 +57,7 @@ class Product {
   DateTime updatedAt;
   Agent agent;
   List<ImageProduct> images;
+  RatingSummary ratingSummary;
 
   factory Product.fromJson(Map<String, dynamic> json) => Product(
         id: json["id"] == null ? null : json["id"],
@@ -72,6 +74,7 @@ class Product {
         updatedAt: json["updated_at"] == null ? null : DateTime.parse(json["updated_at"]),
         agent: json["agent"] == null ? null : Agent.fromJson(json["agent"]),
         images: json["image"] == null ? [] : List<ImageProduct>.from(json["image"].map((x) => ImageProduct.fromJson(x))),
+        ratingSummary: json["rating_summary"] == null ? null : RatingSummary.fromJson(json["rating_summary"]),
       );
 
   Map<String, dynamic> toJson() => {
@@ -88,6 +91,7 @@ class Product {
         "updated_at": updatedAt == null ? null : updatedAt.toIso8601String(),
         "agent": agent == null ? null : agent.toJson(),
         "image": images == null ? null : List<dynamic>.from(images.map((x) => x.toJson())),
+        "rating_summary": ratingSummary == null ? null : ratingSummary.toJson(),
       };
 }
 
@@ -109,4 +113,72 @@ class ImageProduct {
         "id": id == null ? null : id,
         "url": url == null ? null : url,
       };
+}
+
+class RatingSummary {
+  RatingSummary({
+    this.averageStar,
+    this.totalRatings,
+    this.sample,
+  });
+
+  double averageStar;
+  int totalRatings;
+  RatingProduct sample;
+
+  factory RatingSummary.fromJson(Map<String, dynamic> json) => RatingSummary(
+        averageStar: json["average_star"] == null ? null : json["average_star"].toDouble(),
+        totalRatings: json["total_ratings"] == null ? null : json["total_ratings"],
+        sample: json["sample"] == null ? null : RatingProduct.fromJson(json["sample"]),
+      );
+
+  Map<String, dynamic> toJson() => {
+        "average_star": averageStar == null ? null : averageStar,
+        "total_ratings": totalRatings == null ? null : totalRatings,
+        "sample": sample == null ? null : sample.toJson(),
+      };
+}
+
+class RatingProduct {
+  RatingProduct({
+    this.id,
+    this.name,
+    this.star,
+    this.description,
+    this.showName,
+    this.createdAt,
+    this.updatedAt,
+    this.images,
+  });
+
+  String id;
+  String name;
+  int star;
+  String description;
+  int showName;
+  DateTime createdAt;
+  DateTime updatedAt;
+  List<dynamic> images;
+
+  factory RatingProduct.fromJson(Map<String, dynamic> json) => RatingProduct(
+    id: json["id"] == null ? null : json["id"],
+    name: json["name"] == null ? null : json["name"],
+    star: json["star"] == null ? null : json["star"],
+    description: json["description"] == null ? null : json["description"],
+    showName: json["show_name"] == null ? null : json["show_name"],
+    createdAt: json["created_at"] == null ? null : DateTime.parse(json["created_at"]),
+    updatedAt: json["updated_at"] == null ? null : DateTime.parse(json["updated_at"]),
+    images: json["images"] == null ? null : List<dynamic>.from(json["images"].map((x) => x)),
+  );
+
+  Map<String, dynamic> toJson() => {
+    "id": id == null ? null : id,
+    "name": name == null ? null : name,
+    "star": star == null ? null : star,
+    "description": description == null ? null : description,
+    "show_name": showName == null ? null : showName,
+    "created_at": createdAt == null ? null : createdAt.toIso8601String(),
+    "updated_at": updatedAt == null ? null : updatedAt.toIso8601String(),
+    "images": images == null ? null : List<dynamic>.from(images.map((x) => x)),
+  };
 }
