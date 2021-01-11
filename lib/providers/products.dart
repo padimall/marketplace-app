@@ -89,6 +89,7 @@ class ProviderProduct with ChangeNotifier {
       if (response.statusCode == 200) {
         if (jsonObject.status == 1) {
           _productDetail = jsonObject.data;
+          print('heyow ${_productDetail.agent.id}');
         }
       }
     } catch (e) {

@@ -28,9 +28,17 @@ class ProductDetailScreen extends StatelessWidget {
   ProviderCart _providerCart;
   ProviderProduct _providerProduct;
 
+  String productName;
+  String productId;
+
   @override
   Widget build(BuildContext context) {
-    Product _product = ModalRoute.of(context).settings.arguments;
+    // Product _product = ModalRoute.of(context).settings.arguments;
+    final Map<String, dynamic> args = ModalRoute.of(context).settings.arguments;
+
+    productName = args['product_name'];
+    productId = args['product_id'];
+
     _providerCart = Provider.of(context, listen: false);
     _providerProduct = Provider.of(context, listen: false);
 
@@ -46,16 +54,16 @@ class ProductDetailScreen extends StatelessWidget {
         backgroundColor: Colors.white,
         elevation: 1,
         title: Text(
-          '${_product.name}',
+          '${productName}',
           style: PadiMallTextTheme.sz16weight700(context),
         ),
       ),
       body: buildFutureBuilder(
-        _providerProduct.getProductDetail(context, _product.id),
+        _providerProduct.getProductDetail(context, productId),
         Consumer<ProviderProduct>(
           builder: (ctx, provider, _) {
-            print(
-                'hey: ${CustomLogic.isThisProductBelongToThisUser(context, _providerProduct.productDetail.supplierId, _providerProduct.productDetail.agent.id)}');
+            // print(
+            //     'hey: ${CustomLogic.isThisProductBelongToThisUser(context, _providerProduct.productDetail.supplierId, _providerProduct.productDetail.agent.id)}');
 
             return Column(
               children: <Widget>[
@@ -426,9 +434,18 @@ class ReviewProductWidget extends StatelessWidget {
         children: <Widget>[
           Container(
             margin: const EdgeInsets.only(bottom: 8),
-            child: Text(
-              'Ulasan produk',
-              style: PadiMallTextTheme.sz14weight700(context),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  'Ulasan produk',
+                  style: PadiMallTextTheme.sz14weight700(context),
+                ),
+                Text(
+                  'Lihat lainnya (${textNumberFormatter(product.ratingSummary.totalRatings.toDouble())})',
+                  style: PadiMallTextTheme.sz14weight600Red(context).copyWith(fontFamily: 'Poppins'),
+                ),
+              ],
             ),
           ),
           Column(
@@ -438,20 +455,20 @@ class ReviewProductWidget extends StatelessWidget {
               ),
             ],
           ),
-          GestureDetector(
-            onTap: () {
-              Navigator.pushNamed(context, ProductAllReviewsScreen.routeName, arguments: product);
-            },
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  'Lihat lainnya (${textNumberFormatter(product.ratingSummary.totalRatings.toDouble())})  >>',
-                  style: PadiMallTextTheme.sz14weight600Red(context),
-                ),
-              ],
-            ),
-          )
+          // GestureDetector(
+          //   onTap: () {
+          //     Navigator.pushNamed(context, ProductAllReviewsScreen.routeName, arguments: product);
+          //   },
+          //   child: Row(
+          //     mainAxisAlignment: MainAxisAlignment.center,
+          //     children: [
+          //       Text(
+          //         'Lihat lainnya (${textNumberFormatter(product.ratingSummary.totalRatings.toDouble())})  >>',
+          //         style: PadiMallTextTheme.sz14weight600Red(context).copyWith(fontFamily: 'Poppins'),
+          //       ),
+          //     ],
+          //   ),
+          // )
         ],
       ),
     );
