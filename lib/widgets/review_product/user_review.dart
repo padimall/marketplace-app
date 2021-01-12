@@ -22,9 +22,15 @@ class UserReview extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.symmetric(vertical: 16),
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
       margin: const EdgeInsets.only(bottom: 8),
-      color: Colors.white70,
+      decoration: new BoxDecoration(
+        color: Colors.white70,
+        borderRadius: new BorderRadius.only(
+          topLeft: const Radius.circular(4.0),
+          topRight: const Radius.circular(4.0),
+        ),
+      ),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -79,7 +85,32 @@ class UserReview extends StatelessWidget {
                     overflow: TextOverflow.ellipsis,
                     style: PadiMallTextTheme.sz12weight500(context),
                   ),
-                )
+                ),
+                if (reviewProduct.images.isNotEmpty)
+                  Container(
+                    margin: const EdgeInsets.only(top: 8),
+                    child: GridView.builder(
+                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 3,
+                        childAspectRatio: 1 / 1,
+                        crossAxisSpacing: 12,
+                        mainAxisSpacing: 16,
+                      ),
+                      itemCount: reviewProduct.images.length,
+                      shrinkWrap: true,
+                      physics: NeverScrollableScrollPhysics(),
+                      itemBuilder: (ctx, index) {
+                        return ClipRRect(
+                          borderRadius: BorderRadius.circular(6),
+                          child: FadeInImage.assetNetwork(
+                            image: '${reviewProduct.images[index].url}',
+                            fit: BoxFit.cover,
+                            placeholder: 'assets/images/logo.png',
+                          ),
+                        );
+                      },
+                    ),
+                  ),
               ],
             ),
           ),

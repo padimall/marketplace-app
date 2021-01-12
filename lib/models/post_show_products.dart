@@ -90,7 +90,7 @@ class Product {
         "created_at": createdAt == null ? null : createdAt.toIso8601String(),
         "updated_at": updatedAt == null ? null : updatedAt.toIso8601String(),
         "agent": agent == null ? null : agent.toJson(),
-        "image": images == null ? null : List<dynamic>.from(images.map((x) => x.toJson())),
+        "image": images == null ? null : List<ImageProduct>.from(images.map((x) => x.toJson())),
         "rating_summary": ratingSummary == null ? null : ratingSummary.toJson(),
       };
 }
@@ -158,7 +158,7 @@ class RatingProduct {
   int showName;
   DateTime createdAt;
   DateTime updatedAt;
-  List<dynamic> images;
+  List<ImageProduct> images;
 
   factory RatingProduct.fromJson(Map<String, dynamic> json) => RatingProduct(
     id: json["id"] == null ? null : json["id"],
@@ -168,7 +168,7 @@ class RatingProduct {
     showName: json["show_name"] == null ? null : json["show_name"],
     createdAt: json["created_at"] == null ? null : DateTime.parse(json["created_at"]),
     updatedAt: json["updated_at"] == null ? null : DateTime.parse(json["updated_at"]),
-    images: json["images"] == null ? null : List<dynamic>.from(json["images"].map((x) => x)),
+    images: json["images"] == null ? [] : List<ImageProduct>.from(json["images"].map((x) => ImageProduct.fromJson(x))),
   );
 
   Map<String, dynamic> toJson() => {
@@ -179,6 +179,6 @@ class RatingProduct {
     "show_name": showName == null ? null : showName,
     "created_at": createdAt == null ? null : createdAt.toIso8601String(),
     "updated_at": updatedAt == null ? null : updatedAt.toIso8601String(),
-    "images": images == null ? null : List<dynamic>.from(images.map((x) => x)),
+    "images": images == null ? null : List<ImageProduct>.from(images.map((x) => x)),
   };
 }

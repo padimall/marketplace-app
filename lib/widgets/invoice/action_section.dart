@@ -41,6 +41,7 @@ class InvoiceActionSection extends StatelessWidget {
           break;
         case "3":
           var reviewedInvoiceProductList = invoiceDetail.products.where((element) => element.reviewed).toList();
+          print('widi ${reviewedInvoiceProductList.length}');
           if (reviewedInvoiceProductList.length != invoiceDetail.products.length) {
             buttonText = 'Berikan Ulasan';
             buttonHandler = () {

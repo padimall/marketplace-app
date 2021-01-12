@@ -272,45 +272,48 @@ class NamaHargaProduk extends StatelessWidget {
             maxLines: 2,
             style: PadiMallTextTheme.sz14weight600Red(context),
           ),
-          Row(
-            children: [
-              RatingBar(
-                initialRating: product.ratingSummary.averageStar,
-                direction: Axis.horizontal,
-                allowHalfRating: true,
-                itemCount: 5,
-                itemSize: 20,
-                itemPadding: EdgeInsets.symmetric(horizontal: 0.0),
-                ratingWidget: RatingWidget(
-                  empty: Icon(
-                    Icons.star_border,
-                    color: Colors.grey,
-                  ),
-                  half: Icon(
-                    Icons.star_half,
-                    color: Colors.amber,
-                  ),
-                  full: Icon(
-                    Icons.star,
-                    color: Colors.amber,
+          Container(
+            margin: const EdgeInsets.only(top: 4),
+            child: Row(
+              children: [
+                RatingBar(
+                  initialRating: product.ratingSummary.averageStar,
+                  direction: Axis.horizontal,
+                  allowHalfRating: true,
+                  itemCount: 5,
+                  itemSize: 16,
+                  itemPadding: EdgeInsets.symmetric(horizontal: 0.0),
+                  ratingWidget: RatingWidget(
+                    empty: Icon(
+                      Icons.star_border,
+                      color: Colors.grey,
+                    ),
+                    half: Icon(
+                      Icons.star_half,
+                      color: Colors.amber,
+                    ),
+                    full: Icon(
+                      Icons.star,
+                      color: Colors.amber,
+                    ),
                   ),
                 ),
-              ),
-              Container(
-                margin: const EdgeInsets.only(left: 4),
-                child: Text(
-                  '${product.ratingSummary.averageStar.toStringAsPrecision(2)}/5.0',
-                  style: PadiMallTextTheme.sz14weight500Grey(context),
+                Container(
+                  margin: const EdgeInsets.only(left: 4),
+                  child: Text(
+                    '${product.ratingSummary.averageStar.toStringAsPrecision(2)}/5.0',
+                    style: PadiMallTextTheme.sz13weight500Grey(context),
+                  ),
                 ),
-              ),
-              Container(
-                margin: const EdgeInsets.only(left: 4),
-                child: Text(
-                  '(${product.ratingSummary.totalRatings} ulasan)',
-                  style: PadiMallTextTheme.sz14weight500Grey(context),
+                Container(
+                  margin: const EdgeInsets.only(left: 4),
+                  child: Text(
+                    '(${product.ratingSummary.totalRatings} ulasan)',
+                    style: PadiMallTextTheme.sz13weight500Grey(context),
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ],
       ),
@@ -427,13 +430,13 @@ class ReviewProductWidget extends StatelessWidget {
     return Container(
       width: double.infinity,
       color: Colors.white,
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+      // padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
       margin: const EdgeInsets.only(bottom: 8),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Container(
-            margin: const EdgeInsets.only(bottom: 8),
+            margin: const EdgeInsets.only(top: 16, bottom: 8, left: 16, right: 16),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -441,18 +444,32 @@ class ReviewProductWidget extends StatelessWidget {
                   'Ulasan produk',
                   style: PadiMallTextTheme.sz14weight700(context),
                 ),
-                Text(
-                  'Lihat lainnya (${textNumberFormatter(product.ratingSummary.totalRatings.toDouble())})',
-                  style: PadiMallTextTheme.sz14weight600Red(context).copyWith(fontFamily: 'Poppins'),
-                ),
+                if (product.ratingSummary.totalRatings > 1)
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.pushNamed(context, ProductAllReviewsScreen.routeName, arguments: product);
+                    },
+                    child: Text(
+                      'Lihat lainnya (${textNumberFormatter(product.ratingSummary.totalRatings.toDouble())})',
+                      style: PadiMallTextTheme.sz14weight600Red(context).copyWith(fontFamily: 'Poppins'),
+                    ),
+                  ),
               ],
             ),
           ),
           Column(
             children: [
-              UserReview(
-                reviewProduct: product.ratingSummary.sample,
-              ),
+              product.ratingSummary.sample == null
+                  ? Container(
+                      padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
+                      child: Text(
+                        'Belum ada ulasan.',
+                        style: PadiMallTextTheme.sz14weight500Grey(context),
+                      ),
+                    )
+                  : UserReview(
+                      reviewProduct: product.ratingSummary.sample,
+                    ),
             ],
           ),
           // GestureDetector(
