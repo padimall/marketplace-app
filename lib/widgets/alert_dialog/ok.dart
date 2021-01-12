@@ -12,7 +12,7 @@ Future<String> showAlertDialogOk(
     ) {
   return showDialog(
     context: context,
-    barrierDismissible: false,
+    barrierDismissible: true,
     builder: (context) {
       return WillPopScope(
         onWillPop: () async {

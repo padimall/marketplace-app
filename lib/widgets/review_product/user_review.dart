@@ -1,16 +1,11 @@
-import 'dart:io';
-
+import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_html/flutter_html.dart';
+import 'package:flutter_html/style.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:padimall_app/models/post_show_products.dart';
-import 'package:padimall_app/models/post_show_user_invoice_list.dart';
-import 'package:padimall_app/models/rating_product.dart';
-import 'package:padimall_app/providers/histories.dart';
-import 'package:padimall_app/screens/product_detail_screen.dart';
 import 'package:padimall_app/utils/custom_logic.dart';
 import 'package:padimall_app/utils/custom_text_theme.dart';
-import 'package:padimall_app/utils/text_number_formatter.dart';
-import 'package:provider/provider.dart';
 
 class UserReview extends StatelessWidget {
   RatingProduct reviewProduct;
@@ -22,20 +17,18 @@ class UserReview extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+      padding: const EdgeInsets.fromLTRB(16, 16, 16, 8),
       margin: const EdgeInsets.only(bottom: 8),
       decoration: new BoxDecoration(
         color: Colors.white70,
-        borderRadius: new BorderRadius.only(
-          topLeft: const Radius.circular(4.0),
-          topRight: const Radius.circular(4.0),
+        borderRadius: new BorderRadius.all(
+          Radius.circular(8.0),
         ),
       ),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Container(
-            margin: const EdgeInsets.only(right: 8),
             child: CircleAvatar(
               radius: 15,
               child: Text(
@@ -51,44 +44,66 @@ class UserReview extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.start,
               mainAxisSize: MainAxisSize.min,
               children: [
-                Text(
-                  '${reviewProduct.showName == 1 ? reviewProduct.name : CustomLogic.censoredNameFormatter(reviewProduct.name)}',
-                  style: PadiMallTextTheme.sz14weight500(context),
-                ),
-                RatingBar(
-                  initialRating: reviewProduct.star.toDouble(),
-                  direction: Axis.horizontal,
-                  allowHalfRating: true,
-                  itemCount: 5,
-                  itemSize: 15,
-                  itemPadding: EdgeInsets.symmetric(horizontal: 0.0),
-                  ratingWidget: RatingWidget(
-                    empty: Icon(
-                      Icons.star_border,
-                      color: Colors.grey,
-                    ),
-                    half: Icon(
-                      Icons.star_half,
-                      color: Colors.amber,
-                    ),
-                    full: Icon(
-                      Icons.star,
-                      color: Colors.amber,
-                    ),
-                  ),
-                ),
                 Container(
-                  margin: const EdgeInsets.only(top: 4),
-                  child: Text(
-                    '${reviewProduct.description}',
-                    maxLines: 3,
-                    overflow: TextOverflow.ellipsis,
-                    style: PadiMallTextTheme.sz12weight500(context),
+                  margin: const EdgeInsets.only(left: 8),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        '${reviewProduct.showName == 1 ? reviewProduct.name : CustomLogic.censoredNameFormatter(reviewProduct.name)}',
+                        style: PadiMallTextTheme.sz13weight500(context),
+                      ),
+                      RatingBar(
+                        initialRating: reviewProduct.star.toDouble(),
+                        direction: Axis.horizontal,
+                        allowHalfRating: true,
+                        itemCount: 5,
+                        itemSize: 18,
+                        itemPadding: EdgeInsets.symmetric(horizontal: 0.0),
+                        ratingWidget: RatingWidget(
+                          empty: Icon(
+                            Icons.star_border,
+                            color: Colors.grey,
+                          ),
+                          half: Icon(
+                            Icons.star_half,
+                            color: Colors.amber,
+                          ),
+                          full: Icon(
+                            Icons.star,
+                            color: Colors.amber,
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
+                ),
+                // Container(
+                //   margin: const EdgeInsets.only(top: 4),
+                //   child: Text(
+                //     '${reviewProduct.description}',
+                //     maxLines: 3,
+                //     overflow: TextOverflow.ellipsis,
+                //     style: PadiMallTextTheme.sz12weight500(context),
+                //   ),
+                // ),
+                Html(
+                  data: reviewProduct.description,
+                  shrinkWrap: true,
+                  style: {
+                    "i": Style(
+                      fontFamily: 'Poppins',
+                      fontSize: FontSize.medium,
+                    ),
+                    "p": Style(
+                      fontFamily: 'Poppins',
+                      fontSize: FontSize.medium,
+                    ),
+                  },
                 ),
                 if (reviewProduct.images.isNotEmpty)
                   Container(
-                    margin: const EdgeInsets.only(top: 8),
+                    margin: const EdgeInsets.only(top: 8, left: 8, bottom: 8),
                     child: GridView.builder(
                       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                         crossAxisCount: 3,
@@ -111,6 +126,13 @@ class UserReview extends StatelessWidget {
                       },
                     ),
                   ),
+                Container(
+                  margin: const EdgeInsets.only(left: 8),
+                  child: Text(
+                    '${DateFormat("dd MMM yyy, HH:mm").format(reviewProduct.updatedAt)}',
+                    style: PadiMallTextTheme.sz11weight500Grey(context),
+                  ),
+                ),
               ],
             ),
           ),
