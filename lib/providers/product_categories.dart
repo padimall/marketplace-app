@@ -75,9 +75,6 @@ class ProviderProductCategories with ChangeNotifier {
       if (response.statusCode == 200) {
         _listMainCategories.clear();
         _listMainCategories.addAll(jsonObject.data);
-        for (int i = 0; i < _listMainCategories.length; i++) {
-          await getSubCategoryFromMainCategory(i);
-        }
       }
     } catch (e) {
       print(e.toString());

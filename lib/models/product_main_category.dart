@@ -26,6 +26,7 @@ class ProductMainCategory {
     status: json["status"] == null ? null : json["status"],
     createdAt: json["created_at"] == null ? null : DateTime.parse(json["created_at"]),
     updatedAt: json["updated_at"] == null ? null : DateTime.parse(json["updated_at"]),
+    productCategories: json["product_categories"] == null ? [] : List<ProductCategory>.from(json["product_categories"].map((x) => ProductCategory.fromJson(x))),
   );
 
   Map<String, dynamic> toJson() => {
