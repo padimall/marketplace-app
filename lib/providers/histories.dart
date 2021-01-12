@@ -14,6 +14,7 @@ import 'package:padimall_app/models/post_show_invoice_group_detail.dart';
 import 'package:padimall_app/models/post_show_invoice_pay.dart';
 import 'package:padimall_app/models/post_show_user_invoice_list.dart';
 import 'package:padimall_app/models/rating_product.dart';
+import 'package:padimall_app/screens/review_product_screen.dart';
 import 'package:padimall_app/utils/custom_alert_dialog.dart';
 import 'package:padimall_app/utils/flutter_secure_storage_services.dart';
 import 'package:padimall_app/utils/global.dart' as global;
@@ -233,6 +234,49 @@ class ProviderHistories with ChangeNotifier {
 
       if (response.statusCode == 200) {
         _invoicePayment = jsonObject.data;
+      } else if (response.statusCode == 401) {
+        CustomAlertDialog.endOfSession(context);
+      } else {
+        Fluttertoast.showToast(msg: "Terjadi kesalahan. Error code: ${response.statusCode}", backgroundColor: Theme.of(context).accentColor);
+      }
+    } catch (e) {
+      print(e.toString());
+    } finally {
+      notifyListeners();
+    }
+  }
+
+  Future<void> invoiceReceived(BuildContext context, String invoiceId) async {
+    try {
+      CustomAlertDialog.loading(context);
+      var url = '${global.API_URL_PREFIX}/api/v1/invoice/receive';
+      print(url);
+
+      var requestBody = {
+        'target_id': invoiceId,
+      };
+
+      http.Response response = await http.post(
+        url,
+        body: json.encode(requestBody),
+        headers: {
+          'X-Requested-With': 'XMLHttpRequest',
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + await FlutterSecureStorageServices.getUserToken(),
+        },
+      );
+      print(response.body);
+      print(response.statusCode);
+
+      var jsonObject = PostResInvoicePay.fromJson(jsonDecode(response.body));
+
+      Navigator.pop(context);
+      if (response.statusCode == 200) {
+        _invoicePayment = jsonObject.data;
+        getInvoiceDetail(context, invoiceId);
+        getBuyerInvoiceHistories(context);
+        Navigator.pushNamed(context, ReviewProductScreen.routeName, arguments: {'invoice_id': invoiceDetail.id, 'products': invoiceDetail.products});
+        // Fluttertoast.showToast(msg: "Pesanan berhasil diselesaikan. Terima kasih ya.", backgroundColor: Theme.of(context).primaryColor);
       } else if (response.statusCode == 401) {
         CustomAlertDialog.endOfSession(context);
       } else {
