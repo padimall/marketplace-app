@@ -4,6 +4,7 @@ import 'package:padimall_app/providers/toko.dart';
 import 'package:padimall_app/utils/build_future_builder.dart';
 import 'package:padimall_app/utils/custom_text_theme.dart';
 import 'package:provider/provider.dart';
+import "package:intl/intl.dart";
 
 class TokoDetailWidget extends StatelessWidget {
   ProviderToko providerToko;
@@ -56,11 +57,15 @@ class TokoDetailWidget extends StatelessWidget {
                       ),
                       if (providerToko.tokoDetail.address != null)
                         Text(
-                          '${providerToko.tokoDetail.address}',
+                          '${providerToko.tokoDetail.address.toUpperCase()}',
                           style: PadiMallTextTheme.sz12weight500(context),
                           maxLines: 2,
                           overflow: TextOverflow.ellipsis,
                         ),
+                      Text(
+                        'Bergabung sejak ${DateFormat("dd MMM, yyyy").format(providerToko.tokoDetail.createdAt)}',
+                        style: PadiMallTextTheme.sz12weight500Grey(context),
+                      ),
                     ],
                   ),
                 ),

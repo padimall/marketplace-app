@@ -36,7 +36,7 @@ class ProductByCategoryScreen extends StatelessWidget {
       body: buildFutureBuilder(
         _providerProductCategories.getProductByCategory(_productCategory),
         Consumer<ProviderProductCategories>(
-          builder: (ctx, provider, _) => _providerProductCategories.listProduct.length == 0
+          builder: (ctx, provider, _) => _providerProductCategories.listProduct.isEmpty
               ? Container(
                   width: double.infinity,
                   padding: const EdgeInsets.symmetric(horizontal: 16),
