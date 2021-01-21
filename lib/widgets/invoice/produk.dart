@@ -13,7 +13,7 @@ class InvoiceProdukWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Navigator.pushNamed(context, ProductDetailScreen.routeName, arguments: {'product_name': productInvoice.name, 'product_id': productInvoice.id});
+        Navigator.pushNamed(context, ProductDetailScreen.routeName, arguments: {'product_name': productInvoice.name, 'product_id': productInvoice.productId});
       },
       child: Container(
         margin: const EdgeInsets.only(bottom: 16),

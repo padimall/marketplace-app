@@ -147,7 +147,7 @@ class ProductDetailScreen extends StatelessWidget {
           )
         ],
       ),
-      child: _providerProduct.productDetail.stock < _providerProduct.productDetail.minOrder
+      child: _providerProduct.productDetail.deletedAt == null || _providerProduct.productDetail.status == "0"
           ? Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: <Widget>[
@@ -159,7 +159,7 @@ class ProductDetailScreen extends StatelessWidget {
                       onPressed: null,
                       color: Theme.of(context).primaryColor,
                       child: Text(
-                        'Barang Habis',
+                        'Barang tidak tersedia lagi',
                         style: PadiMallTextTheme.sz16weight700White(context),
                       ),
                     ),
@@ -167,80 +167,100 @@ class ProductDetailScreen extends StatelessWidget {
                 ),
               ],
             )
-          : Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: <Widget>[
-                Flexible(
-                  flex: 1,
-                  child: Container(
-                    width: double.infinity,
-                    child: RaisedButton(
-                      onPressed: () async {
-                        if (await CustomLogic.isUserTokenExist()) {
-                          _providerCart.addProductWithMinOrderToCart(context, _providerProduct.productDetail);
-                        } else {
-                          showAlertDialogOk(
-                            context,
-                            false,
-                            'Yuk Sign In',
-                            'Silahkan Sign In terlebih dahulu untuk menggunakan fitur ini',
-                            'Sign In',
-                            () {
-                              Navigator.pop(context);
-                              Navigator.pushNamed(context, LoginScreen.routeName);
-                            },
-                          );
-                        }
-                      },
-                      color: Theme.of(context).accentColor,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.all(
-                          Radius.circular(4),
+          : _providerProduct.productDetail.stock < _providerProduct.productDetail.minOrder
+              ? Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: <Widget>[
+                    Flexible(
+                      flex: 1,
+                      child: Container(
+                        width: double.infinity,
+                        child: RaisedButton(
+                          onPressed: null,
+                          color: Theme.of(context).primaryColor,
+                          child: Text(
+                            'Barang Habis',
+                            style: PadiMallTextTheme.sz16weight700White(context),
+                          ),
                         ),
                       ),
-                      child: Text(
-                        '+ Keranjang',
-                        style: PadiMallTextTheme.sz16weight700White(context),
+                    ),
+                  ],
+                )
+              : Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: <Widget>[
+                    Flexible(
+                      flex: 1,
+                      child: Container(
+                        width: double.infinity,
+                        child: RaisedButton(
+                          onPressed: () async {
+                            if (await CustomLogic.isUserTokenExist()) {
+                              _providerCart.addProductWithMinOrderToCart(context, _providerProduct.productDetail);
+                            } else {
+                              showAlertDialogOk(
+                                context,
+                                false,
+                                'Yuk Sign In',
+                                'Silahkan Sign In terlebih dahulu untuk menggunakan fitur ini',
+                                'Sign In',
+                                () {
+                                  Navigator.pop(context);
+                                  Navigator.pushNamed(context, LoginScreen.routeName);
+                                },
+                              );
+                            }
+                          },
+                          color: Theme.of(context).accentColor,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.all(
+                              Radius.circular(4),
+                            ),
+                          ),
+                          child: Text(
+                            '+ Keranjang',
+                            style: PadiMallTextTheme.sz16weight700White(context),
+                          ),
+                        ),
                       ),
                     ),
-                  ),
-                ),
-                SizedBox(
-                  width: 16,
-                ),
-                Flexible(
-                  flex: 1,
-                  child: Container(
-                    width: double.infinity,
-                    child: RaisedButton(
-                      onPressed: () async {
-                        if (await CustomLogic.isUserTokenExist()) {
-                          // Navigator.pushNamed(context, CheckoutScreen.routeName);
-                          Fluttertoast.showToast(msg: "Still Development (Checkout)", backgroundColor: Theme.of(context).accentColor);
-                        } else {
-                          showAlertDialogOk(
-                            context,
-                            false,
-                            'Yuk Sign In',
-                            'Silahkan Sign In terlebih dahulu untuk menggunakan fitur ini',
-                            'Sign In',
-                            () {
-                              Navigator.pop(context);
-                              Navigator.pushNamed(context, LoginScreen.routeName);
-                            },
-                          );
-                        }
-                      },
-                      color: Theme.of(context).primaryColor,
-                      child: Text(
-                        'Beli Sekarang',
-                        style: PadiMallTextTheme.sz16weight700White(context),
+                    SizedBox(
+                      width: 16,
+                    ),
+                    Flexible(
+                      flex: 1,
+                      child: Container(
+                        width: double.infinity,
+                        child: RaisedButton(
+                          onPressed: () async {
+                            if (await CustomLogic.isUserTokenExist()) {
+                              // Navigator.pushNamed(context, CheckoutScreen.routeName);
+                              Fluttertoast.showToast(msg: "Still Development (Checkout)", backgroundColor: Theme.of(context).accentColor);
+                            } else {
+                              showAlertDialogOk(
+                                context,
+                                false,
+                                'Yuk Sign In',
+                                'Silahkan Sign In terlebih dahulu untuk menggunakan fitur ini',
+                                'Sign In',
+                                () {
+                                  Navigator.pop(context);
+                                  Navigator.pushNamed(context, LoginScreen.routeName);
+                                },
+                              );
+                            }
+                          },
+                          color: Theme.of(context).primaryColor,
+                          child: Text(
+                            'Beli Sekarang',
+                            style: PadiMallTextTheme.sz16weight700White(context),
+                          ),
+                        ),
                       ),
                     ),
-                  ),
+                  ],
                 ),
-              ],
-            ),
     );
   }
 }

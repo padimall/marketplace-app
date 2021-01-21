@@ -38,6 +38,7 @@ class Product {
     this.minOrder,
     this.createdAt,
     this.updatedAt,
+    this.deletedAt,
     this.agent,
     this.images,
     this.ratingSummary,
@@ -55,6 +56,7 @@ class Product {
   int minOrder;
   DateTime createdAt;
   DateTime updatedAt;
+  DateTime deletedAt;
   Agent agent;
   List<ImageProduct> images;
   RatingSummary ratingSummary;
@@ -72,6 +74,7 @@ class Product {
         minOrder: json["min_order"] == null ? null : json["min_order"],
         createdAt: json["created_at"] == null ? null : DateTime.parse(json["created_at"]),
         updatedAt: json["updated_at"] == null ? null : DateTime.parse(json["updated_at"]),
+        deletedAt: json["deleted_at"] == null ? null : DateTime.parse(json["deleted_at"]),
         agent: json["agent"] == null ? null : Agent.fromJson(json["agent"]),
         images: json["image"] == null ? [] : List<ImageProduct>.from(json["image"].map((x) => ImageProduct.fromJson(x))),
         ratingSummary: json["rating_summary"] == null ? null : RatingSummary.fromJson(json["rating_summary"]),

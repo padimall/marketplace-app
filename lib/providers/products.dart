@@ -70,6 +70,7 @@ class ProviderProduct with ChangeNotifier {
   Future<void> getProductDetail(BuildContext context, String productId) async {
     try {
       var url = '${global.API_URL_PREFIX}/api/v1/product/detail';
+      print('prod id: $productId');
 
       var requestBody = {
         'target_id': productId,
